@@ -1,0 +1,16 @@
+﻿@page "/kanban"
+@using KanbanBoardBlazor.Shared
+@using Syncfusion.Blazor.Kanban
+
+<SfKanban TValue="Issue">
+    <KanbanColumns>
+        @foreach (var stage in project.stages)
+        {
+            <KanbanColumn HeaderText="@stage.title"></KanbanColumn>
+        }
+    </KanbanColumns>
+</SfKanban>
+
+@code {
+    private Project project = new Project();
+}
