@@ -21,7 +21,8 @@ namespace KanbanBoardBlazor.Client
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            builder.Services.AddSingleton<ProjectService>();      
+            builder.Services.AddSingleton<ProjectService>();
+            builder.Services.AddSingleton<IssueService>();
 
             builder.Services.AddSyncfusionBlazor();
             await builder.Build().RunAsync();

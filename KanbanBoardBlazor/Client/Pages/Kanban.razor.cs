@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Client.Pages
 {
-  public partial class Kanban
-  {
-    private SfKanban<Issue> kanbanRef;
-    private List<string> str = new List<string> { "" };
-    private List<ColumnModel> cols = new List<ColumnModel>
+    public partial class Kanban
+    {
+        private bool isVisible;
+        private SfKanban<Issue> kanbanRef;
+        private KanbanBoardBlazor.Client.Shared.Dialog dialog;
+        private List<string> str = new List<string> { "" };
+        private List<ColumnModel> cols = new List<ColumnModel>
       {
       new ColumnModel
         {
@@ -32,9 +34,9 @@ namespace KanbanBoardBlazor.Client.Pages
           HeaderText = "bbbb"
         }
       };
-    private Project project = new Project()
-    {
-      stages = new List<Stage>
+        private Project project = new Project()
+        {
+            stages = new List<Stage>
       {
         new Stage
         {
@@ -52,101 +54,107 @@ namespace KanbanBoardBlazor.Client.Pages
           title = "bbbb"
         }
       }
-    };
-    private List<Issue> issues = new List<Issue>()
+        };
+        private List<Issue> issues = new List<Issue>()
     {
       new Issue
       {
         id=111,
         stageKey = "datata",
         title = "Fix this fast"
-       
+
       }
     };
-    //public List<Issue> issues => new List<Issue>
-    //    {
-    //      new Issue
-    //      {
-    //        priority = Priority.LOW,
-    //        title = "Issue 1",
-    //        assignee = "Backlog",
-    //        stageId = 0,
-    //        stage = new Stage
-    //        {
-    //          title = "Backlog"
-    //        }
-    //      },
-    //      new Issue
-    //      {
-    //        priority = Priority.HIGH,
-    //        title = "Issue 2",
-    //        assignee = "Backlog",
-    //        stageId = 1,
-    //        stage = new Stage
-    //        {
-    //          title = "Backlog"
-    //        }
-    //      },
-    //      new Issue
-    //      {
-    //        priority = Priority.CRITICAL,
-    //        title = "Issue 3",assignee = "Backlog",
-    //        stageId = 2,
-    //        stage = new Stage
-    //        {
-    //          title = "Backlog"
-    //        }
-    //      }
-    //    };
+        //public List<Issue> issues => new List<Issue>
+        //    {
+        //      new Issue
+        //      {
+        //        priority = Priority.LOW,
+        //        title = "Issue 1",
+        //        assignee = "Backlog",
+        //        stageId = 0,
+        //        stage = new Stage
+        //        {
+        //          title = "Backlog"
+        //        }
+        //      },
+        //      new Issue
+        //      {
+        //        priority = Priority.HIGH,
+        //        title = "Issue 2",
+        //        assignee = "Backlog",
+        //        stageId = 1,
+        //        stage = new Stage
+        //        {
+        //          title = "Backlog"
+        //        }
+        //      },
+        //      new Issue
+        //      {
+        //        priority = Priority.CRITICAL,
+        //        title = "Issue 3",assignee = "Backlog",
+        //        stageId = 2,
+        //        stage = new Stage
+        //        {
+        //          title = "Backlog"
+        //        }
+        //      }
+        //    };
 
-    //protected override void OnInitialized()
-    //{
-    //  project = projectService.getProjectById();
-    //}
-    private void showAddCardDialog()
-    {
-      kanbanRef.OpenDialog(CurrentAction.Add, new Issue());
+        //protected override void OnInitialized()
+        //{
+        //  project = projectService.getProjectById();
+        //}
+        private void showAddCardDialog()
+        {
+            kanbanRef.OpenDialog(CurrentAction.Add, new Issue());
 
-    //  kanbanRef.add
+            //  kanbanRef.add
+        }
+
+        private void addNewColumn()
+        {
+            //project.stages.Add(new Stage
+            //{
+            //  key = "klidi",
+            //  title = "titlos"
+            //});
+            //cols.Add(new ColumnModel
+            //{
+            //  HeaderText = "afafa",
+            //  KeyField = new List<string> { "fff" }
+
+
+            //});
+            kanbanRef.AddColumn(new ColumnModel
+            {
+                HeaderText = "afafa",
+                KeyField = new List<string> { "fff" }
+
+
+            }, project.stages.Count);
+            //StateHasChanged();
+        }
+
+        private void onDialogOpen(DialogOpenEventArgs<Issue> args)
+        {
+            args.Cancel = true;
+            isVisible = true;
+        }
+
+        private void onDialogClose(DialogCloseEventArgs<Issue> args)
+        {
+            //dialog.issue
+        }
+
+        private void onDataBound(ActionEventArgs<Issue> args)
+        {
+            Console.WriteLine(JsonSerializer.Serialize(issues));
+
+
+
+            // Console.WriteLine(JsonSerializer.Serialize(project));
+            Console.WriteLine(JsonSerializer.Serialize(cols));
+        }
     }
-
-    private void addNewColumn()
-    {
-      //project.stages.Add(new Stage
-      //{
-      //  key = "klidi",
-      //  title = "titlos"
-      //});
-      //cols.Add(new ColumnModel
-      //{
-      //  HeaderText = "afafa",
-      //  KeyField = new List<string> { "fff" }
-
-
-      //});
-      kanbanRef.AddColumn(new ColumnModel
-      {
-        HeaderText = "afafa",
-        KeyField = new List<string> { "fff" }
-
-
-      }, project.stages.Count);
-      //StateHasChanged();
-    }
-
-    private void onDialogOpen(DialogOpenEventArgs<Issue> args)
-    {
-      //args.Cancel = true;
-    }
-
-    private void onDataBound(ActionEventArgs<Issue> args)
-    {
-      Console.WriteLine(JsonSerializer.Serialize(issues));
-
-
-
-      // Console.WriteLine(JsonSerializer.Serialize(project));
-      Console.WriteLine(JsonSerializer.Serialize(cols));
-    }
-  }
 }
