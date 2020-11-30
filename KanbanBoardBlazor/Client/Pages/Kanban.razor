@@ -2,15 +2,24 @@
 @using KanbanBoardBlazor.Shared
 @using Syncfusion.Blazor.Kanban
 
-<SfKanban TValue="Issue">
-    <KanbanColumns>
-        @foreach (var stage in project.stages)
-        {
-            <KanbanColumn HeaderText="@stage.title"></KanbanColumn>
-        }
-    </KanbanColumns>
-</SfKanban>
+<button class="btn btn-primary" @onclick="addNewColumn">Add New Column</button>
+<button class="btn btn-primary" @onclick="showAddCardDialog">Add New Card</button>
 
-@code {
-    private Project project = new Project();
-}
+<SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey" DataSource="issues">
+  <KanbanColumns>
+    @*@foreach (var stage in project.stages)
+    {
+      <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.key }"></KanbanColumn>
+    }*@
+    @foreach (var col in cols)
+    {
+      <KanbanColumn HeaderText="@col.HeaderText" KeyField="col.KeyField"></KanbanColumn>
+    }
+  </KanbanColumns>
+  <KanbanCardSettings HeaderField="id" ContentField="title">
+    <Template>
+      <Card issue="(Issue)context"></Card>
+    </Template>
+  </KanbanCardSettings>
+  <KanbanEvents TValue="Issue" DialogOpen="@onDialogOpen" ActionComplete="@onDataBound"></KanbanEvents>
+</SfKanban>
