@@ -1,11 +1,14 @@
 ﻿@page "/kanban"
 @using KanbanBoardBlazor.Shared
 @using Syncfusion.Blazor.Kanban
+@using Syncfusion.Blazor.Data
 
 @*<button class="btn btn-primary" @onclick="addNewColumn">Add New Column</button>*@
 <button class="btn btn-light" @onclick="showAddCardDialog">Add New Card</button>
+@*<button class="btn btn-light" @onclick="updateCard">update Card</button>*@
 
-<SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey" DataSource="issues">
+<SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey">
+    <SfDataManager Json="issues"></SfDataManager>
     <KanbanColumns>
         @*@foreach (var stage in project.stages)
             {
@@ -13,7 +16,7 @@
             }*@
         @foreach (var col in cols)
         {
-            <KanbanColumn HeaderText="@col.HeaderText" KeyField="col.KeyField"></KanbanColumn>
+            <KanbanColumn HeaderText="@col.HeaderText" KeyField="col.KeyField" AllowToggle="true"></KanbanColumn>
         }
     </KanbanColumns>
     <KanbanCardSettings HeaderField="id" ContentField="title">
@@ -21,7 +24,8 @@
             <Card issue="(Issue)context"></Card>
         </Template>
     </KanbanCardSettings>
-    <KanbanEvents TValue="Issue" DialogOpen="@onDialogOpen"></KanbanEvents>
+    <KanbanEvents TValue="Issue" DialogOpen="@onDialogOpen" CardClick="@onCardClick"></KanbanEvents>
 </SfKanban>
 
 @*<Dialog @ref="dialog"></Dialog>*@
+<DetailsDialog @ref="dialog"></DetailsDialog>

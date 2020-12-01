@@ -2,6 +2,7 @@
 using KanbanBoardBlazor.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Syncfusion.Blazor.Data;
 using Syncfusion.Blazor.Kanban;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,24 @@ namespace KanbanBoardBlazor.Client.Pages
 {
     public partial class Kanban
     {
-    private EditContext cont;
+        [Inject]
+        private IssueService issueService { get; set; }
+        private List<Issue> issues = new List<Issue>();
+
+
+        private SfDataManager manager;
+        private EditContext cont;
         private bool isVisible;
         private SfKanban<Issue> kanbanRef;
-        private KanbanBoardBlazor.Client.Shared.Dialog dialog;
+        private KanbanBoardBlazor.Client.Shared.DetailsDialog dialog;
         private List<string> str = new List<string> { "" };
         private List<ColumnModel> cols = new List<ColumnModel>
       {
+            new ColumnModel
+        {
+          KeyField = new List<string>{"Backlog" },
+          HeaderText = "Backlog"
+        },
       new ColumnModel
         {
           KeyField = new List<string>{"Pending" },
@@ -34,6 +46,11 @@ namespace KanbanBoardBlazor.Client.Pages
         {
           KeyField = new List<string>{"Complete" },
           HeaderText = "Complete"
+        },
+        new ColumnModel
+        {
+          KeyField = new List<string>{"Archived" },
+          HeaderText = "Archived"
         }
       };
         private Project project = new Project()
@@ -57,190 +74,50 @@ namespace KanbanBoardBlazor.Client.Pages
         }
       }
         };
-        private List<Issue> issues = new List<Issue>()
-    {
-      new Issue
-      {
-        id=1,
-        stageKey = "Ongoing",
-        priority = Priority.CRITICAL,
-        title = "Elexus – Update",
-        assignees = "ΓΣ, ΧΚ, ΓΠ"
 
-      },
-      new Issue
-      {
-        id=2,
-        stageKey = "Ongoing",
-        priority = Priority.CRITICAL,
-        title = "Gibraltar – Upgrade"
 
-      },
-      new Issue
-      {
-        id=3,
-        stageKey = "Ongoing",
-        priority = Priority.HIGH,
-        title = "Estoril - Government reporting (Slots & Tables)",
-        assignees = "ΑΡ, ΒΦ, ΧΠ"
-      },new Issue
-      {
-        id=4,
-        stageKey = "Ongoing",
-        priority = Priority.HIGH,
-        title = "Φορολογικοί – MyDATA"
-
-      }
-      ,
-      new Issue
-      {
-        id=5,
-        stageKey = "Ongoing",
-        priority = Priority.HIGH,
-        title = "Boulogne Golden Palace – CRM & Promos Setup",
-        assignees = "ΓΣ, ΑΡ, ΧΠ"
-
-      }
-      ,new Issue
-      {
-        id=6,
-        stageKey = "Ongoing",
-        priority = Priority.HIGH,
-        title = "Regency – View Casino Link για MyData",
-        assignees = "ΑΡ"
-
-      },new Issue
-      {
-        id=7,
-        stageKey = "Ongoing",
-        priority = Priority.HIGH,
-        title = "Finix – Include promo packages in Kiosk",
-        assignees = "ΑΡ"
-
-      },new Issue
-      {
-        id=8,
-        stageKey = "Complete",
-        priority = Priority.LOW,
-        title = "P Svilengrad – AML",
-        assignees = "ΧΚ, ΓΣ"
-
-      },new Issue
-      {
-        id=9,
-        stageKey = "Ongoing",
-        priority = Priority.MEDIUM,
-        title = "Maestral – Replace StarGear with StarAgent"
-
-      },new Issue
-      {
-        id=10,
-        stageKey = "Pending",
-        priority = Priority.MEDIUM,
-        title = "Viva – Dates (Last Visit, κλπ)"
-
-      },new Issue
-      {
-        id=11,
-        stageKey = "Ongoing",
-        priority = Priority.MEDIUM,
-        title = "Expenses Module"
-
-      },new Issue
-      {
-        id=12,
-        stageKey = "Ongoing",
-        priority = Priority.MEDIUM,
-        title = "Bi"
-
-      },new Issue
-      {
-        id=13,
-        stageKey = "Ongoing",
-        priority = Priority.MEDIUM,
-        title = "Εσωτερικές Εκπαιδεύσεις"
-
-      },new Issue
-      {
-        id=14,
-        stageKey = "Pending",
-        priority = Priority.MEDIUM,
-        title = "Φλώρινα"
-
-      },new Issue
-      {
-        id=15,
-        stageKey = "Pending",
-        priority = Priority.MEDIUM,
-        title = "ΛΟΥΤΡΑΚΙ – Εγκατάσταση Overview"
-
-      },new Issue
-      {
-        id=16,
-        priority= Priority.MEDIUM,
-        stageKey = "Pending",
-        title = "Regency – Player Barrings interface with IGT Advantage"
-
-      },new Issue
-      {
-        id=17,
-        priority = Priority.MEDIUM,
-        stageKey = "Pending",
-        title = "Rocks - Update Startouch"
-
-      },new Issue
-      {
-        id=18,
-        stageKey = "Pending",
-        priority = Priority.MEDIUM,
-        title = "Estoril – Test of the Integration with government system API"
-
-      }
-    };
-        //public List<Issue> issues => new List<Issue>
-        //    {
-        //      new Issue
-        //      {
-        //        priority = Priority.LOW,
-        //        title = "Issue 1",
-        //        assignee = "Backlog",
-        //        stageId = 0,
-        //        stage = new Stage
-        //        {
-        //          title = "Backlog"
-        //        }
-        //      },
-        //      new Issue
-        //      {
-        //        priority = Priority.HIGH,
-        //        title = "Issue 2",
-        //        assignee = "Backlog",
-        //        stageId = 1,
-        //        stage = new Stage
-        //        {
-        //          title = "Backlog"
-        //        }
-        //      },
-        //      new Issue
-        //      {
-        //        priority = Priority.CRITICAL,
-        //        title = "Issue 3",assignee = "Backlog",
-        //        stageId = 2,
-        //        stage = new Stage
-        //        {
-        //          title = "Backlog"
-        //        }
-        //      }
-        //    };
-
-        //protected override void OnInitialized()
-        //{
-        //  project = projectService.getProjectById();
-        //}
-        private void showAddCardDialog()
+        protected override async Task OnInitializedAsync()
         {
-            kanbanRef.OpenDialog(CurrentAction.Add, new Issue());
+            //await base.OnInitializedAsync();
+            //Console.WriteLine("gegws");
+            issues = await issueService.getIssuesByProjectId();
 
+            Console.WriteLine(JsonSerializer.Serialize(issues));
+
+            //foreach(var issue in issues2)
+            //{
+            //    await kanbanRef.AddCard(new Issue());
+            //}
+            //kanbanRef.Refresh();
+            //kanbanRef.DataSource = issues;
+            //StateHasChanged();
+            //kanbanRef.Refresh();
+        }
+
+        private void updateCard()
+        {
+            var issue = issues[0];
+            issue.title = "UPDATED";
+        }
+
+        private async Task showAddCardDialog()
+        {
+            //kanbanRef.OpenDialog(CurrentAction.Add, new Issue());
+            var issue = new Issue
+            {
+                title = "New task",
+                priority = Priority.MEDIUM,
+                stageKey = "Backlog"
+            };
+
+            var issueId = await issueService.insertIssue(issue);
+
+            if (issueId > 0)
+            {
+                issue.id = issueId;
+                await kanbanRef.AddCard(issue);
+                Console.WriteLine(JsonSerializer.Serialize(issues));
+            }
             //  kanbanRef.add
         }
 
@@ -272,23 +149,28 @@ namespace KanbanBoardBlazor.Client.Pages
         {
             args.Cancel = true;
 
-     // dialog.show();
+            // dialog.show();
+        }
+
+        private void onCardClick(CardClickEventArgs<Issue> args)
+        {
+            dialog.show(args.Data);
         }
 
         private void onDialogClose(DialogCloseEventArgs<Issue> args)
         {
-      //dialog.issue
-      var isValid = cont.Validate();
+            //dialog.issue
+            var isValid = cont.Validate();
 
-      if(isValid)
-      {
-        Console.WriteLine("valid");
-      }
-      else
-      {
-        Console.WriteLine("not valid");
-        args.Cancel = true;
-      }
+            if (isValid)
+            {
+                Console.WriteLine("valid");
+            }
+            else
+            {
+                Console.WriteLine("not valid");
+                args.Cancel = true;
+            }
         }
 
         private void onDataBound(ActionEventArgs<Issue> args)

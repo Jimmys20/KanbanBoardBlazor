@@ -1,0 +1,49 @@
+﻿@using KanbanBoardBlazor.Shared
+@using Syncfusion.Blazor.Popups
+
+<SfDialog @ref="aa" @bind-Visible="@isVisible" ShowCloseIcon="true" IsModal="true" Width="550px">
+    <DialogTemplates>
+        <Header>
+            <h3 class="m-0">@issue.title</h3>
+        </Header>
+        <Content>
+            <dl class="row">
+                <dt class="col-sm-2">Id</dt>
+                <dd class="col-sm-10">@issue.id</dd>
+                @*<dt class="col-sm-2">Title</dt>
+                <dd class="col-sm-10">@issue.title</dd>*@
+                <dt class="col-sm-2">Priority</dt>
+                <dd class="col-sm-10">@issue.priority</dd>
+                <dt class="col-sm-2">Deadline</dt>
+                <dd class="col-sm-10">@(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString())</dd>
+                <dt class="col-sm-2">Description</dt>
+                <dd class="col-sm-10">@issue.description</dd>
+                
+            </dl>
+        </Content>
+    </DialogTemplates>
+</SfDialog>
+@code {
+    private SfDialog aa;
+    [Parameter]
+    public Issue issue { get; set; } = new Issue();
+
+    private bool isVisible { get; set; }
+
+    public void show(Issue issue)
+    {
+        //isVisible = true;
+        this.issue = issue;
+        aa.Show();
+    }
+
+    public void close()
+    {
+        isVisible = false;
+    }
+
+    private void onValidSubmit(Issue issue)
+    {
+        isVisible = false;
+    }
+}

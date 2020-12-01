@@ -54,3 +54,7 @@ a, .btn-link {
 .sf-license-warning{
   display:none;
 }
+
+.e-dialog {
+    max-height:none !important;
+}
