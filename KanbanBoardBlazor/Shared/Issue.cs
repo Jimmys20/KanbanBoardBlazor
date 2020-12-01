@@ -11,6 +11,7 @@ namespace KanbanBoardBlazor.Shared
     public long id { get; set; }
     public string title { get; set; }
     public string description { get; set; }
+    public string assignees { get; set; }
 
     public string stageKey { get; set; }
     //public Stage stage { get; set; }
@@ -18,7 +19,7 @@ namespace KanbanBoardBlazor.Shared
 
     public Priority priority { get; set; }
 
-    //public DateTime deadline { get; set; }
+    public DateTime deadline { get; set; }
   }
 
   public enum Priority

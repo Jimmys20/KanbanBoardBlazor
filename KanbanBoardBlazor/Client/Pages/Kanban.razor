@@ -21,10 +21,7 @@
             <Card issue="(Issue)context"></Card>
         </Template>
     </KanbanCardSettings>
-    <KanbanDialogSettings>
-        <Template>
-            <Dialog issue="(Issue)context" isVisible="@isVisible"></Dialog>
-        </Template>
-    </KanbanDialogSettings>
-    <KanbanEvents TValue="Issue" DialogClose="@onDialogClose" ActionComplete="@onDataBound"></KanbanEvents>
+    <KanbanEvents TValue="Issue" DialogOpen="@onDialogOpen"></KanbanEvents>
 </SfKanban>
+
+@*<Dialog @ref="dialog"></Dialog>*@

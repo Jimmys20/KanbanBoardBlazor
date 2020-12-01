@@ -1,7 +1,7 @@
 ﻿@using KanbanBoardBlazor.Shared
 @using Syncfusion.Blazor.Popups
 
-<SfDialog @bind-Visible="@isVisible">
+<SfDialog @ref="aa" @bind-Visible="@isVisible">
     <DialogTemplates>
         <Content>
             <IssueEditForm issue="issue" callback="onValidSubmit"></IssueEditForm>
@@ -9,13 +9,25 @@
     </DialogTemplates>
 </SfDialog>
 @code {
-    [Parameter]
-    public Issue issue { get; set; }
-    [Parameter]
-    public bool isVisible { get; set; }
+  private SfDialog aa;
+  [Parameter]
+  public Issue issue { get; set; } = new Issue();
 
-    private void onValidSubmit(Issue issue)
-    {
-        isVisible = false;
-    }
+  private bool isVisible { get; set; }
+
+  public void show()
+  {
+    //isVisible = true;
+    aa.Show();
+  }
+
+  public void close()
+  {
+    isVisible = false;
+  }
+
+  private void onValidSubmit(Issue issue)
+  {
+    isVisible = false;
+  }
 }

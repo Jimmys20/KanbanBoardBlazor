@@ -8,19 +8,22 @@
     <InputText @bind-Value="issue.title" />
 
 
-    <button type="submit">Submit</button>
+    @*<button type="submit">Submit</button>*@
 </EditForm>
 
 @code {
-    [Parameter]
-    public Issue issue { get; set; }
-    [Parameter]
-    public EventCallback<Issue> callback { get; set; }
+ 
+  [Parameter]
+  public Issue issue { get; set; }
+  [Parameter]
+  public EventCallback<Issue> callback { get; set; }
 
-    private void HandleValidSubmit()
-    {
-        
-            callback.InvokeAsync(issue);
-        
-    }
+  
+
+  private void HandleValidSubmit()
+  {
+
+    callback.InvokeAsync(issue);
+
+  }
 }

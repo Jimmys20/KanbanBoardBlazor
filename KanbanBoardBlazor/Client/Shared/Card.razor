@@ -3,6 +3,8 @@
 <div class="card" style="border-left: 3px solid @priorityClass">
   <div class="card-body">
     <h5>@issue.title</h5>
+    <span class="card-text text-muted">@(!string.IsNullOrEmpty(issue.assignees)?issue.assignees : "ΧΧ")</span>
+    <span class="card-text float-right text-muted">@(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString())</span>
   </div>
 </div>
 

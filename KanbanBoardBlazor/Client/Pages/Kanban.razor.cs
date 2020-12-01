@@ -1,6 +1,7 @@
 ﻿using KanbanBoardBlazor.Client.Services;
 using KanbanBoardBlazor.Shared;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Syncfusion.Blazor.Kanban;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace KanbanBoardBlazor.Client.Pages
 {
     public partial class Kanban
     {
+    private EditContext cont;
         private bool isVisible;
         private SfKanban<Issue> kanbanRef;
         private KanbanBoardBlazor.Client.Shared.Dialog dialog;
@@ -20,18 +22,18 @@ namespace KanbanBoardBlazor.Client.Pages
       {
       new ColumnModel
         {
-          KeyField = new List<string>{"Open" },
-          HeaderText = "XXXXXX"
+          KeyField = new List<string>{"Pending" },
+          HeaderText = "Pending"
         },
         new ColumnModel
         {
-          KeyField = new List<string>{"Closed" },
-          HeaderText = "eeee"
+          KeyField = new List<string>{"Ongoing" },
+          HeaderText = "Ongoing"
         },
         new ColumnModel
         {
-          KeyField = new List<string>{"datata" },
-          HeaderText = "bbbb"
+          KeyField = new List<string>{"Complete" },
+          HeaderText = "Complete"
         }
       };
         private Project project = new Project()
@@ -59,9 +61,139 @@ namespace KanbanBoardBlazor.Client.Pages
     {
       new Issue
       {
-        id=111,
-        stageKey = "datata",
-        title = "Fix this fast"
+        id=1,
+        stageKey = "Ongoing",
+        priority = Priority.CRITICAL,
+        title = "Elexus – Update",
+        assignees = "ΓΣ, ΧΚ, ΓΠ"
+
+      },
+      new Issue
+      {
+        id=2,
+        stageKey = "Ongoing",
+        priority = Priority.CRITICAL,
+        title = "Gibraltar – Upgrade"
+
+      },
+      new Issue
+      {
+        id=3,
+        stageKey = "Ongoing",
+        priority = Priority.HIGH,
+        title = "Estoril - Government reporting (Slots & Tables)",
+        assignees = "ΑΡ, ΒΦ, ΧΠ"
+      },new Issue
+      {
+        id=4,
+        stageKey = "Ongoing",
+        priority = Priority.HIGH,
+        title = "Φορολογικοί – MyDATA"
+
+      }
+      ,
+      new Issue
+      {
+        id=5,
+        stageKey = "Ongoing",
+        priority = Priority.HIGH,
+        title = "Boulogne Golden Palace – CRM & Promos Setup",
+        assignees = "ΓΣ, ΑΡ, ΧΠ"
+
+      }
+      ,new Issue
+      {
+        id=6,
+        stageKey = "Ongoing",
+        priority = Priority.HIGH,
+        title = "Regency – View Casino Link για MyData",
+        assignees = "ΑΡ"
+
+      },new Issue
+      {
+        id=7,
+        stageKey = "Ongoing",
+        priority = Priority.HIGH,
+        title = "Finix – Include promo packages in Kiosk",
+        assignees = "ΑΡ"
+
+      },new Issue
+      {
+        id=8,
+        stageKey = "Complete",
+        priority = Priority.LOW,
+        title = "P Svilengrad – AML",
+        assignees = "ΧΚ, ΓΣ"
+
+      },new Issue
+      {
+        id=9,
+        stageKey = "Ongoing",
+        priority = Priority.MEDIUM,
+        title = "Maestral – Replace StarGear with StarAgent"
+
+      },new Issue
+      {
+        id=10,
+        stageKey = "Pending",
+        priority = Priority.MEDIUM,
+        title = "Viva – Dates (Last Visit, κλπ)"
+
+      },new Issue
+      {
+        id=11,
+        stageKey = "Ongoing",
+        priority = Priority.MEDIUM,
+        title = "Expenses Module"
+
+      },new Issue
+      {
+        id=12,
+        stageKey = "Ongoing",
+        priority = Priority.MEDIUM,
+        title = "Bi"
+
+      },new Issue
+      {
+        id=13,
+        stageKey = "Ongoing",
+        priority = Priority.MEDIUM,
+        title = "Εσωτερικές Εκπαιδεύσεις"
+
+      },new Issue
+      {
+        id=14,
+        stageKey = "Pending",
+        priority = Priority.MEDIUM,
+        title = "Φλώρινα"
+
+      },new Issue
+      {
+        id=15,
+        stageKey = "Pending",
+        priority = Priority.MEDIUM,
+        title = "ΛΟΥΤΡΑΚΙ – Εγκατάσταση Overview"
+
+      },new Issue
+      {
+        id=16,
+        priority= Priority.MEDIUM,
+        stageKey = "Pending",
+        title = "Regency – Player Barrings interface with IGT Advantage"
+
+      },new Issue
+      {
+        id=17,
+        priority = Priority.MEDIUM,
+        stageKey = "Pending",
+        title = "Rocks - Update Startouch"
+
+      },new Issue
+      {
+        id=18,
+        stageKey = "Pending",
+        priority = Priority.MEDIUM,
+        title = "Estoril – Test of the Integration with government system API"
 
       }
     };
@@ -139,12 +271,24 @@ namespace KanbanBoardBlazor.Client.Pages
         private void onDialogOpen(DialogOpenEventArgs<Issue> args)
         {
             args.Cancel = true;
-            isVisible = true;
+
+     // dialog.show();
         }
 
         private void onDialogClose(DialogCloseEventArgs<Issue> args)
         {
-            //dialog.issue
+      //dialog.issue
+      var isValid = cont.Validate();
+
+      if(isValid)
+      {
+        Console.WriteLine("valid");
+      }
+      else
+      {
+        Console.WriteLine("not valid");
+        args.Cancel = true;
+      }
         }
 
         private void onDataBound(ActionEventArgs<Issue> args)
