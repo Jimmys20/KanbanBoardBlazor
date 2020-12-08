@@ -1,0 +1,19 @@
+﻿
+
+<SfDialog Width="500px" ShowCloseIcon="true" @bind-Visible="Visibility">
+    <DialogTemplates>
+        <Header> About SYNCFUSION succinctly series </Header>
+        <Content>
+            <EditForm Model="@stage" OnValidSubmit="@HandleValidSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <InputText @bind-Value="stage.title" />
+
+                <button type="submit">Submit</button>
+            </EditForm>
+        </Content>
+    </DialogTemplates>
+    
+    
+</SfDialog>

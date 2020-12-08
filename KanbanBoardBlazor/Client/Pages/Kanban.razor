@@ -3,29 +3,31 @@
 @using Syncfusion.Blazor.Kanban
 @using Syncfusion.Blazor.Data
 
-@*<button class="btn btn-primary" @onclick="addNewColumn">Add New Column</button>*@
-<button class="btn btn-light" @onclick="showAddCardDialog">Add New Card</button>
-@*<button class="btn btn-light" @onclick="updateCard">update Card</button>*@
+<div class="col-lg-12 control-section" id="target">
+    <SfButton IsPrimary="true" OnClick="showAddColumnDialog">Add Column</SfButton>
+    <button class="btn btn-light" @onclick="showAddCardDialog">Add New Card</button>
+    @*<button class="btn btn-light" @onclick="updateCard">update Card</button>*@
 
-<SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey">
-    <SfDataManager Json="issues"></SfDataManager>
-    <KanbanColumns>
-        @*@foreach (var stage in project.stages)
+    <SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey">
+        <SfDataManager Json="issues"></SfDataManager>
+        <KanbanColumns>
+            @*@foreach (var stage in project.stages)
+                {
+                  <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.key }"></KanbanColumn>
+                }*@
+            @foreach (var col in cols)
             {
-              <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.key }"></KanbanColumn>
-            }*@
-        @foreach (var col in cols)
-        {
-            <KanbanColumn HeaderText="@col.HeaderText" KeyField="col.KeyField" AllowToggle="true"></KanbanColumn>
-        }
-    </KanbanColumns>
-    <KanbanCardSettings HeaderField="id" ContentField="title">
-        <Template>
-            <Card issue="(Issue)context"></Card>
-        </Template>
-    </KanbanCardSettings>
-    <KanbanEvents TValue="Issue" DialogOpen="@onDialogOpen" CardClick="@onCardClick"></KanbanEvents>
-</SfKanban>
+                <KanbanColumn HeaderText="@col.HeaderText" KeyField="col.KeyField" AllowToggle="true"></KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="id" ContentField="title">
+            <Template>
+                <Card issue="(Issue)context"></Card>
+            </Template>
+        </KanbanCardSettings>
+        <KanbanEvents TValue="Issue" DialogOpen="@onDialogOpen" CardClick="@onCardClick"></KanbanEvents>
+    </SfKanban>
 
-@*<Dialog @ref="dialog"></Dialog>*@
-<DetailsDialog @ref="dialog"></DetailsDialog>
+    
+    <StageForm @ref="stageForm" onSubmit="onSubmit"></StageForm>
+</div>

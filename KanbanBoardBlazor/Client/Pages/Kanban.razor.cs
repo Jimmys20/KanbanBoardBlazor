@@ -1,4 +1,5 @@
 ﻿using KanbanBoardBlazor.Client.Services;
+using KanbanBoardBlazor.Client.Shared;
 using KanbanBoardBlazor.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
@@ -14,6 +15,11 @@ namespace KanbanBoardBlazor.Client.Pages
 {
     public partial class Kanban
     {
+        StageForm stageForm;
+
+
+        private bool isAddColumnDialogVisible;
+
         [Inject]
         private IssueService issueService { get; set; }
         private List<Issue> issues = new List<Issue>();
@@ -78,6 +84,8 @@ namespace KanbanBoardBlazor.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            isAddColumnDialogVisible = false;
+
             //await base.OnInitializedAsync();
             //Console.WriteLine("gegws");
             issues = await issueService.getIssuesByProjectId();
@@ -93,6 +101,35 @@ namespace KanbanBoardBlazor.Client.Pages
             //StateHasChanged();
             //kanbanRef.Refresh();
         }
+
+        private void showAddColumnDialog()
+        {
+            //isAddColumnDialogVisible = true;
+            var stage = new Stage();
+            stageForm.Show(stage);
+        }
+
+        private void onSubmit(Stage stage)
+        {
+            stage.key = "test";
+            //cols.Add(new ColumnModel
+            //{
+            //    HeaderText = stage.title,
+            //    KeyField = new List<string> { stage.key }
+            //});
+           // kanbanRef.Refresh();
+          //  StateHasChanged();
+           
+            
+            kanbanRef.AddColumn(new ColumnModel
+            {
+                HeaderText = stage.title,
+                KeyField = new List<string> { stage.key }
+            }, new Random().Next(0, cols.Count));
+        }
+
+
+
 
         private void updateCard()
         {
@@ -139,7 +176,7 @@ namespace KanbanBoardBlazor.Client.Pages
             {
                 HeaderText = "afafa",
                 KeyField = new List<string> { "fff" }
-
+                
 
             }, project.stages.Count);
             //StateHasChanged();

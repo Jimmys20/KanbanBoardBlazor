@@ -22,7 +22,7 @@ namespace KanbanBoardBlazor.Server.Controllers
                 new Issue
                 {
                     id = 1,
-                    stageKey = "Ongoing",
+                    stageKey = "test",
                     priority = Priority.CRITICAL,
                     title = "Elexus – Update",
                     assignees = "ΓΣ, ΧΚ, ΓΠ",
