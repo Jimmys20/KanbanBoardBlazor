@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanBoardBlazor.Server.Entities
+namespace KanbanBoardBlazor.Shared
 {
-  public class StageEntity
-  {
-  }
+    public class User
+    {
+    }
 }

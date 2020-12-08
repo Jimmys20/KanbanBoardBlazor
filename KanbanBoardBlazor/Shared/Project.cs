@@ -8,6 +8,12 @@ namespace KanbanBoardBlazor.Shared
 {
     public class Project
     {
-        public List<Stage> stages { get; set; } = new List<Stage>();
+        public long projectId { get; set; }
+
+        public string name { get; set; }
+
+        public List<Stage> stages { get; set; }
+
+        public List<Issue> issues { get; set; }
     }
 }

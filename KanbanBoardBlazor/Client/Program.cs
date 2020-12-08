@@ -21,7 +21,7 @@ namespace KanbanBoardBlazor.Client
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-            builder.Services.AddSingleton<ProjectService>();
+            builder.Services.AddScoped<ProjectService>();
             builder.Services.AddScoped<IssueService>();
             builder.Services.AddScoped<StageService>();
 

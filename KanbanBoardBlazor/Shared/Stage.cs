@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Shared
 {
-  public class Stage
-  {
-    public string key { get; set; }
-    public string title { get; set; }
+    public class Stage
+    {
+        public string stageKey { get; set; }
 
-    //public long stageId { get; set; }
+        public int position { get; set; }
 
-    //public List<Issue> issues { get; set; } = new List<Issue>();
-  }
+        public string title { get; set; }
+
+        public string color { get; set; }
+
+        public int? limit { get; set; }
+
+        public long projectId { get; set; }
+        //public Project project { get; set; }
+
+        //public List<Issue> issues { get; set; }
+    }
 }

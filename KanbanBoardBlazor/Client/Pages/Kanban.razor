@@ -4,30 +4,32 @@
 @using Syncfusion.Blazor.Data
 
 <div class="col-lg-12 control-section" id="target">
-    <SfButton IsPrimary="true" OnClick="showAddColumnDialog">Add Column</SfButton>
+    
     <button class="btn btn-light" @onclick="showAddCardDialog">Add New Card</button>
     @*<button class="btn btn-light" @onclick="updateCard">update Card</button>*@
 
+    @if (project != null)
+    {
     <SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey">
-        <SfDataManager Json="issues"></SfDataManager>
+        <SfDataManager Json="project.issues"></SfDataManager>
         <KanbanColumns>
             @*@foreach (var stage in project.stages)
                 {
                   <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.key }"></KanbanColumn>
                 }*@
-            @foreach (var col in cols)
+            @foreach (var stage in project.stages.OrderBy(s => s.position))
             {
-                <KanbanColumn HeaderText="@col.HeaderText" KeyField="col.KeyField" AllowToggle="true"></KanbanColumn>
+                <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.stageKey }" AllowToggle="true"></KanbanColumn>
             }
         </KanbanColumns>
-        <KanbanCardSettings HeaderField="id" ContentField="title">
+        <KanbanCardSettings HeaderField="issueId" ContentField="title">
             <Template>
                 <Card issue="(Issue)context"></Card>
             </Template>
         </KanbanCardSettings>
-        <KanbanEvents TValue="Issue" DialogOpen="@onDialogOpen" CardClick="@onCardClick"></KanbanEvents>
+        @*<KanbanEvents TValue="Issue" DialogOpen="@onDialogOpen" CardClick="@onCardClick"></KanbanEvents>*@
     </SfKanban>
+    }
 
-    
-    <StageForm @ref="stageForm" onSubmit="onSubmit"></StageForm>
+
 </div>

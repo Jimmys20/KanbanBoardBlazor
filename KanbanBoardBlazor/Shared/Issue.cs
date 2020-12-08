@@ -8,25 +8,30 @@ namespace KanbanBoardBlazor.Shared
 {
   public class Issue
   {
-    public long id { get; set; }
-    public string title { get; set; }
-    public string description { get; set; }
-    public string assignees { get; set; }
+        public long issueId { get; set; }
 
-    public string stageKey { get; set; }
-    //public Stage stage { get; set; }
+        public string title { get; set; }
 
+        public string description { get; set; }
 
-    public Priority priority { get; set; }
+        public DateTime? deadline { get; set; }
 
-    public DateTime deadline { get; set; }
-  }
+        public Priority priority { get; set; }
 
-  public enum Priority
-  {
-    LOW,
-    MEDIUM,
-    HIGH,
-    CRITICAL
-  }
+        public DateTime createdAt { get; set; }
+
+        public DateTime? updatedAt { get; set; }
+
+        public string assignee { get; set; }
+
+        public bool isOpen { get; set; }
+
+        public string stageKey { get; set; }
+        //public Stage stage { get; set; }
+
+        public long projectId { get; set; }
+        //public Project project { get; set; }
+
+        public List<User> users { get; set; } = new List<User>();
+    }
 }

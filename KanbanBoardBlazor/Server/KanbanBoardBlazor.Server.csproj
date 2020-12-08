@@ -3,9 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <EnableUnsafeBinaryFormatterSerialization>true</EnableUnsafeBinaryFormatterSerialization>
+    <UserSecretsId>c226bf66-0524-404e-acd5-01ee273d43e6</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="5.0.0" />
     <PackageReference Include="northdigital.sqw" Version="0.5.2" />
   </ItemGroup>
@@ -13,10 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Client\KanbanBoardBlazor.Client.csproj" />
     <ProjectReference Include="..\Shared\KanbanBoardBlazor.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 
