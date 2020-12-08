@@ -1,0 +1,31 @@
+﻿<header>
+    <nav class="navbar navbar-expand-sm fixed-top navbar-light border-bottom shadow-sm" style="background-color: #e3f2fd;">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="">IssueTracker</a>
+            <button class="navbar-toggler" @onclick="ToggleNavMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse @NavMenuCssClass" @onclick="ToggleNavMenu">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-dark" href="" Match="NavLinkMatch.All">Home</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link text-dark" href="kanban">Kanban</NavLink>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
