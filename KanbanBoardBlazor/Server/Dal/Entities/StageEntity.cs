@@ -12,7 +12,7 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
     TABLE_NAME,
     nameof(stageId),
     "STAGE_ID",
-    default(string))]
+    default(long))]
     public class StageEntity : SQWEntity
     {
         public const string TABLE_NAME = "STAGE";

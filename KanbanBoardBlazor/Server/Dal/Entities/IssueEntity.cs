@@ -67,6 +67,15 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
           "PROJECT_ID")]
         public ProjectEntity project { get; set; }
 
+        [SQWMany2ManyMap(
+            Constants.SCHEMA,
+            AssignmentEntity.TABLE_NAME,
+            "ISSUE_ID",
+            "USER_ID",
+            nameof(issueId),
+            "ISSUE_ID")]
+        public List<UserEntity> assignees { get; set; }
+
         public IssueEntity()
         {
             beforeInsert = (obj, ctx) =>

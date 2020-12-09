@@ -22,6 +22,7 @@ namespace KanbanBoardBlazor.Server.Dal
                 context.createTable(typeof(ProjectEntity), true);
                 context.createTable(typeof(StageEntity), true);
                 context.createTable(typeof(IssueEntity), true);
+                context.createTable(typeof(AssignmentEntity), true);
 
                 var issues = new List<IssueEntity>
         {
@@ -107,7 +108,14 @@ namespace KanbanBoardBlazor.Server.Dal
                   title = "Grid doesn't respect page size",
                   assignee = "Panagiotis",
                   deadline = DateTime.Now.AddDays(21),
-                  priority = Priority.CRITICAL
+                  priority = Priority.CRITICAL,
+                  assignees = new List<UserEntity>
+                  {
+                      new UserEntity
+                      {
+                          username = "jim"
+                      }
+                  }
                 }
               }
             },
