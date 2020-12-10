@@ -25,23 +25,36 @@ namespace KanbanBoardBlazor.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<long> CreateAsync(Issue issue)
+        public async Task<Issue> CreateAsync(Issue issue)
         {
             var issueEntity = mapper.Map<IssueEntity>(issue);
 
             await issueRepository.save(issueEntity);
 
-            return issueEntity.issueId;
+            issue.issueId = issueEntity.issueId;
+            issue.createdAt = issueEntity.createdAt;
+     
+
+            return issue;
         }
 
         [HttpPut("{id}")]
-        public async Task UpdateAsync(long id, Issue issue)
+        public async Task<Issue> UpdateAsync(long id, Issue issue)
         {
             var issueEntity = await issueRepository.getIssueById(id);
 
             mapper.Map(issue, issueEntity);
 
+            foreach(var user in issueEntity.assignees)
+            {
+                //user.state = SQWEntityState.esUnmodified;
+            }
+
             await issueRepository.save(issueEntity);
+
+            issue.updatedAt = issueEntity.updatedAt;
+
+            return issue;
         }
 
         [HttpDelete("{id}")]

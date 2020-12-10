@@ -7,75 +7,80 @@
 
 @if (project != null)
 {
-    <div class="row">
-        <div class="col-lg-12">
-            <button class="btn btn-primary" @onclick="showAddCardDialog">Add Card</button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey">
-                <SfDataManager Json="project.issues"></SfDataManager>
-                <KanbanSortSettings SortBy="SortOrderBy.Custom" Field="title"></KanbanSortSettings>
-                <KanbanColumns>
-                    @*@foreach (var stage in project.stages)
-                        {
-                          <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.key }"></KanbanColumn>
-                        }*@
-                    @foreach (var stage in project.stages.OrderBy(s => s.position))
+
+    <button class="btn btn-primary mb-3" @onclick="showAddCardDialog">Add Card</button>
+
+
+    <SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey" DataSource="project.issues">
+        <KanbanSortSettings SortBy="SortOrderBy.Custom" Field="title"></KanbanSortSettings>
+        <KanbanColumns>
+            @*@foreach (var stage in project.stages)
+                {
+                  <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.key }"></KanbanColumn>
+                }*@
+            @foreach (var stage in project.stages.OrderBy(s => s.position))
+            {
+                <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.stageKey }" AllowToggle="true"></KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="issueId" ContentField="title">
+            <Template>
+                <Card issue="(Issue)context"></Card>
+            </Template>
+        </KanbanCardSettings>
+        <KanbanDialogSettings Width="80%" ZIndex="10000000">
+            <Template>
+                @{
+                    var issue = (Issue)context;
+
+                    var test = issue.assignees?.Count != 0 ? issue.assignees.Select(a => a.userId).ToList() : new List<long>();
+
+                    //Console.WriteLine(JsonSerializer.Serialize(test));
+                    @if (issue.issueId != default(long))
                     {
-                        <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.stageKey }" AllowToggle="true"></KanbanColumn>
+                    <div class="form-group row">
+                        <div class="col-sm-4">
+                            <SfTextBox Placeholder="Id" Value="@issue.issueId.ToString()" Readonly="true" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <SfDatePicker Placeholder="Created at" Value="@issue.createdAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
+                        </div>
+                        <div class="col-sm-4">
+                            <SfDatePicker Placeholder="Updated at" Value="@issue.updatedAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
+                        </div>
+                    </div>
                     }
-                </KanbanColumns>
-                <KanbanCardSettings HeaderField="issueId" ContentField="title">
-                    <Template>
-                        <Card issue="(Issue)context"></Card>
-                    </Template>
-                </KanbanCardSettings>
-                <KanbanDialogSettings Width="80%">
-                    <Template>
-                        @{
-                            var issue = (Issue)context;
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <SfTextBox @ref="titleRef" Placeholder="Title" Value="@issue.title" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+                        </div>
+                        <div class="col-sm-6">
+                            <SfMultiSelect @ref="assigneesRef" Placeholder="Assignees" Value="@test" FloatLabelType="FloatLabelType.Always" DataSource="users">
+                                <MultiSelectFieldSettings Value="userId" Text="fullName"></MultiSelectFieldSettings>
+                            </SfMultiSelect>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-sm-6">
+                            <SfDropDownList @ref="priorityRef" Placeholder="Priority" Value="@issue.priority" FloatLabelType="FloatLabelType.Always" DataSource="Enum.GetNames(typeof(Priority))"></SfDropDownList>
+                        </div>
+                        <div class="col-sm-6">
+                            <SfDatePicker @ref="deadlineRef" Placeholder="Deadline" Value="@issue.deadline" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
 
-                            //var test = issue.assignees?.Count != 0 ? issue.assignees.Select(a => a.userId).ToList() : new List<long>();
-                            
-                            //Console.WriteLine(JsonSerializer.Serialize(test));
-                            <div class="form-group">
-                                <SfTextBox Placeholder="Id" Value="@issue.issueId.ToString()" Readonly="true" FloatLabelType="FloatLabelType.Always"></SfTextBox>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-sm-6">
-                                    <SfDatePicker Placeholder="Created at" Value="@issue.createdAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
-                                </div>
-                                <div class="col-sm-6">
-                                    <SfDatePicker Placeholder="Updated at" Value="@issue.updatedAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <SfTextBox @ref="titleRef" Placeholder="Title" Value="@issue.title" FloatLabelType="FloatLabelType.Always"></SfTextBox>
-                            </div>
-                            <div class="form-group">
-                                <SfDropDownList @ref="priorityRef" Placeholder="Priority" Value="@issue.priority" FloatLabelType="FloatLabelType.Always" DataSource="Enum.GetNames(typeof(Priority))"></SfDropDownList>
-                            </div>
-                            @*<div class="form-group">
-                                <SfMultiSelect @ref="assigneesRef" Placeholder="Assignees" Value="@test" FloatLabelType="FloatLabelType.Always" DataSource="users">
-                                    <MultiSelectFieldSettings Value="userId" Text="fullName"></MultiSelectFieldSettings>
-                                </SfMultiSelect>
-                            </div>*@
-                            <div class="form-group">
-                                <SfDatePicker @ref="deadlineRef" Placeholder="Deadline" Value="@issue.deadline" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
-                            </div>
-                            <div class="form-group">
-                                <SfTextBox @ref="descriptionRef" Placeholder="Description" Value="@issue.description" Multiline="true" FloatLabelType="FloatLabelType.Always"></SfTextBox>
-                            </div>
-                        }
-                    </Template>
-                </KanbanDialogSettings>
-                <KanbanEvents TValue="Issue" DialogClose="@onDialogClose" ActionComplete="onActionCompleteAsync"></KanbanEvents>
-            </SfKanban>
-        </div>
-    </div>
+                        </div>
+                    </div>
 
+                    
+                    <div class="form-group">
+                        <SfTextBox @ref="descriptionRef" Placeholder="Description" Value="@issue.description" Multiline="true" FloatLabelType="FloatLabelType.Always"
+                                   rows="7"></SfTextBox>
+                    </div>
+                }
+            </Template>
+        </KanbanDialogSettings>
+        <KanbanEvents TValue="Issue" DialogClose="onDialogClose" ActionComplete="onActionComplete"></KanbanEvents>
+    </SfKanban>
 }
 else
 {

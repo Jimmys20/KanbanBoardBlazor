@@ -21,10 +21,10 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
         [SQWFieldMap()]
         public long issueId { get; set; }
 
-        [SQWFieldMap(100)]
+        [SQWFieldMap(500)]
         public string title { get; set; }
 
-        [SQWFieldMap(300)]
+        [SQWFieldMap(3000)]
         public string description { get; set; }
 
         [SQWFieldMap()]

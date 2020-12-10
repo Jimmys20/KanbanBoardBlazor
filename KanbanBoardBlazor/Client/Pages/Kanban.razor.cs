@@ -40,6 +40,7 @@ namespace KanbanBoardBlazor.Client.Pages
 
         private async void onDialogClose(DialogCloseEventArgs<Issue> args)
         {
+            
             if (args.Interaction != "Cancel" && args.Interaction != "Close")
             {
                 if (args.RequestType == CurrentAction.Edit)
@@ -50,57 +51,74 @@ namespace KanbanBoardBlazor.Client.Pages
                     issue.deadline = deadlineRef.Value;
                     issue.description = descriptionRef.Value;
                     issue.priority = priorityRef.Value;
-                    //issue.assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList();
+                    issue.assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList();
 
-                    await kanbanRef.UpdateCard(issue);
+                    //await kanbanRef.UpdateCard(issue);
                 }
                 else if (args.RequestType == CurrentAction.Add)
                 {
-                    var t = args.Data;
+                    Issue issue = args.Data;
 
-                    Issue issue = new Issue
-                    {
-                        title = titleRef.Value,
-                        deadline = deadlineRef.Value,
-                        description = descriptionRef.Value,
-                        priority = priorityRef.Value//,
-                        //assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList()
-                    };
-                    await kanbanRef.AddCard(issue);
+                    issue.title = titleRef.Value;
+                    issue.deadline = deadlineRef.Value;
+                    issue.description = descriptionRef.Value;
+                    issue.priority = priorityRef.Value;
+                    issue.assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList();
+
+                    //var t = args.Data;
+
+                    //Issue issue = new Issue
+                    //{
+                    //    title = titleRef.Value,
+                    //    deadline = deadlineRef.Value,
+                    //    description = descriptionRef.Value,
+                    //    priority = priorityRef.Value,
+                    //    assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList()
+                    //};
+                    //await kanbanRef.AddCard(issue);
                 }
             }
-            else
-            {
-                args.Cancel = true;
-            }
+
         }
 
         private void showAddCardDialog()
         {
             Issue issue = new Issue
             {
-                
+                stageKey = project.stages[0].stageKey,
+                projectId = project.projectId
             };
             kanbanRef.OpenDialog(CurrentAction.Add, issue);
         }
 
-        private async Task onActionCompleteAsync(ActionEventArgs<Issue> args)
+        private async void onActionComplete(ActionEventArgs<Issue> args)
         {
-            //Console.WriteLine(JsonSerializer.Serialize(args));
+            Console.WriteLine(JsonSerializer.Serialize(args));
 
             //Console.WriteLine(JsonSerializer.Serialize(project.issues));
 
             //await projectService.save(project);
 
-            //foreach (var issue in args.ChangedRecords)
-            //{
-            //    await issueService.Update(issue);
-            //}
+            foreach (var issue in args.AddedRecords)
+            {
+                var createdIssue = await issueService.Create(issue);
 
-            //foreach (var issue in args.DeletedRecords)
-            //{
-            //    await issueService.Delete(issue.issueId);
-            //}
+                issue.issueId = createdIssue.issueId;
+                issue.createdAt = createdIssue.createdAt;
+
+            }
+
+            foreach (var issue in args.ChangedRecords)
+            {
+                var updatedIssue = await issueService.Update(issue);
+
+                issue.updatedAt = updatedIssue.updatedAt;
+            }
+
+            foreach (var issue in args.DeletedRecords)
+            {
+                await issueService.Delete(issue.issueId);
+            }
         }
 
         //StageForm stageForm;

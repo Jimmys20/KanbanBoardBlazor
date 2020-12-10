@@ -1,4 +1,5 @@
-﻿using KanbanBoardBlazor.Server.Dal.Entities;
+﻿using KanbanBoardBlazor.Server.Common;
+using KanbanBoardBlazor.Server.Dal.Entities;
 using SQW.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,8 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
             await worker.runAsync(context =>
             {
                 project = context
-                    .createCommand(@"SELECT *
-                                       FROM PANAGIOTIS.PROJECT
+                    .createCommand($@"SELECT *
+                                       FROM {Constants.SCHEMA}.PROJECT
                                       WHERE PROJECT_ID = :ID")
                     .addNumericInParam("ID", id)
                     .first<ProjectEntity>();

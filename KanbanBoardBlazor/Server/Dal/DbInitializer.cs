@@ -108,14 +108,14 @@ namespace KanbanBoardBlazor.Server.Dal
                   title = "Grid doesn't respect page size",
                
                   deadline = DateTime.Now.AddDays(21),
-                  priority = Priority.CRITICAL,
-                  assignees = new List<UserEntity>
-                  {
-                      new UserEntity
-                      {
-                          username = "jim"
-                      }
-                  }
+                  priority = Priority.CRITICAL//,
+                  //assignees = new List<UserEntity>
+                  //{
+                  //    new UserEntity
+                  //    {
+                  //        username = "jim"
+                  //    }
+                  //}
                 }
               }
             },

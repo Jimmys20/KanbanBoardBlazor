@@ -5,11 +5,11 @@
         <h5>@issue.title</h5>
         <span class="card-text text-muted">
 
-            @*@foreach (var user in issue.assignees)
+            @foreach (var user in issue.assignees)
             {
-                <a class="btn btn-secondary e-round">@user.username</a>
+                @*<a class="btn btn-secondary e-round">@user.username</a>*@
                 <SfButton CssClass="e-round btn-secondary">@user.initials</SfButton>
-            }*@
+            }
 
         </span>
         <span class="card-text float-right text-muted">@issue.deadline?.ToString("d/M/yyyy")</span>
