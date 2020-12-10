@@ -72,7 +72,7 @@ namespace KanbanBoardBlazor.Server.Dal
                     projectId = 100,
                   issueId = 100,
                   title = "MongoDB Migrations",
-                  assignee = "Panagiotis",
+                  
                   deadline = DateTime.Now.AddYears(2),
                   priority = Priority.LOW
                 },
@@ -80,7 +80,7 @@ namespace KanbanBoardBlazor.Server.Dal
                 {
                     projectId = 100,
                   title = "Rotation Curson: Needs White Border",
-                  assignee = "Dimitris",
+               
                   deadline = DateTime.Now.AddMonths(6),
                   priority = Priority.MEDIUM
                 }
@@ -97,7 +97,7 @@ namespace KanbanBoardBlazor.Server.Dal
                 {
                     projectId = 100,
                   title = "Page Settings does not respect Command+Z",
-                  assignee = "Maria",
+               
                   deadline = DateTime.Now.AddMonths(3),
                   priority = Priority.HIGH
 
@@ -106,7 +106,7 @@ namespace KanbanBoardBlazor.Server.Dal
                 {
                     projectId = 100,
                   title = "Grid doesn't respect page size",
-                  assignee = "Panagiotis",
+               
                   deadline = DateTime.Now.AddDays(21),
                   priority = Priority.CRITICAL,
                   assignees = new List<UserEntity>
@@ -130,7 +130,7 @@ namespace KanbanBoardBlazor.Server.Dal
                 {
                     projectId = 100,
                   title = "Preview of page does not be updated after change page size name",
-                  assignee = "Dimitris",
+                  
                   deadline = DateTime.Now.AddDays(14),
                   priority = Priority.MEDIUM,
                   isOpen = true
@@ -139,7 +139,7 @@ namespace KanbanBoardBlazor.Server.Dal
                 {
                     projectId = 100,
                   title = "User changes width/height: pages size not saved",
-                  assignee = "Maria",
+        
                   deadline = DateTime.Now.AddDays(6),
                   priority = Priority.HIGH,
                   isOpen = true

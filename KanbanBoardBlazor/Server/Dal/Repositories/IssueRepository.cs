@@ -7,37 +7,37 @@ using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Server.Dal.Repositories
 {
-    public class ProjectRepository
+    public class IssueRepository
     {
         private readonly ISQWWorker worker;
 
-        public ProjectRepository(ISQWWorker worker)
+        public IssueRepository(ISQWWorker worker)
         {
             this.worker = worker;
         }
 
-        public async Task<ProjectEntity> getProjectById(long id)
+        public async Task<IssueEntity> getIssueById(long id)
         {
-            ProjectEntity project = null;
+            IssueEntity issue = null;
 
             await worker.runAsync(context =>
             {
-                project = context
+                issue = context
                     .createCommand(@"SELECT *
-                                       FROM PANAGIOTIS.PROJECT
-                                      WHERE PROJECT_ID = :ID")
+                                       FROM PANAGIOTIS.ISSUE
+                                      WHERE ISSUE_ID = :ID")
                     .addNumericInParam("ID", id)
-                    .first<ProjectEntity>();
+                    .first<IssueEntity>();
             });
 
-            return project;
+            return issue;
         }
 
-        public async Task save(ProjectEntity project)
+        public async Task save(IssueEntity issue)
         {
             await worker.runAsync(context =>
             {
-                context.save(project);
+                context.save(issue);
             });
         }
     }

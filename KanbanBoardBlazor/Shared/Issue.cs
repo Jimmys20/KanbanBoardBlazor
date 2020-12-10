@@ -22,8 +22,6 @@ namespace KanbanBoardBlazor.Shared
 
         public DateTime? updatedAt { get; set; }
 
-        public string assignee { get; set; }
-
         public bool isOpen { get; set; }
 
         public string stageKey { get; set; }
@@ -32,6 +30,6 @@ namespace KanbanBoardBlazor.Shared
         public long projectId { get; set; }
         //public Project project { get; set; }
 
-        public List<User> users { get; set; } = new List<User>();
+        public List<User> assignees { get; set; } = new List<User>();
     }
 }

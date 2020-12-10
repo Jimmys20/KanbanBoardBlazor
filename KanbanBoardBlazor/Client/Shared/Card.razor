@@ -1,21 +1,29 @@
 ﻿@using KanbanBoardBlazor.Shared
 
 <div class="card" style="border-left: 3px solid @priorityClass">
-  <div class="card-body">
-    <h5>@issue.title</h5>
-    <span class="card-text text-muted">@(!string.IsNullOrEmpty(issue.assignee)?issue.assignee : "ΧΧ")</span>
-    <span class="card-text float-right text-muted">@(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString())</span>
-  </div>
+    <div class="card-body">
+        <h5>@issue.title</h5>
+        <span class="card-text text-muted">
+
+            @*@foreach (var user in issue.assignees)
+            {
+                <a class="btn btn-secondary e-round">@user.username</a>
+                <SfButton CssClass="e-round btn-secondary">@user.initials</SfButton>
+            }*@
+
+        </span>
+        <span class="card-text float-right text-muted">@issue.deadline?.ToString("d/M/yyyy")</span>
+    </div>
 </div>
 
 @code {
-  [Parameter]
-  public Issue issue { get; set; }
+    [Parameter]
+    public Issue issue { get; set; }
 
-  private string priorityClass =>
-    issue.priority == Priority.LOW ? "#28a745" :
-    issue.priority == Priority.MEDIUM ? "#007bff" :
-    issue.priority == Priority.HIGH ? "#ffc107" :
-    issue.priority == Priority.CRITICAL ? "#dc3545" :
-    "badge-secondary";
+    private string priorityClass =>
+      issue.priority == Priority.LOW ? "#28a745" :
+      issue.priority == Priority.MEDIUM ? "#007bff" :
+      issue.priority == Priority.HIGH ? "#ffc107" :
+      issue.priority == Priority.CRITICAL ? "#dc3545" :
+      "badge-secondary";
 }

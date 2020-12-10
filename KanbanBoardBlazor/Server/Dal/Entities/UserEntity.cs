@@ -34,7 +34,7 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
             "USER_ID",
             "ISSUE_ID",
             nameof(userId),
-            "USER_ID")]
+            "USER_LINK")]
         public List<IssueEntity> assignments { get; set; }
 
         public UserEntity()

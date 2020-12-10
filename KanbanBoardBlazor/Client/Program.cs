@@ -24,6 +24,7 @@ namespace KanbanBoardBlazor.Client
             builder.Services.AddScoped<ProjectService>();
             builder.Services.AddScoped<IssueService>();
             builder.Services.AddScoped<StageService>();
+            builder.Services.AddScoped<UserService>();
 
             builder.Services.AddSyncfusionBlazor();
             await builder.Build().RunAsync();

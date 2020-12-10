@@ -46,6 +46,8 @@ namespace KanbanBoardBlazor.Server
             #endregion
 
             services.AddSingleton<ProjectRepository>();
+            services.AddSingleton<IssueRepository>();
+            services.AddSingleton<UserRepository>();
 
             services.AddAutoMapper(typeof(Startup));
 

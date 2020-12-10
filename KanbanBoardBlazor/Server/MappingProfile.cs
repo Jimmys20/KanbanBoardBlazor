@@ -19,7 +19,16 @@ namespace KanbanBoardBlazor.Server
                 .ReverseMap()
                 .ForMember(dest => dest.stageId, opt => opt.MapFrom(src => long.Parse(src.stageKey)));
 
-            CreateMap<IssueEntity, Issue>().ReverseMap();
+            CreateMap<IssueEntity, Issue>()
+                .ForMember(dest => dest.stageKey, opt => opt.MapFrom(src => src.stageId.HasValue ? src.stageId.Value.ToString() : string.Empty))
+                .ReverseMap()
+                .ForMember(dest => dest.stageId, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.stageKey) ? long.Parse(src.stageKey) : default(long?)));
+
+            CreateMap<UserEntity, User>().ReverseMap();
+            //CreateMap<long, UserEntity>()
+            //    .ConvertUsing(o => new UserEntity { userId = o });
+            //CreateMap<UserEntity, long>()
+            //    .ConvertUsing(o => o.userId);
         }
     }
 }

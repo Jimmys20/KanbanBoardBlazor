@@ -23,5 +23,12 @@ namespace KanbanBoardBlazor.Client.Services
 
             return project;
         }
+
+        public async Task save(Project project)
+        {
+            await httpClient.PutAsJsonAsync($"api/Project", project);
+
+            //return project;
+        }
     }
 }

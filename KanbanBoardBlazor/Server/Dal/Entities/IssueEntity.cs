@@ -39,8 +39,8 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
         [SQWFieldMap()]
         public DateTime? updatedAt { get; set; }
 
-        [SQWFieldMap(50)]
-        public string assignee { get; set; }
+        //[SQWFieldMap(50)]
+        //public string assignee { get; set; }
 
         [SQWFieldMap()]
         public bool isOpen { get; set; }

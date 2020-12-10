@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KanbanBoardBlazor.Server.Dal.Entities;
 using KanbanBoardBlazor.Server.Dal.Repositories;
 using KanbanBoardBlazor.Shared;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,21 @@ namespace KanbanBoardBlazor.Server.Controllers
         {
             var projectEntity = await projectRepository.getProjectById(id);
             var project = mapper.Map<Project>(projectEntity);
+
+            return project;
+        }
+
+        [HttpPut]
+        public async Task<Project> Update(Project project)
+        {
+            var projectEntity = await projectRepository.getProjectById(project.projectId);
+
+            mapper.Map(project, projectEntity);
+
+            //var project = await projectRepository.getProjectById(id);
+
+            await projectRepository.save(projectEntity);
+            
 
             return project;
         }
