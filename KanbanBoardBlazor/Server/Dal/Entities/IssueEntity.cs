@@ -24,7 +24,7 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
         [SQWFieldMap(500)]
         public string title { get; set; }
 
-        [SQWFieldMap(3000)]
+        [SQWFieldMap(3500)]
         public string description { get; set; }
 
         [SQWFieldMap()]
@@ -38,9 +38,6 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
 
         [SQWFieldMap()]
         public DateTime? updatedAt { get; set; }
-
-        //[SQWFieldMap(50)]
-        //public string assignee { get; set; }
 
         [SQWFieldMap()]
         public bool isOpen { get; set; }
@@ -67,13 +64,8 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
           "PROJECT_ID")]
         public ProjectEntity project { get; set; }
 
-        [SQWMany2ManyMap(
-            Constants.SCHEMA,
-            AssignmentEntity.TABLE_NAME,
-            "ISSUE_ID",
-            "USER_ID",
-            nameof(issueId),
-            "ISSUE_ID")]
+        [SQWMany2ManyMap(Constants.SCHEMA, AssignmentEntity.TABLE_NAME,
+            "ISSUE_ID", "USER_ID", nameof(issueId), "ISSUE_ID")]
         public List<UserEntity> assignees { get; set; }
 
         public IssueEntity()

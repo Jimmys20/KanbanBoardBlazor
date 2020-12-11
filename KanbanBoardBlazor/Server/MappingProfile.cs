@@ -20,7 +20,7 @@ namespace KanbanBoardBlazor.Server
                 .ForMember(dest => dest.stageId, opt => opt.MapFrom(src => long.Parse(src.stageKey)));
 
             CreateMap<IssueEntity, Issue>()
-                .ForMember(dest => dest.stageKey, opt => opt.MapFrom(src => src.stageId.HasValue ? src.stageId.Value.ToString() : string.Empty))
+                .ForMember(dest => dest.stageKey, opt => opt.MapFrom(src => src.stageId.HasValue ? src.stageId.Value.ToString() : default(string)))
                 .ReverseMap()
                 .ForMember(dest => dest.stageId, opt => opt.MapFrom(src => !string.IsNullOrEmpty(src.stageKey) ? long.Parse(src.stageKey) : default(long?)));
 

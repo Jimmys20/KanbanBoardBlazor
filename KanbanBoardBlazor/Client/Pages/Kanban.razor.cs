@@ -99,7 +99,7 @@ namespace KanbanBoardBlazor.Client.Pages
 
             //await projectService.save(project);
 
-            foreach (var issue in args.AddedRecords)
+            foreach (var issue in args.AddedRecords ?? Enumerable.Empty<Issue>())
             {
                 var createdIssue = await issueService.Create(issue);
 
@@ -108,14 +108,14 @@ namespace KanbanBoardBlazor.Client.Pages
 
             }
 
-            foreach (var issue in args.ChangedRecords)
+            foreach (var issue in args.ChangedRecords ?? Enumerable.Empty<Issue>())
             {
                 var updatedIssue = await issueService.Update(issue);
 
                 issue.updatedAt = updatedIssue.updatedAt;
             }
 
-            foreach (var issue in args.DeletedRecords)
+            foreach (var issue in args.DeletedRecords ?? Enumerable.Empty<Issue>())
             {
                 await issueService.Delete(issue.issueId);
             }

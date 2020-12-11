@@ -10,13 +10,14 @@ namespace KanbanBoardBlazor.Shared
     {
         public long userId { get; set; }
 
-        public string username { get; set; }
+        public long guardianUserId { get; set; }
+        //public string username { get; set; }
 
         public string lastName { get; set; }
 
         public string firstName { get; set; }
 
         public string fullName => $"{lastName} {firstName}";
-        public string initials => $"{lastName[0]}{firstName[0]}";
+        public string initials => $"{lastName?[0]}{firstName?[0]}";
     }
 }

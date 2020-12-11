@@ -1,4 +1,5 @@
-﻿using KanbanBoardBlazor.Server.Dal.Entities;
+﻿using KanbanBoardBlazor.Server.Common;
+using KanbanBoardBlazor.Server.Dal.Entities;
 using SQW.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
             await worker.runAsync(context =>
             {
                 users = context
-                    .createCommand(@"SELECT * FROM GUARDIAN.USER_MASTER")
+                    .createCommand($@"SELECT * FROM {Constants.SCHEMA}.APP_USER")
                     .select<UserEntity>();
             });
 

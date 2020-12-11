@@ -29,6 +29,8 @@ namespace KanbanBoardBlazor.Server.Controllers
             var projectEntity = await projectRepository.getProjectById(id);
             var project = mapper.Map<Project>(projectEntity);
 
+            project.issues = project.issues.OrderByDescending(i => i.priority).ThenByDescending(i => i.deadline).ToList();
+
             return project;
         }
 

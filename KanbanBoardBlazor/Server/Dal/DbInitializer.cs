@@ -18,11 +18,36 @@ namespace KanbanBoardBlazor.Server.Dal
                 try { context.execute($"CREATE SEQUENCE {Constants.SCHEMA}.SEQ_PROJECT"); } catch (Exception) { }
                 try { context.execute($"CREATE SEQUENCE {Constants.SCHEMA}.SEQ_STAGE"); } catch (Exception) { }
                 try { context.execute($"CREATE SEQUENCE {Constants.SCHEMA}.SEQ_ISSUE"); } catch (Exception) { }
+                try { context.execute($"CREATE SEQUENCE {Constants.SCHEMA}.SEQ_APP_USER"); } catch (Exception) { }
 
                 context.createTable(typeof(ProjectEntity), true);
                 context.createTable(typeof(StageEntity), true);
                 context.createTable(typeof(IssueEntity), true);
+                context.createTable(typeof(UserEntity), true);
                 context.createTable(typeof(AssignmentEntity), true);
+
+                var users = new List<UserEntity>
+                {
+                    new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"},
+                    new UserEntity {lastName="Πιπερόπουλος", firstName="Παναγιώτης"},
+                    new UserEntity {lastName="Κρίτου", firstName="Μαρία"},
+                    new UserEntity {lastName="Πατρίκιος", firstName="Γιώργος"},
+                    new UserEntity {lastName="Σεϊτανίδης", firstName="Γιώργος"},
+                    new UserEntity {lastName="Φωκιανός", firstName="Βαγγέλης"},
+                    new UserEntity {lastName="Κατσάδας", firstName="Βαγγέλης"},
+                    new UserEntity {lastName="Παυλίδης", firstName="Χρόνης"},
+                    new UserEntity {lastName="Ράπτης", firstName="Άκης"},
+                    new UserEntity {lastName="Καρυπίδης", firstName="Χριστόφορος"},
+                    //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"},
+                    //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"},
+                    //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"},
+                    //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"},
+                    //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"},
+                    //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"}
+                };
+
+                context.save(users);
+
 
                 var issues = new List<IssueEntity>
         {
@@ -113,7 +138,7 @@ namespace KanbanBoardBlazor.Server.Dal
                   //{
                   //    new UserEntity
                   //    {
-                  //        username = "jim"
+                  //        lastName = "jim"
                   //    }
                   //}
                 }

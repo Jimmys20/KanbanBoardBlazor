@@ -19,8 +19,6 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
 
         [SQWFieldMap()]
         public long stageId { get; set; }
-        //[SQWFieldMap()]
-        //public string stageKey { get; set; }
 
         [SQWFieldMap()]
         public int position { get; set; }

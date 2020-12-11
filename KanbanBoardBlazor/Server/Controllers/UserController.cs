@@ -28,7 +28,7 @@ namespace KanbanBoardBlazor.Server.Controllers
             var userEntities = await userRepository.getAllUsers();
             var users = mapper.Map<List<User>>(userEntities);
 
-            return users;
+            return users.OrderBy(u => u.lastName).ThenBy(u => u.firstName).ToList();
         }
     }
 }

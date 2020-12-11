@@ -30,6 +30,6 @@ namespace KanbanBoardBlazor.Shared
         public long projectId { get; set; }
         //public Project project { get; set; }
 
-        public List<User> assignees { get; set; } = new List<User>();
+        public List<User> assignees { get; set; }
     }
 }

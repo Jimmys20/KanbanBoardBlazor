@@ -12,7 +12,9 @@
 
 
     <SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey" DataSource="project.issues">
-        <KanbanSortSettings SortBy="SortOrderBy.Custom" Field="title"></KanbanSortSettings>
+        <KanbanSortSettings SortBy="SortOrderBy.DataSourceOrder">
+            
+        </KanbanSortSettings>
         <KanbanColumns>
             @*@foreach (var stage in project.stages)
                 {
@@ -33,9 +35,9 @@
                 @{
                     var issue = (Issue)context;
 
-                    var test = issue.assignees?.Count != 0 ? issue.assignees.Select(a => a.userId).ToList() : new List<long>();
+                    var test = issue.assignees != null ? issue.assignees.Select(a => a.userId).ToList() : null;
 
-                    //Console.WriteLine(JsonSerializer.Serialize(test));
+                    Console.WriteLine(JsonSerializer.Serialize(issue.assignees));
                     @if (issue.issueId != default(long))
                     {
                     <div class="form-group row">

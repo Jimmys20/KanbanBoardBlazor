@@ -24,6 +24,10 @@ namespace KanbanBoardBlazor.Server.Dal
             {
                 return sqwContext.scalar<long>($"SELECT {Constants.SCHEMA}.SEQ_ISSUE.NEXTVAL FROM DUAL");
             }
+            else if (type == typeof(UserEntity))
+            {
+                return sqwContext.scalar<long>($"SELECT {Constants.SCHEMA}.SEQ_APP_USER.NEXTVAL FROM DUAL");
+            }
 
             return base.nextLong(type);
         }

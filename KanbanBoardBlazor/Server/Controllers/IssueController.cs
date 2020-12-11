@@ -29,6 +29,11 @@ namespace KanbanBoardBlazor.Server.Controllers
         {
             var issueEntity = mapper.Map<IssueEntity>(issue);
 
+            //foreach (var user in issueEntity.assignees)
+            //{
+            //    user.state = SQWEntityState.esModified;
+            //}
+
             await issueRepository.save(issueEntity);
 
             issue.issueId = issueEntity.issueId;
@@ -45,10 +50,12 @@ namespace KanbanBoardBlazor.Server.Controllers
 
             mapper.Map(issue, issueEntity);
 
-            foreach(var user in issueEntity.assignees)
-            {
-                //user.state = SQWEntityState.esUnmodified;
-            }
+            //foreach(var user in issueEntity.assignees)
+            //{
+            //    user.state = SQWEntityState.esUnmodified;
+            //}
+
+            //issueEntity.state = SQWEntityState.esModified;
 
             await issueRepository.save(issueEntity);
 

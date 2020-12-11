@@ -9,23 +9,25 @@ using System.Threading.Tasks;
 namespace KanbanBoardBlazor.Server.Dal.Entities
 {
     [SQWTableMap(
-    "GUARDIAN",
-    "USER_MASTER",
+    Constants.SCHEMA,
+    TABLE_NAME,
     nameof(userId),
-    "USER_LINK",
+    "USER_ID",
     default(long))]
     public class UserEntity : SQWEntity
     {
-        [SQWFieldMap("USER_LINK")]
+        public const string TABLE_NAME = "APP_USER";
+
+        [SQWFieldMap()]
         public long userId { get; set; }
 
-        [SQWFieldMap("USER_ID")]
-        public string username { get; set; }
+        [SQWFieldMap()]
+        public long guardianUserId { get; set; }
 
-        [SQWFieldMap("LAST_NAME")]
+        [SQWFieldMap(100)]
         public string lastName { get; set; }
 
-        [SQWFieldMap("FIRST_NAME")]
+        [SQWFieldMap(100)]
         public string firstName { get; set; }
 
         [SQWMany2ManyMap(
@@ -34,18 +36,27 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
             "USER_ID",
             "ISSUE_ID",
             nameof(userId),
-            "USER_LINK")]
+            "USER_ID")]
         public List<IssueEntity> assignments { get; set; }
 
         public UserEntity()
         {
             beforeInsert = (obj, ctx) =>
             {
+                var user = (UserEntity)obj;
+
+                if (user.userId == default(long))
+                {
+                    return true;
+                }
+
                 return false;
             };
 
             beforeUpdate = (obj, ctx) =>
             {
+
+
                 return false;
             };
         }
