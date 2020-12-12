@@ -1,5 +1,4 @@
 ﻿using KanbanBoardBlazor.Server.Common;
-using SQW;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Server.Dal.Entities
 {
-    [SQWTableMap(Constants.SCHEMA, TABLE_NAME, null, null, null)]
-    public class AssignmentEntity
+    public class Assignment
     {
-        public const string TABLE_NAME = "ASSIGNMENT";
+        public long assignmentId { get; set; }
 
-        [SQWFieldMap()]
         public long issueId { get; set; }
+        public Issue issue { get; set; }
 
-        [SQWFieldMap()]
         public long userId { get; set; }
+        public User user { get; set; }
     }
 }

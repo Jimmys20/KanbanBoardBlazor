@@ -11,7 +11,7 @@
     <button class="btn btn-primary mb-3" @onclick="showAddCardDialog">Add Card</button>
 
 
-    <SfKanban @ref="kanbanRef" TValue="Issue" KeyField="stageKey" DataSource="project.issues">
+    <SfKanban @ref="kanbanRef" TValue="IssueDto" KeyField="stageKey" DataSource="project.issues">
         <KanbanSortSettings SortBy="SortOrderBy.DataSourceOrder">
             
         </KanbanSortSettings>
@@ -27,13 +27,13 @@
         </KanbanColumns>
         <KanbanCardSettings HeaderField="issueId" ContentField="title">
             <Template>
-                <Card issue="(Issue)context"></Card>
+                <Card issue="(IssueDto)context"></Card>
             </Template>
         </KanbanCardSettings>
         <KanbanDialogSettings Width="80%" ZIndex="10000000">
             <Template>
                 @{
-                    var issue = (Issue)context;
+                    var issue = (IssueDto)context;
 
                     var test = issue.assignees != null ? issue.assignees.Select(a => a.userId).ToList() : null;
 
@@ -81,7 +81,7 @@
                 }
             </Template>
         </KanbanDialogSettings>
-        <KanbanEvents TValue="Issue" DialogClose="onDialogClose" ActionComplete="onActionComplete"></KanbanEvents>
+        <KanbanEvents TValue="IssueDto" DialogClose="onDialogClose" ActionComplete="onActionComplete"></KanbanEvents>
     </SfKanban>
 }
 else

@@ -22,9 +22,9 @@ namespace KanbanBoardBlazor.Client.Pages
         [Inject] private IssueService issueService { get; set; }
         [Inject] private UserService userService { get; set; }
 
-        private Project project;
-        private SfKanban<Issue> kanbanRef;
-        private List<User> users;
+        private ProjectDto project;
+        private SfKanban<IssueDto> kanbanRef;
+        private List<UserDto> users;
 
         private SfTextBox titleRef;
         private SfDatePicker<DateTime?> deadlineRef;
@@ -38,14 +38,14 @@ namespace KanbanBoardBlazor.Client.Pages
             users = await userService.getAllUsers();
         }
 
-        private async void onDialogClose(DialogCloseEventArgs<Issue> args)
+        private async void onDialogClose(DialogCloseEventArgs<IssueDto> args)
         {
             
             if (args.Interaction != "Cancel" && args.Interaction != "Close")
             {
                 if (args.RequestType == CurrentAction.Edit)
                 {
-                    Issue issue = args.Data;
+                    IssueDto issue = args.Data;
 
                     issue.title = titleRef.Value;
                     issue.deadline = deadlineRef.Value;
@@ -57,7 +57,7 @@ namespace KanbanBoardBlazor.Client.Pages
                 }
                 else if (args.RequestType == CurrentAction.Add)
                 {
-                    Issue issue = args.Data;
+                    IssueDto issue = args.Data;
 
                     issue.title = titleRef.Value;
                     issue.deadline = deadlineRef.Value;
@@ -83,7 +83,7 @@ namespace KanbanBoardBlazor.Client.Pages
 
         private void showAddCardDialog()
         {
-            Issue issue = new Issue
+            IssueDto issue = new IssueDto
             {
                 stageKey = project.stages[0].stageKey,
                 projectId = project.projectId
@@ -91,7 +91,7 @@ namespace KanbanBoardBlazor.Client.Pages
             kanbanRef.OpenDialog(CurrentAction.Add, issue);
         }
 
-        private async void onActionComplete(ActionEventArgs<Issue> args)
+        private async void onActionComplete(ActionEventArgs<IssueDto> args)
         {
             Console.WriteLine(JsonSerializer.Serialize(args));
 
@@ -99,7 +99,7 @@ namespace KanbanBoardBlazor.Client.Pages
 
             //await projectService.save(project);
 
-            foreach (var issue in args.AddedRecords ?? Enumerable.Empty<Issue>())
+            foreach (var issue in args.AddedRecords ?? Enumerable.Empty<IssueDto>())
             {
                 var createdIssue = await issueService.Create(issue);
 
@@ -108,14 +108,14 @@ namespace KanbanBoardBlazor.Client.Pages
 
             }
 
-            foreach (var issue in args.ChangedRecords ?? Enumerable.Empty<Issue>())
+            foreach (var issue in args.ChangedRecords ?? Enumerable.Empty<IssueDto>())
             {
                 var updatedIssue = await issueService.Update(issue);
 
                 issue.updatedAt = updatedIssue.updatedAt;
             }
 
-            foreach (var issue in args.DeletedRecords ?? Enumerable.Empty<Issue>())
+            foreach (var issue in args.DeletedRecords ?? Enumerable.Empty<IssueDto>())
             {
                 await issueService.Delete(issue.issueId);
             }

@@ -14,13 +14,13 @@ namespace KanbanBoardBlazor.Client.Shared
         StageService stageService { get; set; }
 
         //[Parameter]
-        public Stage stage { get; set; } = new Stage();
+        public StageDto stage { get; set; } = new StageDto();
         [Parameter]
-        public EventCallback<Stage> onSubmit { get; set; }
+        public EventCallback<StageDto> onSubmit { get; set; }
         //[Parameter]
         public bool Visibility { get; set; } = false;
 
-        public void Show(Stage stage)
+        public void Show(StageDto stage)
         {
             this.stage = stage;
             Visibility = true;

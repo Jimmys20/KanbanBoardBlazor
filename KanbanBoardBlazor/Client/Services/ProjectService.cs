@@ -17,14 +17,14 @@ namespace KanbanBoardBlazor.Client.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<Project> getProjectById(long id)
+        public async Task<ProjectDto> getProjectById(long id)
         {
-            var project = await httpClient.GetFromJsonAsync<Project>($"api/Project/{id}");
+            var project = await httpClient.GetFromJsonAsync<ProjectDto>($"api/Project/{id}");
 
             return project;
         }
 
-        public async Task save(Project project)
+        public async Task save(ProjectDto project)
         {
             await httpClient.PutAsJsonAsync($"api/Project", project);
 

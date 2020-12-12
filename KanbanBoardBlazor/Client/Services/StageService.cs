@@ -8,7 +8,7 @@ namespace KanbanBoardBlazor.Client.Services
 {
     public class StageService
     {
-        public void saveStage(Stage stage)
+        public void saveStage(StageDto stage)
         {
 
         }

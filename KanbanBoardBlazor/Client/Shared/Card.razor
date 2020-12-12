@@ -18,7 +18,7 @@
 
 @code {
     [Parameter]
-    public Issue issue { get; set; }
+    public IssueDto issue { get; set; }
 
     private string priorityClass =>
       issue.priority == Priority.LOW ? "#28a745" :

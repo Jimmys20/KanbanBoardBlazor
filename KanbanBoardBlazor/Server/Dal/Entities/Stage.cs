@@ -1,14 +1,14 @@
-﻿using System;
+﻿using KanbanBoardBlazor.Server.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanBoardBlazor.Shared
+namespace KanbanBoardBlazor.Server.Dal.Entities
 {
     public class Stage
     {
-        public string stageKey { get; set; }
+        public long stageId { get; set; }
 
         public int position { get; set; }
 
@@ -19,8 +19,8 @@ namespace KanbanBoardBlazor.Shared
         public int? limit { get; set; }
 
         public long projectId { get; set; }
-        //public Project project { get; set; }
+        public Project project { get; set; }
 
-        //public List<Issue> issues { get; set; }
+        public List<Issue> issues { get; set; }
     }
 }

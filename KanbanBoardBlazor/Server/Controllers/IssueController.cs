@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using SQW.Interfaces;
 using AutoMapper;
 
 namespace KanbanBoardBlazor.Server.Controllers
@@ -25,9 +24,9 @@ namespace KanbanBoardBlazor.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<Issue> CreateAsync(Issue issue)
+        public async Task<IssueDto> CreateAsync(IssueDto issue)
         {
-            var issueEntity = mapper.Map<IssueEntity>(issue);
+            var issueEntity = mapper.Map<Issue>(issue);
 
             //foreach (var user in issueEntity.assignees)
             //{
@@ -44,7 +43,7 @@ namespace KanbanBoardBlazor.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<Issue> UpdateAsync(long id, Issue issue)
+        public async Task<IssueDto> UpdateAsync(long id, IssueDto issue)
         {
             var issueEntity = await issueRepository.getIssueById(id);
 
@@ -67,11 +66,11 @@ namespace KanbanBoardBlazor.Server.Controllers
         [HttpDelete("{id}")]
         public async Task DeleteAsync(long id)
         {
-            await issueRepository.save(new IssueEntity
-            {
-                issueId = id,
-                state = SQWEntityState.esDeleted
-            });
+            //await issueRepository.save(new Issue
+            //{
+            //    issueId = id,
+            //    state = SQWEntityState.esDeleted
+            //});
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using KanbanBoardBlazor.Server.Common;
 using KanbanBoardBlazor.Server.Dal.Entities;
-using SQW.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,36 +10,30 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
 {
     public class IssueRepository
     {
-        private readonly ISQWWorker worker;
+        private readonly IssueTrackerDbContext context;
 
-        public IssueRepository(ISQWWorker worker)
+        public IssueRepository(IssueTrackerDbContext context)
         {
-            this.worker = worker;
+            this.context = context;
         }
 
-        public async Task<IssueEntity> getIssueById(long id)
+        public async Task<Issue> getIssueById(long id)
         {
-            IssueEntity issue = null;
+            Issue issue = null;
 
-            await worker.runAsync(context =>
-            {
-                issue = context
-                    .createCommand($@"SELECT *
-                                       FROM {Constants.SCHEMA}.ISSUE
-                                      WHERE ISSUE_ID = :ID")
-                    .addNumericInParam("ID", id)
-                    .first<IssueEntity>();
-            });
+            issue = await context.issues
+                .Include(i => i.assignees).ThenInclude(a => a.user)
+                .FirstOrDefaultAsync(i => i.issueId == id);
 
             return issue;
         }
 
-        public async Task save(IssueEntity issue)
+        public async Task save(Issue issue)
         {
-            await worker.runAsync(context =>
-            {
-                context.save(issue);
-            });
+            //await worker.runAsync(context =>
+            //{
+            //    context.save(issue);
+            //});
         }
     }
 }

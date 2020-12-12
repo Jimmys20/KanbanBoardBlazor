@@ -1,6 +1,6 @@
 ﻿using KanbanBoardBlazor.Server.Common;
 using KanbanBoardBlazor.Server.Dal.Entities;
-using SQW.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +10,18 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
 {
     public class UserRepository
     {
-        private readonly ISQWWorker worker;
+        private readonly IssueTrackerDbContext context;
 
-        public UserRepository(ISQWWorker worker)
+        public UserRepository(IssueTrackerDbContext context)
         {
-            this.worker = worker;
+            this.context = context;
         }
 
-        public async Task<List<UserEntity>> getAllUsers()
+        public async Task<List<User>> getAllUsers()
         {
-            List<UserEntity> users = null;
+            List<User> users = null;
 
-            await worker.runAsync(context =>
-            {
-                users = context
-                    .createCommand($@"SELECT * FROM {Constants.SCHEMA}.APP_USER")
-                    .select<UserEntity>();
-            });
+            users = await context.users.ToListAsync();
 
             return users;
         }

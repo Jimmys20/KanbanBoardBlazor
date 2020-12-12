@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Shared
 {
-  public class Issue
+  public class IssueDto
   {
         public long issueId { get; set; }
 
@@ -30,6 +30,6 @@ namespace KanbanBoardBlazor.Shared
         public long projectId { get; set; }
         //public Project project { get; set; }
 
-        public List<User> assignees { get; set; }
+        public List<UserDto> assignees { get; set; }
     }
 }

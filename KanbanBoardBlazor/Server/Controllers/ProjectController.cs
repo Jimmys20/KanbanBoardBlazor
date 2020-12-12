@@ -24,10 +24,10 @@ namespace KanbanBoardBlazor.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Project> Get(long id)
+        public async Task<ProjectDto> Get(long id)
         {
             var projectEntity = await projectRepository.getProjectById(id);
-            var project = mapper.Map<Project>(projectEntity);
+            var project = mapper.Map<ProjectDto>(projectEntity);
 
             project.issues = project.issues.OrderByDescending(i => i.priority).ThenByDescending(i => i.deadline).ToList();
 
@@ -35,7 +35,7 @@ namespace KanbanBoardBlazor.Server.Controllers
         }
 
         [HttpPut]
-        public async Task<Project> Update(Project project)
+        public async Task<ProjectDto> Update(ProjectDto project)
         {
             var projectEntity = await projectRepository.getProjectById(project.projectId);
 

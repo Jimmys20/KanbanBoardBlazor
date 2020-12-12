@@ -17,9 +17,9 @@ namespace KanbanBoardBlazor.Client.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<List<User>> getAllUsers()
+        public async Task<List<UserDto>> getAllUsers()
         {
-            var users = await httpClient.GetFromJsonAsync<List<User>>($"api/User");
+            var users = await httpClient.GetFromJsonAsync<List<UserDto>>($"api/User");
 
             return users;
         }

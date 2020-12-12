@@ -26,11 +26,11 @@
 @code {
     private SfDialog aa;
     [Parameter]
-    public Issue issue { get; set; } = new Issue();
+    public IssueDto issue { get; set; } = new IssueDto();
 
     private bool isVisible { get; set; }
 
-    public void show(Issue issue)
+    public void show(IssueDto issue)
     {
         //isVisible = true;
         this.issue = issue;
@@ -42,7 +42,7 @@
         isVisible = false;
     }
 
-    private void onValidSubmit(Issue issue)
+    private void onValidSubmit(IssueDto issue)
     {
         isVisible = false;
     }

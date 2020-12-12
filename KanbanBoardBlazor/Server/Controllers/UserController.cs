@@ -23,10 +23,10 @@ namespace KanbanBoardBlazor.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<List<User>> Get()
+        public async Task<List<UserDto>> Get()
         {
             var userEntities = await userRepository.getAllUsers();
-            var users = mapper.Map<List<User>>(userEntities);
+            var users = mapper.Map<List<UserDto>>(userEntities);
 
             return users.OrderBy(u => u.lastName).ThenBy(u => u.firstName).ToList();
         }

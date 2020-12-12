@@ -5,11 +5,10 @@ using KanbanBoardBlazor.Server.Dal.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using SQW;
-using SQW.Interfaces;
 using System.Linq;
 
 namespace KanbanBoardBlazor.Server
@@ -27,27 +26,14 @@ namespace KanbanBoardBlazor.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            #region SQW configuration
-            var databaseOptionsSection = configuration.GetSection("databaseOptions");
-            var databaseOptions = databaseOptionsSection.Get<DatabaseOptions>();
-            services.Configure<DatabaseOptions>(databaseOptionsSection);
-
-            var oraConfig = new SQWOraConfig
-            {
-                host = databaseOptions.host,
-                instance = databaseOptions.instance,
-                userName = databaseOptions.username,
-                password = databaseOptions.password
-            };
-
-            var oraSequenceGenerator = new SQWOraSequenceGenerator();
-            var oraWorker = new SQWOraWorker(oraConfig, oraSequenceGenerator);
-            services.AddSingleton<ISQWWorker>(oraWorker);
+            #region EF Core configuration
+            services.AddDbContext<IssueTrackerDbContext>(options =>
+                options.UseOracle(configuration.GetConnectionString("IssueTrackerDbContext")));
             #endregion
 
-            services.AddSingleton<ProjectRepository>();
-            services.AddSingleton<IssueRepository>();
-            services.AddSingleton<UserRepository>();
+            services.AddScoped<ProjectRepository>();
+            services.AddScoped<IssueRepository>();
+            services.AddScoped<UserRepository>();
 
             services.AddAutoMapper(typeof(Startup));
 

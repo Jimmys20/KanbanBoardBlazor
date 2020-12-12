@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using SQW.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +23,9 @@ namespace KanbanBoardBlazor.Server
 
                 try
                 {
-                    var worker = services.GetRequiredService<ISQWWorker>();
-                    DbInitializer.initialize(worker);
+                    var context = services.GetRequiredService<IssueTrackerDbContext>();
+                    //context.Database.EnsureCreated();
+                    DbInitializer.initialize(context);
                 }
                 catch (Exception ex)
                 {

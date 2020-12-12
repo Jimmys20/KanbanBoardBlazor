@@ -18,16 +18,16 @@ namespace KanbanBoardBlazor.Client.Services
             this.httpClient = httpClient;
         }
 
-        public async Task<Issue> Create(Issue issue)
+        public async Task<IssueDto> Create(IssueDto issue)
         {
             var createdIssue = await httpClient.PostAsJsonAsync($"api/Issue", issue);
-            return await createdIssue.Content.ReadAsAsync<Issue>();
+            return await createdIssue.Content.ReadAsAsync<IssueDto>();
         }
 
-        public async Task<Issue> Update(Issue issue)
+        public async Task<IssueDto> Update(IssueDto issue)
         {
             var updatedIssue = await httpClient.PutAsJsonAsync($"api/Issue/{issue.issueId}", issue);
-            return await updatedIssue.Content.ReadAsAsync<Issue>();
+            return await updatedIssue.Content.ReadAsAsync<IssueDto>();
         }
 
         public async Task Delete(long id)

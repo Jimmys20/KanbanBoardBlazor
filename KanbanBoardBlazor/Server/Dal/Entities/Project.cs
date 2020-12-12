@@ -1,10 +1,10 @@
-﻿using System;
+﻿using KanbanBoardBlazor.Server.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace KanbanBoardBlazor.Shared
+namespace KanbanBoardBlazor.Server.Dal.Entities
 {
     public class Project
     {
