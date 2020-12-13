@@ -3,6 +3,10 @@
 <div class="card" style="border-left: 3px solid @priorityClass">
     <div class="card-body">
         <h5>@issue.title</h5>
+        <p>
+            <span class="badge bg-navy white">Development</span>
+            <span class="badge bg-lime black">Support</span>
+        </p>
         <span class="card-text text-muted">
 
             @foreach (var user in issue.assignees)

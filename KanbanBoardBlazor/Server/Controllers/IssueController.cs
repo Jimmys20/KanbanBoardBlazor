@@ -35,8 +35,8 @@ namespace KanbanBoardBlazor.Server.Controllers
 
             await issueRepository.save(issueEntity);
 
-            issue.issueId = issueEntity.issueId;
-            issue.createdAt = issueEntity.createdAt;
+            issue.issueId = issueEntity.IssueId;
+            issue.createdAt = issueEntity.CreatedAt;
      
 
             return issue;
@@ -45,7 +45,7 @@ namespace KanbanBoardBlazor.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IssueDto> UpdateAsync(long id, IssueDto issue)
         {
-            var issueEntity = await issueRepository.getIssueById(id);
+            var issueEntity = await issueRepository.Get(id);
 
             mapper.Map(issue, issueEntity);
 
@@ -58,7 +58,7 @@ namespace KanbanBoardBlazor.Server.Controllers
 
             await issueRepository.save(issueEntity);
 
-            issue.updatedAt = issueEntity.updatedAt;
+            issue.updatedAt = issueEntity.UpdatedAt;
 
             return issue;
         }

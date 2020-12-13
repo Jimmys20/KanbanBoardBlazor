@@ -10,20 +10,21 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
 {
     public class IssueRepository
     {
-        private readonly IssueTrackerDbContext context;
+        private readonly AppDbContext _context;
 
-        public IssueRepository(IssueTrackerDbContext context)
+        public IssueRepository(AppDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
-        public async Task<Issue> getIssueById(long id)
+        public async Task<Issue> Get(long id)
         {
             Issue issue = null;
 
-            issue = await context.issues
-                .Include(i => i.assignees).ThenInclude(a => a.user)
-                .FirstOrDefaultAsync(i => i.issueId == id);
+            issue = await _context.Issues
+                .Include(i => i.Assignees).ThenInclude(a => a.User)
+                .Include(i => i.IssueTags).ThenInclude(a => a.Tag)
+                .FirstOrDefaultAsync(i => i.IssueId == id);
 
             return issue;
         }

@@ -26,10 +26,8 @@ namespace KanbanBoardBlazor.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            #region EF Core configuration
-            services.AddDbContext<IssueTrackerDbContext>(options =>
-                options.UseOracle(configuration.GetConnectionString("IssueTrackerDbContext")));
-            #endregion
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseOracle(configuration.GetConnectionString("AppDbContext")));
 
             services.AddScoped<ProjectRepository>();
             services.AddScoped<IssueRepository>();

@@ -1,19 +1,23 @@
 ﻿using KanbanBoardBlazor.Server.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Server.Dal.Entities
 {
+    [Table("PROJECT")]
     public class Project
     {
-        public long projectId { get; set; }
+        [Column("PROJECT_ID")]
+        public long ProjectId { get; set; }
 
-        public string name { get; set; }
+        [Column("NAME")]
+        public string Name { get; set; }
 
-        public List<Stage> stages { get; set; }
+        public List<Stage> Stages { get; set; }
 
-        public List<Issue> issues { get; set; }
+        public List<Issue> Issues { get; set; }
     }
 }

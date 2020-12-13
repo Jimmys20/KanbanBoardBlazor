@@ -10,9 +10,9 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
 {
     public class UserRepository
     {
-        private readonly IssueTrackerDbContext context;
+        private readonly AppDbContext context;
 
-        public UserRepository(IssueTrackerDbContext context)
+        public UserRepository(AppDbContext context)
         {
             this.context = context;
         }
@@ -21,7 +21,7 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
         {
             List<User> users = null;
 
-            users = await context.users.ToListAsync();
+            users = await context.Users.ToListAsync();
 
             return users;
         }

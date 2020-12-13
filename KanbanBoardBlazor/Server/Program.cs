@@ -23,7 +23,7 @@ namespace KanbanBoardBlazor.Server
 
                 try
                 {
-                    var context = services.GetRequiredService<IssueTrackerDbContext>();
+                    var context = services.GetRequiredService<AppDbContext>();
                     //context.Database.EnsureCreated();
                     DbInitializer.initialize(context);
                 }

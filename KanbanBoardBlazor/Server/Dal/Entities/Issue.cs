@@ -2,35 +2,48 @@
 using KanbanBoardBlazor.Shared;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Server.Dal.Entities
 {
+    [Table("ISSUE")]
     public class Issue
     {
-        public long issueId { get; set; }
+        [Column("ISSUE_ID")]
+        public long IssueId { get; set; }
 
-        public string title { get; set; }
+        [Column("TITLE")]
+        public string Title { get; set; }
 
-        public string description { get; set; }
+        [Column("DESCRIPTION")]
+        public string Description { get; set; }
 
-        public DateTime? deadline { get; set; }
+        [Column("DEADLINE")]
+        public DateTime? Deadline { get; set; }
 
-        public Priority priority { get; set; }
+        [Column("PRIORITY")]
+        public Priority Priority { get; set; }
 
-        public DateTime createdAt { get; set; }
+        [Column("CREATED_AT")]
+        public DateTime CreatedAt { get; set; }
 
-        public DateTime? updatedAt { get; set; }
+        [Column("UPDATED_AT")]
+        public DateTime? UpdatedAt { get; set; }
 
-        public bool isOpen { get; set; }
+        [Column("IS_OPEN")]
+        public bool IsOpen { get; set; }
 
-        public long? stageId { get; set; }
-        public Stage stage { get; set; }
+        [Column("STAGE_ID")]
+        public long? StageId { get; set; }
+        public Stage Stage { get; set; }
 
-        public long? projectId { get; set; }
-        public Project project { get; set; }
+        [Column("PROJECT_ID")]
+        public long? ProjectId { get; set; }
+        public Project Project { get; set; }
 
-        public List<Assignment> assignees { get; set; }
+        public List<Assignment> Assignees { get; set; }
+        public List<IssueTag> IssueTags { get; set; }
     }
 }

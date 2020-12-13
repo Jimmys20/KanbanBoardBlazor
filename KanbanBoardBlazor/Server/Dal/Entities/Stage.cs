@@ -1,26 +1,34 @@
 ﻿using KanbanBoardBlazor.Server.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Server.Dal.Entities
 {
+    [Table("STAGE")]
     public class Stage
     {
-        public long stageId { get; set; }
+        [Column("STAGE_ID")]
+        public long StageId { get; set; }
 
-        public int position { get; set; }
+        [Column("POSITION")]
+        public int Position { get; set; }
 
-        public string title { get; set; }
+        [Column("TITLE")]
+        public string Title { get; set; }
 
-        public string color { get; set; }
+        [Column("COLOR")]
+        public string Color { get; set; }
 
-        public int? limit { get; set; }
+        [Column("LIMIT")]
+        public int? Limit { get; set; }
 
-        public long projectId { get; set; }
-        public Project project { get; set; }
+        [Column("PROJECT_ID")]
+        public long ProjectId { get; set; }
+        public Project Project { get; set; }
 
-        public List<Issue> issues { get; set; }
+        public List<Issue> Issues { get; set; }
     }
 }

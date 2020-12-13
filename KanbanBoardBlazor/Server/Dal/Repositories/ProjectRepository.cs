@@ -10,9 +10,9 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
 {
     public class ProjectRepository
     {
-        private readonly IssueTrackerDbContext context;
+        private readonly AppDbContext context;
 
-        public ProjectRepository(IssueTrackerDbContext context)
+        public ProjectRepository(AppDbContext context)
         {
             this.context = context;
         }
@@ -21,8 +21,8 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
         {
             Project project = null;
 
-            project = await context.projects.Include(p => p.stages)
-                .Include(p => p.issues).FirstOrDefaultAsync(p => p.projectId == id);
+            project = await context.Projects.Include(p => p.Stages)
+                .Include(p => p.Issues).FirstOrDefaultAsync(p => p.ProjectId == id);
 
             return project;
         }

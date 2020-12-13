@@ -11,23 +11,23 @@ namespace KanbanBoardBlazor.Server.Dal
 {
     public static class DbInitializer
     {
-        public static void initialize(IssueTrackerDbContext context)
+        public static void initialize(AppDbContext context)
         {
             context.Database.EnsureDeleted(new string[] { "PANAGIOTIS" });
             context.Database.EnsureCreated(new string[] { "PANAGIOTIS" });
 
             var users = new List<User>
                 {
-                    new User {lastName="Μαραγκός", firstName="Δημήτρης"},
-                    new User {lastName="Πιπερόπουλος", firstName="Παναγιώτης"},
-                    new User {lastName="Κρίτου", firstName="Μαρία"},
-                    new User {lastName="Πατρίκιος", firstName="Γιώργος"},
-                    new User {lastName="Σεϊτανίδης", firstName="Γιώργος"},
-                    new User {lastName="Φωκιανός", firstName="Βαγγέλης"},
-                    new User {lastName="Κατσάδας", firstName="Βαγγέλης"},
-                    new User {lastName="Παυλίδης", firstName="Χρόνης"},
-                    new User {lastName="Ράπτης", firstName="Άκης"},
-                    new User {lastName="Καρυπίδης", firstName="Χριστόφορος"},
+                    new User {LastName="Μαραγκός", FirstName="Δημήτρης"},
+                    new User {LastName="Πιπερόπουλος", FirstName="Παναγιώτης"},
+                    new User {LastName="Κρίτου", FirstName="Μαρία"},
+                    new User {LastName="Πατρίκιος", FirstName="Γιώργος"},
+                    new User {LastName="Σεϊτανίδης", FirstName="Γιώργος"},
+                    new User {LastName="Φωκιανός", FirstName="Βαγγέλης"},
+                    new User {LastName="Κατσάδας", FirstName="Βαγγέλης"},
+                    new User {LastName="Παυλίδης", FirstName="Χρόνης"},
+                    new User {LastName="Ράπτης", FirstName="Άκης"},
+                    new User {LastName="Καρυπίδης", FirstName="Χριστόφορος"},
                     //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"},
                     //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"},
                     //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"},
@@ -36,7 +36,7 @@ namespace KanbanBoardBlazor.Server.Dal
                     //new UserEntity {lastName="Μαραγκός", firstName="Δημήτρης"}
                 };
 
-            context.users.AddRange(users);
+            context.Users.AddRange(users);
             context.SaveChanges();
 
 
@@ -44,18 +44,18 @@ namespace KanbanBoardBlazor.Server.Dal
         {
           new Issue
           {
-            priority = Priority.LOW,
-            title = "Issue 1"
+            Priority = Priority.LOW,
+            Title = "Issue 1"
           },
           new Issue
           {
-            priority = Priority.HIGH,
-            title = "Issue 2"
+            Priority = Priority.HIGH,
+            Title = "Issue 2"
           },
           new Issue
           {
-            priority = Priority.CRITICAL,
-            title = "Issue 3"
+            Priority = Priority.CRITICAL,
+            Title = "Issue 3"
           }
         };
 
@@ -68,64 +68,83 @@ namespace KanbanBoardBlazor.Server.Dal
             //  });
             //}
 
-            context.issues.AddRange(issues);
+            context.Issues.AddRange(issues);
             context.SaveChanges();
 
             var board = new Project
             {
-                projectId = 100,
-                name = "KanbanBoard",
-                stages = new List<Stage>
+                ProjectId = 100,
+                Name = "KanbanBoard",
+                Stages = new List<Stage>
           {
             new Stage
             {
-                position = 0,
-              title = "Backlog",
-              color = "cyan",
-              issues = new List<Issue>
+                Position = 0,
+              Title = "Backlog",
+              Color = "cyan",
+              Issues = new List<Issue>
               {
                 new Issue
                 {
-                    projectId = 100,
-                  issueId = 100,
-                  title = "MongoDB Migrations",
+                    ProjectId = 100,
+                  IssueId = 100,
+                  Title = "MongoDB Migrations",
 
-                  deadline = DateTime.Now.AddYears(2),
-                  priority = Priority.LOW
+                  Deadline = DateTime.Now.AddYears(2),
+                  Priority = Priority.LOW,
+                  IssueTags = new List<IssueTag>
+                  {
+                      new IssueTag
+                      {
+                          Tag = new Tag
+                          {
+                              Text = "Development",
+                              CssClass = "navy white"
+                          }
+                      },
+                      new IssueTag
+                      {
+                          Tag = new Tag
+                          {
+                              Text = "Support",
+                              CssClass = "lime black"
+                          }
+                      }
+                  }
                 },
                 new Issue
                 {
-                    projectId = 100,
-                  title = "Rotation Curson: Needs White Border",
+                    ProjectId = 100,
+                  Title = "Rotation Curson: Needs White Border",
 
-                  deadline = DateTime.Now.AddMonths(6),
-                  priority = Priority.MEDIUM
+                  Deadline = DateTime.Now.AddMonths(6),
+                  Priority = Priority.MEDIUM
                 }
               }
             },
             new Stage
             {
-                position = 2,
-              title = "In progress",
-              color = "magenta",
-              issues = new List<Issue>
+                Position = 2,
+              Title = "In progress",
+              Color = "magenta",
+              Issues = new List<Issue>
               {
                 new Issue
                 {
-                    projectId = 100,
-                  title = "Page Settings does not respect Command+Z",
+                    ProjectId = 100,
+                  Title = "Page Settings does not respect Command+Z",
 
-                  deadline = DateTime.Now.AddMonths(3),
-                  priority = Priority.HIGH
+                  Deadline = DateTime.Now.AddMonths(3),
+                  Priority = Priority.HIGH
 
                 },
                 new Issue
                 {
-                    projectId = 100,
-                  title = "Grid doesn't respect page size",
+                    ProjectId = 100,
+                  Title = "Grid doesn't respect page size",
 
-                  deadline = DateTime.Now.AddDays(21),
-                  priority = Priority.CRITICAL//,
+                  Deadline = DateTime.Now.AddDays(21),
+                  Priority = Priority.CRITICAL//,
                   //assignees = new List<UserEntity>
                   //{
                   //    new UserEntity
@@ -138,54 +157,54 @@ namespace KanbanBoardBlazor.Server.Dal
             },
             new Stage
             {
-                position = 1,
-              title = "Done",
-              color = "yellow",
-              issues = new List<Issue>
+                Position = 1,
+              Title = "Done",
+              Color = "yellow",
+              Issues = new List<Issue>
               {
                 new Issue
                 {
-                    projectId = 100,
-                  title = "Preview of page does not be updated after change page size name",
+                    ProjectId = 100,
+                  Title = "Preview of page does not be updated after change page size name",
 
-                  deadline = DateTime.Now.AddDays(14),
-                  priority = Priority.MEDIUM,
-                  isOpen = true
+                  Deadline = DateTime.Now.AddDays(14),
+                  Priority = Priority.MEDIUM,
+                  IsOpen = true
                 },
                 new Issue
                 {
-                    projectId = 100,
-                  title = "User changes width/height: pages size not saved",
+                    ProjectId = 100,
+                  Title = "User changes width/height: pages size not saved",
 
-                  deadline = DateTime.Now.AddDays(6),
-                  priority = Priority.HIGH,
-                  isOpen = true
+                  Deadline = DateTime.Now.AddDays(6),
+                  Priority = Priority.HIGH,
+                  IsOpen = true
                 }
               }
             }
           }
             };
 
-            context.projects.Add(board);
+            context.Projects.Add(board);
             context.SaveChanges();
 
             var projects = new List<Project>
         {
           new Project
           {
-            name = "Overview"
+            Name = "Overview"
           },
           new Project
           {
-            name = "CasinoCRM"
+            Name = "CasinoCRM"
           },
           new Project
           {
-            name = "StarTouch"
+            Name = "StarTouch"
           }
         };
 
-            context.projects.AddRange(projects);
+            context.Projects.AddRange(projects);
             context.SaveChanges();
         }
         
