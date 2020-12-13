@@ -8,17 +8,17 @@ namespace KanbanBoardBlazor.Shared
 {
     public class StageDto
     {
-        public string stageKey { get; set; }
+        public string StageKey { get; set; }
 
-        public int position { get; set; }
+        public int Position { get; set; }
 
-        public string title { get; set; }
+        public string Title { get; set; }
 
-        public string color { get; set; }
+        public string Color { get; set; }
 
-        public int? limit { get; set; }
+        public int? Limit { get; set; }
 
-        public long projectId { get; set; }
+        public long ProjectId { get; set; }
         //public Project project { get; set; }
 
         //public List<Issue> issues { get; set; }

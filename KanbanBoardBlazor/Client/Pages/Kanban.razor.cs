@@ -47,11 +47,11 @@ namespace KanbanBoardBlazor.Client.Pages
                 {
                     IssueDto issue = args.Data;
 
-                    issue.title = titleRef.Value;
-                    issue.deadline = deadlineRef.Value;
-                    issue.description = descriptionRef.Value;
-                    issue.priority = priorityRef.Value;
-                    issue.assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList();
+                    issue.Title = titleRef.Value;
+                    issue.Deadline = deadlineRef.Value;
+                    issue.Description = descriptionRef.Value;
+                    issue.Priority = priorityRef.Value;
+                    //issue.assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList();
 
                     //await kanbanRef.UpdateCard(issue);
                 }
@@ -59,11 +59,11 @@ namespace KanbanBoardBlazor.Client.Pages
                 {
                     IssueDto issue = args.Data;
 
-                    issue.title = titleRef.Value;
-                    issue.deadline = deadlineRef.Value;
-                    issue.description = descriptionRef.Value;
-                    issue.priority = priorityRef.Value;
-                    issue.assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList();
+                    issue.Title = titleRef.Value;
+                    issue.Deadline = deadlineRef.Value;
+                    issue.Description = descriptionRef.Value;
+                    issue.Priority = priorityRef.Value;
+                    //issue.assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList();
 
                     //var t = args.Data;
 
@@ -85,8 +85,8 @@ namespace KanbanBoardBlazor.Client.Pages
         {
             IssueDto issue = new IssueDto
             {
-                stageKey = project.stages[0].stageKey,
-                projectId = project.projectId
+                StageKey = project.stages[0].StageKey,
+                ProjectId = project.projectId
             };
             kanbanRef.OpenDialog(CurrentAction.Add, issue);
         }
@@ -103,8 +103,8 @@ namespace KanbanBoardBlazor.Client.Pages
             {
                 var createdIssue = await issueService.Create(issue);
 
-                issue.issueId = createdIssue.issueId;
-                issue.createdAt = createdIssue.createdAt;
+                issue.IssueId = createdIssue.IssueId;
+                issue.CreatedAt = createdIssue.CreatedAt;
 
             }
 
@@ -112,12 +112,12 @@ namespace KanbanBoardBlazor.Client.Pages
             {
                 var updatedIssue = await issueService.Update(issue);
 
-                issue.updatedAt = updatedIssue.updatedAt;
+                issue.UpdatedAt = updatedIssue.UpdatedAt;
             }
 
             foreach (var issue in args.DeletedRecords ?? Enumerable.Empty<IssueDto>())
             {
-                await issueService.Delete(issue.issueId);
+                await issueService.Delete(issue.IssueId);
             }
         }
 

@@ -4,20 +4,20 @@
 <SfDialog @ref="aa" @bind-Visible="@isVisible" ShowCloseIcon="true" IsModal="true" Width="550px">
     <DialogTemplates>
         <Header>
-            <h3 class="m-0">@issue.title</h3>
+            <h3 class="m-0">@issue.Title</h3>
         </Header>
         <Content>
             <dl class="row">
                 <dt class="col-sm-2">Id</dt>
-                <dd class="col-sm-10">@issue.issueId</dd>
+                <dd class="col-sm-10">@issue.IssueId</dd>
                 @*<dt class="col-sm-2">Title</dt>
                 <dd class="col-sm-10">@issue.title</dd>*@
                 <dt class="col-sm-2">Priority</dt>
-                <dd class="col-sm-10">@issue.priority</dd>
+                <dd class="col-sm-10">@issue.Priority</dd>
                 <dt class="col-sm-2">Deadline</dt>
                 <dd class="col-sm-10">@(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToShortTimeString())</dd>
                 <dt class="col-sm-2">Description</dt>
-                <dd class="col-sm-10">@issue.description</dd>
+                <dd class="col-sm-10">@issue.Description</dd>
                 
             </dl>
         </Content>

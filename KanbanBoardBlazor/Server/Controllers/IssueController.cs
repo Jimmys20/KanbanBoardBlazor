@@ -14,29 +14,31 @@ namespace KanbanBoardBlazor.Server.Controllers
     [Route("api/[controller]")]
     public class IssueController : ControllerBase
     {
-        private readonly IssueRepository issueRepository;
-        private readonly IMapper mapper;
+        private readonly IssueRepository _issueRepository;
+        private readonly IMapper _mapper;
 
         public IssueController(IssueRepository issueRepository, IMapper mapper)
         {
-            this.issueRepository = issueRepository;
-            this.mapper = mapper;
+            _issueRepository = issueRepository;
+            _mapper = mapper;
         }
 
         [HttpPost]
         public async Task<IssueDto> CreateAsync(IssueDto issue)
         {
-            var issueEntity = mapper.Map<Issue>(issue);
+            var issueEntity = _mapper.Map<Issue>(issue);
 
             //foreach (var user in issueEntity.assignees)
             //{
             //    user.state = SQWEntityState.esModified;
             //}
 
-            await issueRepository.save(issueEntity);
+            issueEntity.CreatedAt = DateTime.UtcNow;
 
-            issue.issueId = issueEntity.IssueId;
-            issue.createdAt = issueEntity.CreatedAt;
+            await _issueRepository.Create(issueEntity);
+
+            issue.IssueId = issueEntity.IssueId;
+            issue.CreatedAt = issueEntity.CreatedAt;
      
 
             return issue;
@@ -45,9 +47,9 @@ namespace KanbanBoardBlazor.Server.Controllers
         [HttpPut("{id}")]
         public async Task<IssueDto> UpdateAsync(long id, IssueDto issue)
         {
-            var issueEntity = await issueRepository.Get(id);
+            var issueEntity = await _issueRepository.Get(id);
 
-            mapper.Map(issue, issueEntity);
+            _mapper.Map(issue, issueEntity);
 
             //foreach(var user in issueEntity.assignees)
             //{
@@ -56,9 +58,11 @@ namespace KanbanBoardBlazor.Server.Controllers
 
             //issueEntity.state = SQWEntityState.esModified;
 
-            await issueRepository.save(issueEntity);
+            issueEntity.UpdatedAt = DateTime.UtcNow;
 
-            issue.updatedAt = issueEntity.UpdatedAt;
+            await _issueRepository.Update(issueEntity);
+
+            issue.UpdatedAt = issueEntity.UpdatedAt;
 
             return issue;
         }
@@ -66,11 +70,7 @@ namespace KanbanBoardBlazor.Server.Controllers
         [HttpDelete("{id}")]
         public async Task DeleteAsync(long id)
         {
-            //await issueRepository.save(new Issue
-            //{
-            //    issueId = id,
-            //    state = SQWEntityState.esDeleted
-            //});
+            await _issueRepository.Delete(id);
         }
     }
 }

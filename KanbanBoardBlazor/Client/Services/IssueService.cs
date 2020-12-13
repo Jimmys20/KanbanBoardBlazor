@@ -26,7 +26,7 @@ namespace KanbanBoardBlazor.Client.Services
 
         public async Task<IssueDto> Update(IssueDto issue)
         {
-            var updatedIssue = await httpClient.PutAsJsonAsync($"api/Issue/{issue.issueId}", issue);
+            var updatedIssue = await httpClient.PutAsJsonAsync($"api/Issue/{issue.IssueId}", issue);
             return await updatedIssue.Content.ReadAsAsync<IssueDto>();
         }
 

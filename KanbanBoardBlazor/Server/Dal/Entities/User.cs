@@ -15,6 +15,12 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
 
         //public long guardianUserId { get; set; }
 
+        [Column("USERNAME")]
+        public string Username { get; set; }
+
+        [Column("PASSWORD")]
+        public string Password { get; set; }
+
         [Column("LAST_NAME")]
         public string LastName { get; set; }
 

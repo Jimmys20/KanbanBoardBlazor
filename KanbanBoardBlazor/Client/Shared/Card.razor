@@ -2,21 +2,21 @@
 
 <div class="card" style="border-left: 3px solid @priorityClass">
     <div class="card-body">
-        <h5>@issue.title</h5>
+        <h5>@issue.Title</h5>
         <p>
             <span class="badge bg-navy white">Development</span>
             <span class="badge bg-lime black">Support</span>
         </p>
         <span class="card-text text-muted">
 
-            @foreach (var user in issue.assignees)
+            @*@foreach (var user in issue.assignees)
             {
-                @*<a class="btn btn-secondary e-round">@user.username</a>*@
+                <a class="btn btn-secondary e-round">@user.username</a>
                 <SfButton CssClass="e-round btn-secondary">@user.initials</SfButton>
-            }
+            }*@
 
         </span>
-        <span class="card-text float-right text-muted">@issue.deadline?.ToString("d/M/yyyy")</span>
+        <span class="card-text float-right text-muted">@issue.Deadline?.ToString("d/M/yyyy")</span>
     </div>
 </div>
 
@@ -25,9 +25,9 @@
     public IssueDto issue { get; set; }
 
     private string priorityClass =>
-      issue.priority == Priority.LOW ? "#28a745" :
-      issue.priority == Priority.MEDIUM ? "#007bff" :
-      issue.priority == Priority.HIGH ? "#ffc107" :
-      issue.priority == Priority.CRITICAL ? "#dc3545" :
+      issue.Priority == Priority.LOW ? "#28a745" :
+      issue.Priority == Priority.MEDIUM ? "#007bff" :
+      issue.Priority == Priority.HIGH ? "#ffc107" :
+      issue.Priority == Priority.CRITICAL ? "#dc3545" :
       "badge-secondary";
 }

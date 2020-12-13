@@ -29,12 +29,27 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
             return issue;
         }
 
-        public async Task save(Issue issue)
+        public async Task Create(Issue issue)
         {
-            //await worker.runAsync(context =>
-            //{
-            //    context.save(issue);
-            //});
+            _context.Issues.Add(issue);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Update(Issue issue)
+        {
+            _context.Issues.Update(issue);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(long id)
+        {
+            _context.Issues.Remove(new Issue
+            {
+                IssueId = id
+            });
+
+            await _context.SaveChangesAsync();
         }
     }
 }

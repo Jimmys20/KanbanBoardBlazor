@@ -11,7 +11,7 @@
     <button class="btn btn-primary mb-3" @onclick="showAddCardDialog">Add Card</button>
 
 
-    <SfKanban @ref="kanbanRef" TValue="IssueDto" KeyField="stageKey" DataSource="project.issues">
+    <SfKanban @ref="kanbanRef" TValue="IssueDto" KeyField="StageKey" DataSource="project.issues">
         <KanbanSortSettings SortBy="SortOrderBy.DataSourceOrder">
             
         </KanbanSortSettings>
@@ -20,12 +20,12 @@
                 {
                   <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.key }"></KanbanColumn>
                 }*@
-            @foreach (var stage in project.stages.OrderBy(s => s.position))
+            @foreach (var stage in project.stages.OrderBy(s => s.Position))
             {
-                <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.stageKey }" AllowToggle="true"></KanbanColumn>
+                <KanbanColumn HeaderText="@stage.Title" KeyField="new List<string> { stage.StageKey }" AllowToggle="true"></KanbanColumn>
             }
         </KanbanColumns>
-        <KanbanCardSettings HeaderField="issueId" ContentField="title">
+        <KanbanCardSettings HeaderField="IssueId" ContentField="Title">
             <Template>
                 <Card issue="(IssueDto)context"></Card>
             </Template>
@@ -35,47 +35,47 @@
                 @{
                     var issue = (IssueDto)context;
 
-                    var test = issue.assignees != null ? issue.assignees.Select(a => a.userId).ToList() : null;
+                    //var test = issue.assignees != null ? issue.assignees.Select(a => a.userId).ToList() : null;
 
-                    Console.WriteLine(JsonSerializer.Serialize(issue.assignees));
-                    @if (issue.issueId != default(long))
+                    //Console.WriteLine(JsonSerializer.Serialize(issue.assignees));
+                    @if (issue.IssueId != default(long))
                     {
                     <div class="form-group row">
                         <div class="col-sm-4">
-                            <SfTextBox Placeholder="Id" Value="@issue.issueId.ToString()" Readonly="true" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+                            <SfTextBox Placeholder="Id" Value="@issue.IssueId.ToString()" Readonly="true" FloatLabelType="FloatLabelType.Always"></SfTextBox>
                         </div>
 
                         <div class="col-sm-4">
-                            <SfDatePicker Placeholder="Created at" Value="@issue.createdAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
+                            <SfDatePicker Placeholder="Created at" Value="@issue.CreatedAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
                         </div>
                         <div class="col-sm-4">
-                            <SfDatePicker Placeholder="Updated at" Value="@issue.updatedAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
+                            <SfDatePicker Placeholder="Updated at" Value="@issue.UpdatedAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
                         </div>
                     </div>
                     }
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <SfTextBox @ref="titleRef" Placeholder="Title" Value="@issue.title" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+                            <SfTextBox @ref="titleRef" Placeholder="Title" Value="@issue.Title" FloatLabelType="FloatLabelType.Always"></SfTextBox>
                         </div>
-                        <div class="col-sm-6">
+                        @*<div class="col-sm-6">
                             <SfMultiSelect @ref="assigneesRef" Placeholder="Assignees" Value="@test" FloatLabelType="FloatLabelType.Always" DataSource="users">
                                 <MultiSelectFieldSettings Value="userId" Text="fullName"></MultiSelectFieldSettings>
                             </SfMultiSelect>
-                        </div>
+                        </div>*@
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-6">
-                            <SfDropDownList @ref="priorityRef" Placeholder="Priority" Value="@issue.priority" FloatLabelType="FloatLabelType.Always" DataSource="Enum.GetNames(typeof(Priority))"></SfDropDownList>
+                            <SfDropDownList @ref="priorityRef" Placeholder="Priority" Value="@issue.Priority" FloatLabelType="FloatLabelType.Always" DataSource="Enum.GetNames(typeof(Priority))"></SfDropDownList>
                         </div>
                         <div class="col-sm-6">
-                            <SfDatePicker @ref="deadlineRef" Placeholder="Deadline" Value="@issue.deadline" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
+                            <SfDatePicker @ref="deadlineRef" Placeholder="Deadline" Value="@issue.Deadline" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
 
                         </div>
                     </div>
 
                     
                     <div class="form-group">
-                        <SfTextBox @ref="descriptionRef" Placeholder="Description" Value="@issue.description" Multiline="true" FloatLabelType="FloatLabelType.Always"
+                        <SfTextBox @ref="descriptionRef" Placeholder="Description" Value="@issue.Description" Multiline="true" FloatLabelType="FloatLabelType.Always"
                                    rows="7"></SfTextBox>
                     </div>
                 }
