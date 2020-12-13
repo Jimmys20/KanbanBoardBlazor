@@ -25,9 +25,9 @@
     public IssueDto issue { get; set; }
 
     private string priorityClass =>
-      issue.Priority == Priority.LOW ? "#28a745" :
-      issue.Priority == Priority.MEDIUM ? "#007bff" :
-      issue.Priority == Priority.HIGH ? "#ffc107" :
-      issue.Priority == Priority.CRITICAL ? "#dc3545" :
+      issue.Priority == Priority.Low ? "#28a745" :
+      issue.Priority == Priority.Medium ? "#007bff" :
+      issue.Priority == Priority.High ? "#ffc107" :
+      issue.Priority == Priority.Critical ? "#dc3545" :
       "badge-secondary";
 }

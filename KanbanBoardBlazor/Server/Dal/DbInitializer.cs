@@ -44,17 +44,17 @@ namespace KanbanBoardBlazor.Server.Dal
         {
           new Issue
           {
-            Priority = Priority.LOW,
+            Priority = Priority.Low,
             Title = "Issue 1"
           },
           new Issue
           {
-            Priority = Priority.HIGH,
+            Priority = Priority.High,
             Title = "Issue 2"
           },
           new Issue
           {
-            Priority = Priority.CRITICAL,
+            Priority = Priority.Critical,
             Title = "Issue 3"
           }
         };
@@ -91,7 +91,7 @@ namespace KanbanBoardBlazor.Server.Dal
                   Title = "MongoDB Migrations",
 
                   Deadline = DateTime.Now.AddYears(2),
-                  Priority = Priority.LOW,
+                  Priority = Priority.Low,
                   IssueTags = new List<IssueTag>
                   {
                       new IssueTag
@@ -118,7 +118,7 @@ namespace KanbanBoardBlazor.Server.Dal
                   Title = "Rotation Curson: Needs White Border",
 
                   Deadline = DateTime.Now.AddMonths(6),
-                  Priority = Priority.MEDIUM
+                  Priority = Priority.Medium
                 }
               }
             },
@@ -135,7 +135,7 @@ namespace KanbanBoardBlazor.Server.Dal
                   Title = "Page Settings does not respect Command+Z",
 
                   Deadline = DateTime.Now.AddMonths(3),
-                  Priority = Priority.HIGH
+                  Priority = Priority.High
 
                 },
                 new Issue
@@ -144,7 +144,7 @@ namespace KanbanBoardBlazor.Server.Dal
                   Title = "Grid doesn't respect page size",
 
                   Deadline = DateTime.Now.AddDays(21),
-                  Priority = Priority.CRITICAL//,
+                  Priority = Priority.Critical//,
                   //assignees = new List<UserEntity>
                   //{
                   //    new UserEntity
@@ -168,7 +168,7 @@ namespace KanbanBoardBlazor.Server.Dal
                   Title = "Preview of page does not be updated after change page size name",
 
                   Deadline = DateTime.Now.AddDays(14),
-                  Priority = Priority.MEDIUM,
+                  Priority = Priority.Medium,
                   IsOpen = true
                 },
                 new Issue
@@ -177,7 +177,7 @@ namespace KanbanBoardBlazor.Server.Dal
                   Title = "User changes width/height: pages size not saved",
 
                   Deadline = DateTime.Now.AddDays(6),
-                  Priority = Priority.HIGH,
+                  Priority = Priority.High,
                   IsOpen = true
                 }
               }

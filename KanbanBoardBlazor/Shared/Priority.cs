@@ -8,9 +8,9 @@ namespace KanbanBoardBlazor.Shared
 {
     public enum Priority
     {
-        LOW,
-        MEDIUM,
-        HIGH,
-        CRITICAL
+        Low,
+        Medium,
+        High,
+        Critical
     }
 }
