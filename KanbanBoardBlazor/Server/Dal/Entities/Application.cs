@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Server.Dal.Entities
 {
-    [Table("CUSTOMER")]
-    public class Customer
+    [Table("APPLICATION")]
+    public class Application
     {
-        [Column("CUSTOMER_ID")]
-        public long CustomerId { get; set; }
+        [Column("APPLICATION_ID")]
+        public long ApplicationId { get; set; }
 
         [Column("NAME")]
         public string Name { get; set; }
-
-        public List<IssueCustomer> IssueCustomers { get; set; }
     }
 }

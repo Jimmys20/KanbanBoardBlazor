@@ -27,11 +27,13 @@ namespace KanbanBoardBlazor.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseOracle(configuration.GetConnectionString("AppDbContext")));
+                options.UseOracle(configuration.GetConnectionString("AppDbContext"), x => x.MigrationsHistoryTable("EF_MIGRATIONS_HISTORY", "ISSUE_TRACKER")));
 
             services.AddScoped<ProjectRepository>();
             services.AddScoped<IssueRepository>();
             services.AddScoped<UserRepository>();
+            services.AddScoped<TagRepository>();
+            services.AddScoped<CustomerRepository>();
 
             services.AddAutoMapper(typeof(Startup));
 

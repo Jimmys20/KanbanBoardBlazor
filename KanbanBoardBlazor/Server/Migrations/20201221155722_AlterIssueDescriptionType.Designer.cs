@@ -10,8 +10,8 @@ using Oracle.EntityFrameworkCore.Metadata;
 namespace KanbanBoardBlazor.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20201213000604_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201221155722_AlterIssueDescriptionType")]
+    partial class AlterIssueDescriptionType
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,23 @@ namespace KanbanBoardBlazor.Server.Migrations
                     b.ToTable("ASSIGNMENT");
                 });
 
+            modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.Customer", b =>
+                {
+                    b.Property<long>("CustomerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("CUSTOMER_ID")
+                        .HasColumnType("NUMBER(19)")
+                        .HasAnnotation("Oracle:ValueGenerationStrategy", OracleValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnName("NAME")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.HasKey("CustomerId");
+
+                    b.ToTable("CUSTOMER");
+                });
+
             modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.Issue", b =>
                 {
                     b.Property<long>("IssueId")
@@ -57,7 +74,7 @@ namespace KanbanBoardBlazor.Server.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnName("DESCRIPTION")
-                        .HasColumnType("NVARCHAR2(2000)");
+                        .HasColumnType("NCLOB");
 
                     b.Property<bool>("IsOpen")
                         .HasColumnName("IS_OPEN")
@@ -90,6 +107,40 @@ namespace KanbanBoardBlazor.Server.Migrations
                     b.HasIndex("StageId");
 
                     b.ToTable("ISSUE");
+                });
+
+            modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.IssueCustomer", b =>
+                {
+                    b.Property<long>("IssueId")
+                        .HasColumnName("ISSUE_ID")
+                        .HasColumnType("NUMBER(19)");
+
+                    b.Property<long>("CustomerId")
+                        .HasColumnName("CUSTOMER_ID")
+                        .HasColumnType("NUMBER(19)");
+
+                    b.HasKey("IssueId", "CustomerId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("ISSUE_CUSTOMER");
+                });
+
+            modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.IssueTag", b =>
+                {
+                    b.Property<long>("IssueId")
+                        .HasColumnName("ISSUE_ID")
+                        .HasColumnType("NUMBER(19)");
+
+                    b.Property<long>("TagId")
+                        .HasColumnName("TAG_ID")
+                        .HasColumnType("NUMBER(19)");
+
+                    b.HasKey("IssueId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("ISSUE_TAG");
                 });
 
             modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.Project", b =>
@@ -144,6 +195,27 @@ namespace KanbanBoardBlazor.Server.Migrations
                     b.ToTable("STAGE");
                 });
 
+            modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.Tag", b =>
+                {
+                    b.Property<long>("TagId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("TAG_ID")
+                        .HasColumnType("NUMBER(19)")
+                        .HasAnnotation("Oracle:ValueGenerationStrategy", OracleValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CssClass")
+                        .HasColumnName("CSS_CLASS")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<string>("Text")
+                        .HasColumnName("TEXT")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.HasKey("TagId");
+
+                    b.ToTable("TAG");
+                });
+
             modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.User", b =>
                 {
                     b.Property<long>("UserId")
@@ -158,6 +230,14 @@ namespace KanbanBoardBlazor.Server.Migrations
 
                     b.Property<string>("LastName")
                         .HasColumnName("LAST_NAME")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<string>("Password")
+                        .HasColumnName("PASSWORD")
+                        .HasColumnType("NVARCHAR2(2000)");
+
+                    b.Property<string>("Username")
+                        .HasColumnName("USERNAME")
                         .HasColumnType("NVARCHAR2(2000)");
 
                     b.HasKey("UserId");
@@ -189,6 +269,36 @@ namespace KanbanBoardBlazor.Server.Migrations
                     b.HasOne("KanbanBoardBlazor.Server.Dal.Entities.Stage", "Stage")
                         .WithMany("Issues")
                         .HasForeignKey("StageId");
+                });
+
+            modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.IssueCustomer", b =>
+                {
+                    b.HasOne("KanbanBoardBlazor.Server.Dal.Entities.Customer", "Customer")
+                        .WithMany("IssueCustomers")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KanbanBoardBlazor.Server.Dal.Entities.Issue", "Issue")
+                        .WithMany("IssueCustomers")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.IssueTag", b =>
+                {
+                    b.HasOne("KanbanBoardBlazor.Server.Dal.Entities.Issue", "Issue")
+                        .WithMany("IssueTags")
+                        .HasForeignKey("IssueId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KanbanBoardBlazor.Server.Dal.Entities.Tag", "Tag")
+                        .WithMany("IssueTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("KanbanBoardBlazor.Server.Dal.Entities.Stage", b =>

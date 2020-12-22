@@ -30,6 +30,10 @@ namespace KanbanBoardBlazor.Shared
         public long? ProjectId { get; set; }
         //public Project project { get; set; }
 
-        //public List<UserDto> assignees { get; set; }
+        public List<UserDto> Assignees { get; set; }
+        public List<TagDto> Tags { get; set; }
+        public List<CustomerDto> Customers { get; set; }
+
+        public string AssigneesStr => string.Join("###", Assignees?.Select(a => a.UserId));
     }
 }

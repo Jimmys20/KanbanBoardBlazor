@@ -24,6 +24,7 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
             issue = await _context.Issues
                 .Include(i => i.Assignees).ThenInclude(a => a.User)
                 .Include(i => i.IssueTags).ThenInclude(a => a.Tag)
+                .Include(i => i.IssueCustomers).ThenInclude(a => a.Customer)
                 .FirstOrDefaultAsync(i => i.IssueId == id);
 
             return issue;

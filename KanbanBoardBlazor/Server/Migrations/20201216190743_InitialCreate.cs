@@ -18,12 +18,28 @@ namespace KanbanBoardBlazor.Server.Migrations
                 {
                     USER_ID = table.Column<long>(nullable: false)
                         .Annotation("Oracle:ValueGenerationStrategy", OracleValueGenerationStrategy.IdentityColumn),
+                    USERNAME = table.Column<string>(nullable: true),
+                    PASSWORD = table.Column<string>(nullable: true),
                     LAST_NAME = table.Column<string>(nullable: true),
                     FIRST_NAME = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_APP_USER", x => x.USER_ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CUSTOMER",
+                schema: "ISSUE_TRACKER",
+                columns: table => new
+                {
+                    CUSTOMER_ID = table.Column<long>(nullable: false)
+                        .Annotation("Oracle:ValueGenerationStrategy", OracleValueGenerationStrategy.IdentityColumn),
+                    NAME = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CUSTOMER", x => x.CUSTOMER_ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -38,6 +54,21 @@ namespace KanbanBoardBlazor.Server.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PROJECT", x => x.PROJECT_ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TAG",
+                schema: "ISSUE_TRACKER",
+                columns: table => new
+                {
+                    TAG_ID = table.Column<long>(nullable: false)
+                        .Annotation("Oracle:ValueGenerationStrategy", OracleValueGenerationStrategy.IdentityColumn),
+                    TEXT = table.Column<string>(nullable: true),
+                    CSS_CLASS = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TAG", x => x.TAG_ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,6 +159,60 @@ namespace KanbanBoardBlazor.Server.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ISSUE_CUSTOMER",
+                schema: "ISSUE_TRACKER",
+                columns: table => new
+                {
+                    ISSUE_ID = table.Column<long>(nullable: false),
+                    CUSTOMER_ID = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ISSUE_CUSTOMER", x => new { x.ISSUE_ID, x.CUSTOMER_ID });
+                    table.ForeignKey(
+                        name: "FK_ISSUE_CUSTOMER_CUSTOMER_CUSTOMER_ID",
+                        column: x => x.CUSTOMER_ID,
+                        principalSchema: "ISSUE_TRACKER",
+                        principalTable: "CUSTOMER",
+                        principalColumn: "CUSTOMER_ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ISSUE_CUSTOMER_ISSUE_ISSUE_ID",
+                        column: x => x.ISSUE_ID,
+                        principalSchema: "ISSUE_TRACKER",
+                        principalTable: "ISSUE",
+                        principalColumn: "ISSUE_ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ISSUE_TAG",
+                schema: "ISSUE_TRACKER",
+                columns: table => new
+                {
+                    ISSUE_ID = table.Column<long>(nullable: false),
+                    TAG_ID = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ISSUE_TAG", x => new { x.ISSUE_ID, x.TAG_ID });
+                    table.ForeignKey(
+                        name: "FK_ISSUE_TAG_ISSUE_ISSUE_ID",
+                        column: x => x.ISSUE_ID,
+                        principalSchema: "ISSUE_TRACKER",
+                        principalTable: "ISSUE",
+                        principalColumn: "ISSUE_ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ISSUE_TAG_TAG_TAG_ID",
+                        column: x => x.TAG_ID,
+                        principalSchema: "ISSUE_TRACKER",
+                        principalTable: "TAG",
+                        principalColumn: "TAG_ID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_ASSIGNMENT_USER_ID",
                 schema: "ISSUE_TRACKER",
@@ -147,6 +232,18 @@ namespace KanbanBoardBlazor.Server.Migrations
                 column: "STAGE_ID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ISSUE_CUSTOMER_CUSTOMER_ID",
+                schema: "ISSUE_TRACKER",
+                table: "ISSUE_CUSTOMER",
+                column: "CUSTOMER_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ISSUE_TAG_TAG_ID",
+                schema: "ISSUE_TRACKER",
+                table: "ISSUE_TAG",
+                column: "TAG_ID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_STAGE_PROJECT_ID",
                 schema: "ISSUE_TRACKER",
                 table: "STAGE",
@@ -160,11 +257,27 @@ namespace KanbanBoardBlazor.Server.Migrations
                 schema: "ISSUE_TRACKER");
 
             migrationBuilder.DropTable(
-                name: "ISSUE",
+                name: "ISSUE_CUSTOMER",
+                schema: "ISSUE_TRACKER");
+
+            migrationBuilder.DropTable(
+                name: "ISSUE_TAG",
                 schema: "ISSUE_TRACKER");
 
             migrationBuilder.DropTable(
                 name: "APP_USER",
+                schema: "ISSUE_TRACKER");
+
+            migrationBuilder.DropTable(
+                name: "CUSTOMER",
+                schema: "ISSUE_TRACKER");
+
+            migrationBuilder.DropTable(
+                name: "ISSUE",
+                schema: "ISSUE_TRACKER");
+
+            migrationBuilder.DropTable(
+                name: "TAG",
                 schema: "ISSUE_TRACKER");
 
             migrationBuilder.DropTable(

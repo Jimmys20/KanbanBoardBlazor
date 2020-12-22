@@ -3,15 +3,17 @@ using System;
 using KanbanBoardBlazor.Server.Dal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Oracle.EntityFrameworkCore.Metadata;
 
 namespace KanbanBoardBlazor.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201216190743_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +74,7 @@ namespace KanbanBoardBlazor.Server.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnName("DESCRIPTION")
-                        .HasColumnType("NCLOB");
+                        .HasColumnType("NVARCHAR2(2000)");
 
                     b.Property<bool>("IsOpen")
                         .HasColumnName("IS_OPEN")

@@ -21,13 +21,23 @@ namespace KanbanBoardBlazor.Client.Services
         public async Task<IssueDto> Create(IssueDto issue)
         {
             var createdIssue = await httpClient.PostAsJsonAsync($"api/Issue", issue);
-            return await createdIssue.Content.ReadAsAsync<IssueDto>();
+
+            var result = await createdIssue.Content.ReadFromJsonAsync<IssueDto>();
+
+            //var result = JsonSerializer.Deserialize<IssueDto>(json);
+
+            return result;
         }
 
         public async Task<IssueDto> Update(IssueDto issue)
         {
             var updatedIssue = await httpClient.PutAsJsonAsync($"api/Issue/{issue.IssueId}", issue);
-            return await updatedIssue.Content.ReadAsAsync<IssueDto>();
+
+            var result = await updatedIssue.Content.ReadFromJsonAsync<IssueDto>();
+
+            //var result = JsonSerializer.Deserialize<IssueDto>(json);
+
+            return result;
         }
 
         public async Task Delete(long id)
@@ -39,6 +49,6 @@ namespace KanbanBoardBlazor.Client.Services
     public static class HttpContentExtensions
     {
         public static async Task<T> ReadAsAsync<T>(this HttpContent content) =>
-            await JsonSerializer.DeserializeAsync<T>(await content.ReadAsStreamAsync());
+            JsonSerializer.Deserialize<T>(await content.ReadAsStringAsync());
     }
 }

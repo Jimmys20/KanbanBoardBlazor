@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Shared
 {
-    class AssignmentDto
+    public class TagDto
     {
+        public long TagId { get; set; }
+
+        public string Text { get; set; }
+
+        public string CssClass { get; set; }
     }
 }

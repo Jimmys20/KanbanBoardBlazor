@@ -21,8 +21,12 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
         {
             Project project = null;
 
-            project = await context.Projects.Include(p => p.Stages)
-                .Include(p => p.Issues).FirstOrDefaultAsync(p => p.ProjectId == id);
+            project = await context.Projects
+                .Include(p => p.Stages)
+                .Include(p => p.Issues).ThenInclude(i => i.Assignees).ThenInclude(a => a.User)
+                .Include(p => p.Issues).ThenInclude(i => i.IssueTags).ThenInclude(a => a.Tag)
+                .Include(p => p.Issues).ThenInclude(i => i.IssueCustomers).ThenInclude(a => a.Customer)
+                .FirstOrDefaultAsync(p => p.ProjectId == id);
 
             return project;
         }

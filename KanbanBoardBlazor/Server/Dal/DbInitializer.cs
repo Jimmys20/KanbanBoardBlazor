@@ -16,6 +16,24 @@ namespace KanbanBoardBlazor.Server.Dal
             context.Database.EnsureDeleted(new string[] { "PANAGIOTIS" });
             context.Database.EnsureCreated(new string[] { "PANAGIOTIS" });
 
+            var customers = new List<Customer>
+            {
+                new Customer { Name = "RCT" },
+                new Customer { Name = "Maestral" }
+            };
+
+            context.Customers.AddRange(customers);
+            context.SaveChanges();
+
+            var tags = new List<Tag>
+            {
+                new Tag { Text = "Support", CssClass= "bg-lime black" },
+                new Tag { Text = "Development", CssClass= "bg-navy white" }
+            };
+
+            context.Tags.AddRange(tags);
+            context.SaveChanges();
+
             var users = new List<User>
                 {
                     new User {LastName="Μαραγκός", FirstName="Δημήτρης"},
@@ -91,26 +109,7 @@ namespace KanbanBoardBlazor.Server.Dal
                   Title = "MongoDB Migrations",
 
                   Deadline = DateTime.Now.AddYears(2),
-                  Priority = Priority.Low,
-                  IssueTags = new List<IssueTag>
-                  {
-                      new IssueTag
-                      {
-                          Tag = new Tag
-                          {
-                              Text = "Development",
-                              CssClass = "navy white"
-                          }
-                      },
-                      new IssueTag
-                      {
-                          Tag = new Tag
-                          {
-                              Text = "Support",
-                              CssClass = "lime black"
-                          }
-                      }
-                  }
+                  Priority = Priority.Low
                 },
                 new Issue
                 {
@@ -118,7 +117,21 @@ namespace KanbanBoardBlazor.Server.Dal
                   Title = "Rotation Curson: Needs White Border",
 
                   Deadline = DateTime.Now.AddMonths(6),
-                  Priority = Priority.Medium
+                  Priority = Priority.Medium,
+                  Assignees = new List<Assignment>
+                  {
+                      new Assignment
+                      {
+                          UserId = 2
+                      }
+                  },
+                  IssueTags = new List<IssueTag>
+                  {
+                      new IssueTag
+                      {
+                          TagId = tags[0].TagId
+                      }
+                  }
                 }
               }
             },
@@ -169,7 +182,14 @@ namespace KanbanBoardBlazor.Server.Dal
 
                   Deadline = DateTime.Now.AddDays(14),
                   Priority = Priority.Medium,
-                  IsOpen = true
+                  IsOpen = true,
+                  IssueTags = new List<IssueTag>
+                  {
+                      new IssueTag
+                      {
+                          TagId = tags[1].TagId
+                      }
+                  }
                 },
                 new Issue
                 {

@@ -8,6 +8,7 @@ using Syncfusion.Blazor.Data;
 using Syncfusion.Blazor.DropDowns;
 using Syncfusion.Blazor.Inputs;
 using Syncfusion.Blazor.Kanban;
+using Syncfusion.Blazor.RichTextEditor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,26 +22,81 @@ namespace KanbanBoardBlazor.Client.Pages
         [Inject] private ProjectService projectService { get; set; }
         [Inject] private IssueService issueService { get; set; }
         [Inject] private UserService userService { get; set; }
+        [Inject] private TagService tagService { get; set; }
+        [Inject] private CustomerService customerService { get; set; }
 
         private ProjectDto project;
+        //private List<IssueDto> issues;
         private SfKanban<IssueDto> kanbanRef;
+        private Query query = new Query();
         private List<UserDto> users;
+        private List<TagDto> tags;
+        private List<CustomerDto> customers;
 
         private SfTextBox titleRef;
         private SfDatePicker<DateTime?> deadlineRef;
         private SfDropDownList<Priority, string> priorityRef;
-        private SfTextBox descriptionRef;
-        private SfMultiSelect<List<long>> assigneesRef;
+        //private SfRichTextEditor descriptionRef;
+        private string description;
+        //private SfMultiSelect<List<long>> assigneesRef;
+        private List<long> selectedAssignees = new List<long>();
+        //private SfMultiSelect<List<long>> tagsRef;
+        private List<long> selectedTags = new List<long>();
+        //private SfMultiSelect<List<long>> customersRef;
+        private List<long> selectedCustomers = new List<long>();
 
         protected override async Task OnInitializedAsync()
         {
             project = await projectService.getProjectById(100);
             users = await userService.getAllUsers();
+            tags = await tagService.getAllTags();
+            customers = await customerService.getAllCustomers();
+        }
+
+        private void OnDialogOpen(DialogOpenEventArgs<IssueDto> args)
+        {
+            var issue = args.Data;
+
+            if (issue.Assignees != null && issue.Assignees.Any())
+            {
+                selectedAssignees = issue.Assignees.Select(a => a.UserId).ToList();
+            }
+            else
+            {
+                selectedAssignees = new List<long>();
+            }
+
+            if (issue.Tags != null && issue.Tags.Any())
+            {
+                selectedTags = issue.Tags.Select(a => a.TagId).ToList();
+            }
+            else
+            {
+                selectedTags = new List<long>();
+            }
+
+            if (issue.Customers != null && issue.Customers.Any())
+            {
+                selectedCustomers = issue.Customers.Select(a => a.CustomerId).ToList();
+            }
+            else
+            {
+                selectedCustomers = new List<long>();
+            }
+
+            if (!string.IsNullOrEmpty(issue.Description))
+            {
+                description = issue.Description;
+            }
+            else
+            {
+                description = string.Empty;
+            }
         }
 
         private async void onDialogClose(DialogCloseEventArgs<IssueDto> args)
         {
-            
+
             if (args.Interaction != "Cancel" && args.Interaction != "Close")
             {
                 if (args.RequestType == CurrentAction.Edit)
@@ -49,10 +105,34 @@ namespace KanbanBoardBlazor.Client.Pages
 
                     issue.Title = titleRef.Value;
                     issue.Deadline = deadlineRef.Value;
-                    issue.Description = descriptionRef.Value;
+                    issue.Description = description;
                     issue.Priority = priorityRef.Value;
-                    //issue.assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList();
+                    if (selectedAssignees != null)
+                    {
+                        issue.Assignees = users.Where(u => selectedAssignees.Contains(u.UserId)).ToList();
+                    }
+                    else
+                    {
+                        issue.Assignees = null;
+                    }
 
+                    if (selectedTags != null)
+                    {
+                        issue.Tags = tags.Where(u => selectedTags.Contains(u.TagId)).ToList();
+                    }
+                    else
+                    {
+                        issue.Tags = null;
+                    }
+
+                    if (selectedCustomers != null)
+                    {
+                        issue.Customers = customers.Where(u => selectedCustomers.Contains(u.CustomerId)).ToList();
+                    }
+                    else
+                    {
+                        issue.Customers = null;
+                    }
                     //await kanbanRef.UpdateCard(issue);
                 }
                 else if (args.RequestType == CurrentAction.Add)
@@ -61,10 +141,34 @@ namespace KanbanBoardBlazor.Client.Pages
 
                     issue.Title = titleRef.Value;
                     issue.Deadline = deadlineRef.Value;
-                    issue.Description = descriptionRef.Value;
+                    issue.Description = description;
                     issue.Priority = priorityRef.Value;
-                    //issue.assignees = users.Where(u => assigneesRef.Value.Contains(u.userId)).ToList();
+                    if (selectedAssignees != null)
+                    {
+                        issue.Assignees = users.Where(u => selectedAssignees.Contains(u.UserId)).ToList();
+                    }
+                    else
+                    {
+                        issue.Assignees = null;
+                    }
 
+                    if (selectedTags != null)
+                    {
+                        issue.Tags = tags.Where(u => selectedTags.Contains(u.TagId)).ToList();
+                    }
+                    else
+                    {
+                        issue.Tags = null;
+                    }
+
+                    if (selectedCustomers != null)
+                    {
+                        issue.Customers = customers.Where(u => selectedCustomers.Contains(u.CustomerId)).ToList();
+                    }
+                    else
+                    {
+                        issue.Customers = null;
+                    }
                     //var t = args.Data;
 
                     //Issue issue = new Issue
@@ -77,6 +181,7 @@ namespace KanbanBoardBlazor.Client.Pages
                     //};
                     //await kanbanRef.AddCard(issue);
                 }
+
             }
 
         }
@@ -85,7 +190,7 @@ namespace KanbanBoardBlazor.Client.Pages
         {
             IssueDto issue = new IssueDto
             {
-                StageKey = project.stages[0].StageKey,
+                StageKey = project.stages.OrderBy(s => s.Position).FirstOrDefault()?.StageKey,
                 ProjectId = project.projectId
             };
             kanbanRef.OpenDialog(CurrentAction.Add, issue);
@@ -106,6 +211,7 @@ namespace KanbanBoardBlazor.Client.Pages
                 issue.IssueId = createdIssue.IssueId;
                 issue.CreatedAt = createdIssue.CreatedAt;
 
+                kanbanRef.Refresh();
             }
 
             foreach (var issue in args.ChangedRecords ?? Enumerable.Empty<IssueDto>())
@@ -118,6 +224,34 @@ namespace KanbanBoardBlazor.Client.Pages
             foreach (var issue in args.DeletedRecords ?? Enumerable.Empty<IssueDto>())
             {
                 await issueService.Delete(issue.IssueId);
+            }
+        }
+
+        //private void onValueSelect(CustomValueEventArgs args)
+        //{
+        //    Console.WriteLine(JsonSerializer.Serialize(args));
+        //}
+
+        //private SfMultiSelect<long> AssigneesQuery;
+
+        private void OnAssigneesQueryUpdate(MultiSelectChangeEventArgs<List<long>> args)
+        {
+            Console.WriteLine(JsonSerializer.Serialize(args));
+            if (args.Value == null || !args.Value.Any())
+            {
+                query = new Query();
+            }
+            else
+            {
+                query = new Query().Where(new WhereFilter
+                {
+                    Field = "AssigneesStr",
+                    Operator = "contains", 
+                    value = args.Value[0]
+                
+                });
+
+                
             }
         }
 

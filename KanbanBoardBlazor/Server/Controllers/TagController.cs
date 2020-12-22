@@ -11,24 +11,25 @@ namespace KanbanBoardBlazor.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UserController : ControllerBase
+    public class TagController : ControllerBase
     {
-        private readonly UserRepository userRepository;
+        private readonly TagRepository tagRepository;
         private readonly IMapper mapper;
 
-        public UserController(UserRepository userRepository, IMapper mapper)
+        public TagController(TagRepository tagRepository, IMapper mapper)
         {
-            this.userRepository = userRepository;
+            this.tagRepository = tagRepository;
             this.mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<List<UserDto>> Get()
+        public async Task<List<TagDto>> Get()
         {
-            var userEntities = await userRepository.getAllUsers();
-            var users = mapper.Map<List<UserDto>>(userEntities);
+            var tagEntities = await tagRepository.getAllTags();
+            var tags = mapper.Map<List<TagDto>>(tagEntities);
 
-            return users.OrderBy(u => u.FullName).ToList();
+            return tags;
+
         }
     }
 }

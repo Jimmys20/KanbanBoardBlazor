@@ -17,7 +17,7 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
         [Column("TITLE")]
         public string Title { get; set; }
 
-        [Column("DESCRIPTION")]
+        [Column("DESCRIPTION", TypeName = "NCLOB")]
         public string Description { get; set; }
 
         [Column("DEADLINE")]
@@ -43,7 +43,12 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
         public long? ProjectId { get; set; }
         public Project Project { get; set; }
 
+        //[Column("APPLICATION_ID")]
+        //public long? ApplicationId { get; set; }
+        //public Application Application { get; set; }
+
         public List<Assignment> Assignees { get; set; }
         public List<IssueTag> IssueTags { get; set; }
+        public List<IssueCustomer> IssueCustomers { get; set; }
     }
 }
