@@ -7,127 +7,156 @@
 
 @if (project != null)
 {
+    <div class="row">
+        <div class="col-sm-10 pr-sm-0">
+            <SfKanban @ref="kanbanRef" TValue="IssueDto" KeyField="StageKey" DataSource="project.issues"
+                      Query="query">
+                <KanbanSortSettings SortBy="SortOrderBy.DataSourceOrder">
 
-    <button class="btn btn-primary mb-3" @onclick="showAddCardDialog">Add Card</button>
-    @*<SfMultiSelect TValue="List<long>" Placeholder="Assignees" FloatLabelType="FloatLabelType.Never" DataSource="users">
-        <MultiSelectFieldSettings Value="UserId" Text="FullName"></MultiSelectFieldSettings>
-        <MultiSelectEvents TValue="List<long>" ValueChange="OnAssigneesQueryUpdate"></MultiSelectEvents>
-    </SfMultiSelect>*@
-
-
-    <SfKanban @ref="kanbanRef" TValue="IssueDto" KeyField="StageKey" DataSource="project.issues"
-              >
-        <KanbanSortSettings SortBy="SortOrderBy.DataSourceOrder">
-
-        </KanbanSortSettings>
-        <KanbanColumns>
-            @*@foreach (var stage in project.stages)
-                {
-                  <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.key }"></KanbanColumn>
-                }*@
-            @foreach (var stage in project.stages.OrderBy(s => s.Position))
-            {
-                <KanbanColumn HeaderText="@stage.Title" KeyField="new List<string> { stage.StageKey }" AllowToggle="true"></KanbanColumn>
-            }
-        </KanbanColumns>
-        <KanbanCardSettings HeaderField="IssueId" ContentField="Title">
-            <Template>
-                <Card issue="(IssueDto)context"></Card>
-            </Template>
-        </KanbanCardSettings>
-        <KanbanDialogSettings Width="90%" ZIndex="10000000">
-            <Template>
-                @{
-                    var issue = (IssueDto)context;
-
-                    <div class="row">
-                        <div class="col-md-8 d-flex flex-column">
-                            <div class="form-group">
-                                <SfTextBox @ref="titleRef" Placeholder="Title" Value="@issue.Title" FloatLabelType="FloatLabelType.Always"></SfTextBox>
-                            </div>
-                            <div class="form-group flex-grow-1">
-                                <SfTextBox @bind-Value="description" Placeholder="Description" Multiline="true" FloatLabelType="FloatLabelType.Always"
-                                    rows="13"></SfTextBox>
-
-                                @*<SfRichTextEditor @bind-Value="description" Placeholder="Description"
-                                                  >
-
-                                </SfRichTextEditor>*@
-                            </div>
-
-                        </div>
-                        <div class="col-md-4">
-                            @if (issue.IssueId != default(long))
-                            {
-
-                                <div class="form-group">
-                                    <SfTextBox Placeholder="Id" Value="@issue.IssueId.ToString()" Readonly="true" FloatLabelType="FloatLabelType.Always"></SfTextBox>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-sm-6">
-                                        <SfDatePicker Placeholder="Created at" Value="@issue.CreatedAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <SfDatePicker Placeholder="Updated at" Value="@issue.UpdatedAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
-                                    </div>
-                                </div>
-                            }
-
-                            <div class="form-group">
-                                <SfMultiSelect @bind-Value="selectedAssignees" Placeholder="Assignees" FloatLabelType="FloatLabelType.Always" DataSource="users"
-                                               Mode="VisualMode.Box" >
-                                    <MultiSelectFieldSettings Value="UserId" Text="FullName"></MultiSelectFieldSettings>
-                                </SfMultiSelect>
-                            </div>
-
-                            <div class="form-group">
-                                <SfMultiSelect @bind-Value="selectedCustomers" Placeholder="Customers" FloatLabelType="FloatLabelType.Always" DataSource="customers"
-                                               Mode="VisualMode.Box">
-                                    <MultiSelectFieldSettings Value="CustomerId" Text="Name"></MultiSelectFieldSettings>
-                                </SfMultiSelect>
-                            </div>
-                            <div class="form-group">
-                                <SfMultiSelect @bind-Value="selectedTags" Placeholder="Tags" FloatLabelType="FloatLabelType.Always" DataSource="tags"
-                                               Mode="VisualMode.Box">
-                                    <MultiSelectFieldSettings Value="TagId" Text="Text"></MultiSelectFieldSettings>
-
-                                    @*<MultiSelectTemplates>
-                    <ItemTemplate Context="tagContext">
+                </KanbanSortSettings>
+                <KanbanColumns>
+                    @*@foreach (var stage in project.stages)
+                        {
+                          <KanbanColumn HeaderText="@stage.title" KeyField="new List<string> { stage.key }"></KanbanColumn>
+                        }*@
+                    @foreach (var stage in project.stages.OrderBy(s => s.Position))
+                    {
+                        <KanbanColumn HeaderText="@stage.Title" KeyField="new List<string> { stage.StageKey }" AllowToggle="true"></KanbanColumn>
+                    }
+                </KanbanColumns>
+                <KanbanCardSettings HeaderField="IssueId" ContentField="Title">
+                    <Template>
+                        <Card issue="(IssueDto)context"></Card>
+                    </Template>
+                </KanbanCardSettings>
+                <KanbanDialogSettings Width="90%" ZIndex="10000000">
+                    <Template>
                         @{
-                            Console.WriteLine(JsonSerializer.Serialize(tagContext));
-                            var tag = (TagDto)tagContext; /*tags.FirstOrDefault(t => t.TagId == (long)tagContext);*/
-                            <span class="badge @tag.CssClass">@tag.Text</span>
+                            var issue = (IssueDto)context;
+
+                            <div class="row">
+                                <div class="col-md-8 d-flex flex-column">
+                                    <div class="form-group">
+                                        <SfTextBox @ref="titleRef" Placeholder="Title" Value="@issue.Title" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+                                    </div>
+                                    <div class="form-group flex-grow-1">
+                                        <SfTextBox @ref="descriptionRef" Value="@issue.Description" Placeholder="Description" Multiline="true" FloatLabelType="FloatLabelType.Always"
+                                                   rows="13"></SfTextBox>
+
+                                        @*<SfRichTextEditor @ref="descriptionRef" Value="@issue.Description" Placeholder="Description"
+                                                              >
+
+                                            </SfRichTextEditor>*@
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    @if (issue.IssueId != default(long))
+                                    {
+
+                                        <div class="form-group">
+                                            <SfTextBox Placeholder="Id" Value="@issue.IssueId.ToString()" Readonly="true" FloatLabelType="FloatLabelType.Always"></SfTextBox>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-6">
+                                                <SfDatePicker Placeholder="Created at" Value="@issue.CreatedAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <SfDatePicker Placeholder="Updated at" Value="@issue.UpdatedAt" Readonly="true" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
+                                            </div>
+                                        </div>
+                                    }
+
+                                    <div class="form-group">
+                                        <SfMultiSelect @bind-Value="selectedAssignees" Placeholder="Assignees" FloatLabelType="FloatLabelType.Always" DataSource="users"
+                                                       Mode="VisualMode.Box">
+                                            <MultiSelectFieldSettings Value="UserId" Text="FullName"></MultiSelectFieldSettings>
+                                        </SfMultiSelect>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <SfMultiSelect @bind-Value="selectedCustomers" Placeholder="Customers" FloatLabelType="FloatLabelType.Always" DataSource="customers"
+                                                       Mode="VisualMode.Box">
+                                            <MultiSelectFieldSettings Value="CustomerId" Text="Name"></MultiSelectFieldSettings>
+                                        </SfMultiSelect>
+                                    </div>
+                                    <div class="form-group">
+                                        <SfMultiSelect @bind-Value="selectedTags" Placeholder="Tags" FloatLabelType="FloatLabelType.Always" DataSource="tags"
+                                                       Mode="VisualMode.Box">
+                                            <MultiSelectFieldSettings Value="TagId" Text="Text"></MultiSelectFieldSettings>
+
+                                            @*<MultiSelectTemplates>
+                                                    <ItemTemplate Context="tagContext">
+                                                        @{
+                                                            Console.WriteLine(JsonSerializer.Serialize(tagContext));
+                                                            var tag = (TagDto)tagContext; /*tags.FirstOrDefault(t => t.TagId == (long)tagContext);*/
+                                                            <span class="badge @tag.CssClass">@tag.Text</span>
+                                                        }
+                                                    </ItemTemplate>
+                                                    <ValueTemplate Context="tagContext">
+                                                        @{
+                                                            Console.WriteLine(JsonSerializer.Serialize(tagContext));
+                                                            var tag = (TagDto)tagContext; /*tags.FirstOrDefault(t => t.TagId == (long)tagContext);*/
+                                                            <span class="badge @tag.CssClass">@tag.Text</span>
+                                                        }
+                                                    </ValueTemplate>
+                                                </MultiSelectTemplates>*@
+                                        </SfMultiSelect>
+                                    </div>
+                                    <div class="form-group">
+                                        <SfDropDownList @ref="applicationRef" Placeholder="Application" Value="@issue.ApplicationId" FloatLabelType="FloatLabelType.Always" DataSource="applications">
+                                            <DropDownListFieldSettings Text="Name" Value="ApplicationId"></DropDownListFieldSettings>
+
+                                        </SfDropDownList>
+                                    </div>
+                                    <div class="form-group">
+                                        <SfDropDownList @ref="priorityRef" Placeholder="Priority" Value="@issue.Priority" FloatLabelType="FloatLabelType.Always" DataSource="Enum.GetNames(typeof(Priority))"></SfDropDownList>
+                                    </div>
+                                    <div class="form-group">
+                                        <SfDatePicker @ref="deadlineRef" Placeholder="Deadline" Value="@issue.Deadline" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
                         }
-                    </ItemTemplate>
-                    <ValueTemplate Context="tagContext">
-                        @{
-                            Console.WriteLine(JsonSerializer.Serialize(tagContext));
-                            var tag = (TagDto)tagContext; /*tags.FirstOrDefault(t => t.TagId == (long)tagContext);*/
-                            <span class="badge @tag.CssClass">@tag.Text</span>
-                        }
-                    </ValueTemplate>
-                </MultiSelectTemplates>*@
-                                </SfMultiSelect>
-                            </div>
+                    </Template>
+                </KanbanDialogSettings>
+                <KanbanEvents TValue="IssueDto" DialogOpen="OnDialogOpen" DialogClose="onDialogClose" ActionComplete="onActionComplete"></KanbanEvents>
+            </SfKanban>
+        </div>
+        <div class="pl-sm-0 col-sm-2">
+            <SfMultiSelect TValue="List<long>" Placeholder="Customers Filter" FloatLabelType="FloatLabelType.Always" DataSource="customers"
+                           CssClass="mb-3">
+                <MultiSelectFieldSettings Value="CustomerId" Text="Name"></MultiSelectFieldSettings>
+                <MultiSelectEvents TValue="List<long>" ValueChange="OnCustomersQueryUpdate"></MultiSelectEvents>
+            </SfMultiSelect>
 
-                            <div class="form-group">
-                                <SfDropDownList @ref="priorityRef" Placeholder="Priority" Value="@issue.Priority" FloatLabelType="FloatLabelType.Always" DataSource="Enum.GetNames(typeof(Priority))"></SfDropDownList>
-                            </div>
-                            <div class="form-group">
-                                <SfDatePicker @ref="deadlineRef" Placeholder="Deadline" Value="@issue.Deadline" FloatLabelType="FloatLabelType.Always" Format="d/M/yyyy"></SfDatePicker>
+            <SfDropDownList TValue="long?" TItem="ApplicationDto" Placeholder="Application Filter" 
+                            FloatLabelType="FloatLabelType.Always" DataSource="applications"
+                            CssClass="mb-3" ShowClearButton="true">
+                <DropDownListFieldSettings Value="ApplicationId" Text="Name"></DropDownListFieldSettings>
+                <DropDownListEvents TValue="long?" TItem="ApplicationDto"
+                                    ValueChange="OnApplicationQueryUpdate"></DropDownListEvents>
+            </SfDropDownList>
 
-                            </div>
-                        </div>
+            <SfMultiSelect TValue="List<long>" Placeholder="Assignees Filter" FloatLabelType="FloatLabelType.Always" DataSource="users"
+                           CssClass="mb-3">
+                <MultiSelectFieldSettings Value="UserId" Text="FullName"></MultiSelectFieldSettings>
+                <MultiSelectEvents TValue="List<long>" ValueChange="OnAssigneesQueryUpdate"></MultiSelectEvents>
+            </SfMultiSelect>
+
+            <button class="btn btn-primary btn-block" @onclick="showAddCardDialog">Add Card</button>
+
+        </div>
+    </div>
 
 
 
 
-                    </div>
-                }
-            </Template>
-        </KanbanDialogSettings>
-        <KanbanEvents TValue="IssueDto" DialogOpen="OnDialogOpen" DialogClose="onDialogClose" ActionComplete="onActionComplete"></KanbanEvents>
-    </SfKanban>
 }
 else
 {

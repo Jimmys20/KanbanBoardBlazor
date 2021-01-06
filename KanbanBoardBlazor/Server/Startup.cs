@@ -34,6 +34,7 @@ namespace KanbanBoardBlazor.Server
             services.AddScoped<UserRepository>();
             services.AddScoped<TagRepository>();
             services.AddScoped<CustomerRepository>();
+            services.AddScoped<ApplicationRepository>();
 
             services.AddAutoMapper(typeof(Startup));
 

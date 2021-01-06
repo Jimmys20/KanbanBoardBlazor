@@ -67,6 +67,8 @@ namespace KanbanBoardBlazor.Server
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<Tag, TagDto>().ReverseMap();
             CreateMap<Customer, CustomerDto>().ReverseMap();
+
+            CreateMap<Application, ApplicationDto>().ReverseMap();
             //CreateMap<long, UserEntity>()
             //    .ConvertUsing(o => new UserEntity { userId = o });
             //CreateMap<UserEntity, long>()

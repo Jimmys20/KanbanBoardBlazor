@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace KanbanBoardBlazor.Server.Dal.Repositories
 {
-    public class CustomerRepository
+    public class ApplicationRepository
     {
         private readonly AppDbContext _context;
 
-        public CustomerRepository(AppDbContext context)
+        public ApplicationRepository(AppDbContext context)
         {
             _context = context;
         }
 
-        public async Task<List<Customer>> getAllCustomers()
+        public async Task<List<Application>> getAllApplications()
         {
-            return await _context.Customers.ToListAsync();
+            return await _context.Applications.ToListAsync();
         }
     }
 }

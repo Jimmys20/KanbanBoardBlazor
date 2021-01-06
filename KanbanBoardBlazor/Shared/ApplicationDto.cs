@@ -8,5 +8,8 @@ namespace KanbanBoardBlazor.Shared
 {
     public class ApplicationDto
     {
+        public long ApplicationId { get; set; }
+
+        public string Name { get; set; }
     }
 }

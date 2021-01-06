@@ -35,6 +35,8 @@ namespace KanbanBoardBlazor.Server.Controllers
 
             issueEntity.CreatedAt = DateTime.UtcNow;
 
+            issueEntity.Application = null;
+
             await _issueRepository.Create(issueEntity);
 
             issue.IssueId = issueEntity.IssueId;

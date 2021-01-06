@@ -16,6 +16,15 @@ namespace KanbanBoardBlazor.Server.Dal
             context.Database.EnsureDeleted(new string[] { "PANAGIOTIS" });
             context.Database.EnsureCreated(new string[] { "PANAGIOTIS" });
 
+            var applications = new List<Application>
+            {
+                new Application { Name = "Overview" },
+                new Application { Name = "CasinoCRM" }
+            };
+
+            context.Applications.AddRange(applications);
+            context.SaveChanges();
+
             var customers = new List<Customer>
             {
                 new Customer { Name = "RCT" },

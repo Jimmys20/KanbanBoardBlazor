@@ -10,20 +10,16 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
 {
     public class UserRepository
     {
-        private readonly AppDbContext context;
+        private readonly AppDbContext _context;
 
         public UserRepository(AppDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public async Task<List<User>> getAllUsers()
         {
-            List<User> users = null;
-
-            users = await context.Users.ToListAsync();
-
-            return users;
+            return await _context.Users.ToListAsync();
         }
     }
 }

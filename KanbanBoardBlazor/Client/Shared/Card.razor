@@ -2,10 +2,10 @@
 
 <div class="card" style="border-left: 3px solid @priorityClass; min-width: 256px;">
     <div class="card-body">
+        <h6 class="card-title text-muted font-weight-bold clearfix">
+            @if (issue.Customers != null && issue.Customers.Any())
+            {
 
-        @if (issue.Customers != null && issue.Customers.Any())
-        {
-            <h6 class="card-title text-muted font-weight-bold">
                 @for (var i = 0; i < issue.Customers.Count; i++)
                 {
 
@@ -16,28 +16,33 @@
                     }
                     @*<span class="badge bg-lime black">Support</span>*@
                 }
-                @*<span class="float-right">Overview</span>*@
-            </h6>
-        }
-        <h6 class="card-subtitle">@issue.Title</h6>
-        <div>
-            @foreach (var tag in issue.Tags ?? Enumerable.Empty<TagDto>())
-            {
-                <span class="badge @tag.CssClass">@tag.Text</span><text>&nbsp;</text>
-                @*<span class="badge bg-lime black">Support</span>*@
+
+
             }
+            @if (issue.Application != null)
+            {
+                <span class="float-right">@issue.Application.Name</span>
+            }
+        </h6>
+            <h6 class="card-subtitle">@issue.Title</h6>
+            <div>
+                @foreach (var tag in issue.Tags ?? Enumerable.Empty<TagDto>())
+                {
+                    <span class="badge @tag.CssClass">@tag.Text</span><text>&nbsp;</text>
+                    @*<span class="badge bg-lime black">Support</span>*@
+                }
+            </div>
+            <span class="card-text text-muted">
+
+                @foreach (var user in issue.Assignees ?? Enumerable.Empty<UserDto>())
+                {
+                    @*<a class="btn btn-secondary e-round">@user.username</a>*@
+                    <SfButton CssClass="e-round btn-secondary">@user.Initials</SfButton>
+                }
+
+            </span>
+            <span class="card-text float-right text-muted">@issue.Deadline?.ToString("d/M/yyyy")</span>
         </div>
-        <span class="card-text text-muted">
-
-            @foreach (var user in issue.Assignees ?? Enumerable.Empty<UserDto>())
-            {
-                @*<a class="btn btn-secondary e-round">@user.username</a>*@
-                <SfButton CssClass="e-round btn-secondary">@user.Initials</SfButton>
-            }
-
-        </span>
-        <span class="card-text float-right text-muted">@issue.Deadline?.ToString("d/M/yyyy")</span>
-    </div>
 </div>
 
 @code {

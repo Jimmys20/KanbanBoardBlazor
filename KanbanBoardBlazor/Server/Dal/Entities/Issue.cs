@@ -43,9 +43,9 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
         public long? ProjectId { get; set; }
         public Project Project { get; set; }
 
-        //[Column("APPLICATION_ID")]
-        //public long? ApplicationId { get; set; }
-        //public Application Application { get; set; }
+        [Column("APPLICATION_ID")]
+        public long? ApplicationId { get; set; }
+        public Application Application { get; set; }
 
         public List<Assignment> Assignees { get; set; }
         public List<IssueTag> IssueTags { get; set; }

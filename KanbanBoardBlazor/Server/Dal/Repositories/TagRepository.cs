@@ -9,20 +9,16 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
 {
     public class TagRepository
     {
-        private readonly AppDbContext context;
+        private readonly AppDbContext _context;
 
         public TagRepository(AppDbContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public async Task<List<Tag>> getAllTags()
         {
-            List<Tag> tags = null;
-
-            tags = await context.Tags.ToListAsync();
-
-            return tags;
+            return await _context.Tags.ToListAsync();
         }
     }
 }

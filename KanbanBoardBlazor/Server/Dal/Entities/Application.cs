@@ -14,5 +14,7 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
 
         [Column("NAME")]
         public string Name { get; set; }
+
+        public List<Issue> Issues { get; set; } 
     }
 }
