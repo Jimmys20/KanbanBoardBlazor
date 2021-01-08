@@ -23,5 +23,14 @@ namespace KanbanBoardBlazor.Client.Services
 
             return users;
         }
+
+        public async Task<string> Login(LoginInputModel credentials)
+        {
+            var response = await httpClient.PostAsJsonAsync("api/User/Login", credentials);
+
+            var result = await response.Content.ReadFromJsonAsync<LoginResult>();
+
+            return result.Token;
+        }
     }
 }

@@ -18,17 +18,17 @@ namespace KanbanBoardBlazor.Client
             _jsRuntime = jsRuntime;
         }
 
-        public async Task<string> GetTokenAsync() => await _jsRuntime.InvokeAsync<string>("sessionStorage.getItem", "authToken");
+        public async Task<string> GetTokenAsync() => await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
 
         public async Task SetTokenAsync(string token)
         {
             if (token == null)
             {
-                await _jsRuntime.InvokeAsync<object>("sessionStorage.removeItem", "authToken");
+                await _jsRuntime.InvokeAsync<object>("localStorage.removeItem", "authToken");
             }
             else
             {
-                await _jsRuntime.InvokeAsync<object>("sessionStorage.setItem", "authToken", token);
+                await _jsRuntime.InvokeAsync<object>("localStorage.setItem", "authToken", token);
             }
 
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());

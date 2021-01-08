@@ -26,8 +26,8 @@ namespace KanbanBoardBlazor.Server.Dal
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasDefaultSchema("ISSUE_TRACKER");
-            //modelBuilder.HasDefaultSchema("PANAGIOTIS");
+            //modelBuilder.HasDefaultSchema("ISSUE_TRACKER");
+            modelBuilder.HasDefaultSchema("PANAGIOTIS");
 
             modelBuilder.Entity<Assignment>().HasKey(a => new { a.IssueId, a.UserId });
             modelBuilder.Entity<IssueTag>().HasKey(it => new { it.IssueId, it.TagId });

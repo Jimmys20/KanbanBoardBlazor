@@ -42,6 +42,8 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
                 Username = username,
                 Password = password.Sha256()
             });
+
+            _context.SaveChanges();
         }
 
         public bool ValidateCredentials(string username, string password)
