@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KanbanBoardBlazor.Server.Dal.Interfaces;
 using KanbanBoardBlazor.Server.Dal.Repositories;
 using KanbanBoardBlazor.Shared;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +14,10 @@ namespace KanbanBoardBlazor.Server.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private readonly UserRepository userRepository;
+        private readonly IUserRepository userRepository;
         private readonly IMapper mapper;
 
-        public UserController(UserRepository userRepository, IMapper mapper)
+        public UserController(IUserRepository userRepository, IMapper mapper)
         {
             this.userRepository = userRepository;
             this.mapper = mapper;

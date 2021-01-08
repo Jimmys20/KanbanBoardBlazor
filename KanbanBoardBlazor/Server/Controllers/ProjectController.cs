@@ -2,6 +2,7 @@
 using KanbanBoardBlazor.Server.Dal.Entities;
 using KanbanBoardBlazor.Server.Dal.Repositories;
 using KanbanBoardBlazor.Shared;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace KanbanBoardBlazor.Server.Controllers
             return project;
         }
 
+        [Authorize]
         [HttpPut]
         public async Task<ProjectDto> Update(ProjectDto project)
         {
