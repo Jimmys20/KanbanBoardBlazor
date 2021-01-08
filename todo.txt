@@ -1,9 +1,5 @@
-tags (support, development)
-
 login read write permission,
 
 initial deadline, updated deadline
 
 remaining time until deadline
-
-customer
