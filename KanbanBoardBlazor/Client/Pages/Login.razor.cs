@@ -33,7 +33,7 @@ namespace KanbanBoardBlazor.Client.Pages
 
                 if (string.IsNullOrEmpty(ReturnUrl))
                 {
-                    navigationManager.NavigateTo("/");
+                    navigationManager.NavigateTo(string.Empty);
                 }
                 else
                 {
