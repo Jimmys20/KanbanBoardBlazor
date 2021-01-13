@@ -38,9 +38,30 @@ namespace KanbanBoardBlazor.Client
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
             var token = await GetTokenAsync();
-            var identity = string.IsNullOrEmpty(token)
-                ? new ClaimsIdentity()
-                : new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
+            var anonymousState = new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+
+            if (string.IsNullOrEmpty(token))
+            {
+                return anonymousState;
+            }
+
+            var claims = ParseClaimsFromJwt(token);
+            var exp = claims.FirstOrDefault(c => c.Type == "exp");
+
+            if (exp == null)
+            {
+                return anonymousState;
+            }
+
+            var datetime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(exp.Value));
+
+            if (datetime.UtcDateTime <= DateTime.UtcNow)
+            {
+                return anonymousState;
+            }
+
+            var identity = new ClaimsIdentity(claims, "jwt");
+
             return new AuthenticationState(new ClaimsPrincipal(identity));
         }
 
