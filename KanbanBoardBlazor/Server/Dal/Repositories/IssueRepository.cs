@@ -30,7 +30,17 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
             return issue;
         }
 
-        public async Task Create(Issue issue)
+        public async Task<List<Issue>> GetAll()
+        {
+           return await _context.Issues
+                .Include(i => i.Assignees).ThenInclude(a => a.User)
+                .Include(i => i.IssueTags).ThenInclude(a => a.Tag)
+                .Include(i => i.IssueCustomers).ThenInclude(a => a.Customer)
+                .Include(i => i.Application)
+                .ToListAsync();
+        }
+
+    public async Task Create(Issue issue)
         {
             _context.Issues.Add(issue);
             await _context.SaveChangesAsync();

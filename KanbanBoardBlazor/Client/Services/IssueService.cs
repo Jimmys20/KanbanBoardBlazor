@@ -21,7 +21,14 @@ namespace KanbanBoardBlazor.Client.Services
             this.authStateProvider = authStateProvider;
         }
 
-        public async Task<IssueDto> Create(IssueDto issue)
+    public async Task<List<IssueDto>> GetIssues()
+        {
+          var issues = await httpClient.GetFromJsonAsync<List<IssueDto>>($"api/Issue");
+
+          return issues;
+        }
+
+    public async Task<IssueDto> Create(IssueDto issue)
         {
             httpClient.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", await authStateProvider.GetTokenAsync());

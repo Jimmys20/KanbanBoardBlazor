@@ -25,7 +25,17 @@ namespace KanbanBoardBlazor.Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
+    [AllowAnonymous]
+    [HttpGet]
+        public async Task<List<IssueDto>> GetAsync()
+        {
+          var issueEntities = await _issueRepository.GetAll();
+          var issues = _mapper.Map<List<IssueDto>>(issueEntities);
+
+          return issues.OrderBy(i => i.Deadline).ToList();
+        }
+
+    [HttpPost]
         public async Task<IssueDto> CreateAsync(IssueDto issue)
         {
             var issueEntity = _mapper.Map<Issue>(issue);
