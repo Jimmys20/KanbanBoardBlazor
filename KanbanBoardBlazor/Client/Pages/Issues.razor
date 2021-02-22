@@ -10,13 +10,13 @@
 <SfTab ShowCloseButton="false">
   <TabItems>
     <TabItem>
-    <HeaderTemplate >
-      <span @onclick="OnOpenTabClicked">Open</span>
+    <HeaderTemplate>
+      <span @onclick="OnOpenTabClicked">@openCount Open</span>
     </HeaderTemplate>
     </TabItem>
     <TabItem>
       <HeaderTemplate>
-        <span @onclick="OnCloseTabClicked">Close</span>
+        <span @onclick="OnCloseTabClicked">@closedCount Closed</span>
       </HeaderTemplate>
     </TabItem>
   </TabItems>
@@ -29,7 +29,6 @@
 
 <GridColumns>
   <GridColumn Field=@nameof(IssueDto.Title) Width="60" TextAlign="TextAlign.Left"></GridColumn>
-  <GridColumn Field=@nameof(IssueDto.Description) Width="60" TextAlign="TextAlign.Left"></GridColumn>
   <GridColumn Field=@nameof(IssueDto.Deadline) Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
   <GridColumn Field=@nameof(IssueDto.Priority) Width="20" TextAlign="TextAlign.Left"></GridColumn>
   <GridColumn Field=@nameof(IssueDto.CreatedAt) HeaderText="Created At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
@@ -89,21 +88,32 @@
 
   private List<IssueDto> issues = new List<IssueDto>();
   private List<IssueDto> chosenissues = new List<IssueDto>();
+  private List<IssueDto> openissues = new List<IssueDto>();
+  private List<IssueDto> closedissues = new List<IssueDto>();
+
+  private int openCount;
+  private int closedCount;
 
   protected override async Task OnInitializedAsync()
   {
     issues = await issueService.GetIssues();
-    chosenissues = issues.Where(i => i.IsOpen == true).ToList();
+    openissues = issues.Where(i => i.IsOpen == true).ToList();
+    closedissues = issues.Where(i => i.IsOpen == false).ToList();
+
+    chosenissues = openissues;
+
+    openCount = openissues.Count;
+    closedCount = closedissues.Count;
   }
 
   public void OnOpenTabClicked()
   {
-    chosenissues = issues.Where(i => i.IsOpen == true).ToList();
+    chosenissues = openissues;
   }
 
   public void OnCloseTabClicked()
   {
-    chosenissues = issues.Where(i => i.IsOpen == false).ToList();
+    chosenissues = closedissues;
   }
 
 }
