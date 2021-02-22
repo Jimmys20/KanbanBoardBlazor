@@ -1,195 +1,109 @@
 ﻿@page "/issues"
 @using Syncfusion.Blazor.Navigations
-@using Syncfusion.Blazor.DropDowns
-@using Syncfusion.Blazor.Lists
 @using Syncfusion.Blazor.Grids
-@using System;
-@using Syncfusion.Blazor.Spinner
 @using KanbanBoardBlazor.Client.Services;
-@using KanbanBoardBlazor.Shared; 
+@using KanbanBoardBlazor.Shared;
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper;
-
 
 <h3>Issues</h3>
 
-<div class="e-tab-section">
-  <div class="col-lg-12 content-wrapper control-section">
-    <div class="e-sample-resize-container">
-      <SfTab Height="320" ShowCloseButton="false">
-        <TabItems>
-          <TabItem>
-            <ChildContent>
-              <TabHeader Text="Open"></TabHeader>
-            </ChildContent>
-            <ContentTemplate>
-              <div class="tab-content">
+<SfTab ShowCloseButton="false">
+  <TabItems>
+    <TabItem>
+    <HeaderTemplate >
+      <span @onclick="OnOpenTabClicked">Open</span>
+    </HeaderTemplate>
+    </TabItem>
+    <TabItem>
+      <HeaderTemplate>
+        <span @onclick="OnCloseTabClicked">Close</span>
+      </HeaderTemplate>
+    </TabItem>
+  </TabItems>
+</SfTab>
 
-                <SfGrid DataSource="@openissues" Height="300" EnableAltRow="true" AllowPaging="true" AllowSorting="true" AllowFiltering="true" AllowGrouping="true" AllowReordering="true" AllowSelection="true" EnablePersistence="true">
-                  <GridPageSettings PageSize="10"></GridPageSettings>
+<SfGrid DataSource="@chosenissues" Height="300" EnableAltRow="true" AllowPaging="true" AllowSorting="true"
+                                  AllowFiltering="true" AllowGrouping="true" AllowReordering="true"
+                                  AllowSelection="true" EnablePersistence="true">
+<GridPageSettings PageSize="10"></GridPageSettings>
 
-                  <GridColumns>
-                    <GridColumn Field=@nameof(IssueDto.Title) Width="60" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.Description) Width="60" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.Deadline) Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.Priority) Width="20" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.CreatedAt) HeaderText="Created At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.UpdatedAt) HeaderText="Updated At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field="Application.Name" HeaderText="Application" Width="30" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn HeaderText="Assignees" TextAlign="TextAlign.Left" Width="30">
-                      <Template>
-                        @{
-                          var issuelst = (context as IssueDto);
-                          <div>
-                            @foreach (var ass in issuelst.Assignees)
-                            {
-                              <p>
-
-                                @ass.Initials
-
-                              </p>}
-                          </div>
-
-                        }
-                      </Template>
-                    </GridColumn>
-                    <GridColumn HeaderText="Tags" TextAlign="TextAlign.Left" Width="30">
-                      <Template>
-                        @{
-                          var issuelst = (context as IssueDto);
-                          <div>
-                            @foreach (var tags in issuelst.Tags)
-                            {
-                              <p>
-
-                                @tags.Text
-
-                              </p>
-                            }
-                          </div>
-
-                        }
-                      </Template>
-                    </GridColumn>
-                    <GridColumn HeaderText="Customers" TextAlign="TextAlign.Left" Width="30">
-                      <Template>
-                        @{
-                          var issuelst = (context as IssueDto);
-                          <div>
-                            @foreach (var cus in issuelst.Customers)
-                            {
-                              <p>
-
-                                @cus.Name
-
-                              </p>}
-                          </div>
-
-                        }
-                      </Template>
-                    </GridColumn>
-
-                  </GridColumns>
-                </SfGrid>
-
-              </div>
-            </ContentTemplate>
-          </TabItem>
-          <TabItem>
-            <ChildContent>
-              <TabHeader Text="Closed"></TabHeader>
-            </ChildContent>
-            <ContentTemplate>
-              <div class="tab-content">
-
-                <SfGrid DataSource="@closedissues" Height="300" AllowPaging="true" AllowSorting="true" AllowFiltering="true" AllowGrouping="true" AllowReordering="true" AllowSelection="true" EnablePersistence="true">
-                  <GridPageSettings PageSize="10"></GridPageSettings>
-
-                  <GridColumns>
-                    <GridColumn Field=@nameof(IssueDto.Title) Width="60" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.Description) Width="60" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.Deadline) Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.Priority) Width="20" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.CreatedAt) HeaderText="Created At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field=@nameof(IssueDto.UpdatedAt) HeaderText="Updated At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn Field="Application.Name" HeaderText="Application" Width="30" TextAlign="TextAlign.Left"></GridColumn>
-                    <GridColumn HeaderText="Assignees" TextAlign="TextAlign.Left" Width="30">
-                      <Template>
-                        @{
-                          var issuelst = (context as IssueDto);
-                          <div>
-                            @foreach (var ass in issuelst.Assignees)
-                            {
-                              <p>
-                                @ass.Initials
-                              </p>}
-                          </div>
-                        }
-                      </Template>
-                    </GridColumn>
-                    <GridColumn HeaderText="Tags" TextAlign="TextAlign.Left" Width="30">
-                      <Template>
-                        @{
-                          var issuelst = (context as IssueDto);
-                          <div>
-                            @foreach (var tags in issuelst.Tags)
-                            {
-                              <p>
-                                @tags.Text
-                              </p>
-                            }
-                          </div>
-                        }
-                      </Template>
-                    </GridColumn>
-                    <GridColumn HeaderText="Customers" TextAlign="TextAlign.Left" Width="30">
-                      <Template>
-                        @{
-                          var issuelst = (context as IssueDto);
-                          <div>
-                            @foreach (var cus in issuelst.Customers)
-                            {
-                              <p>
-                                @cus.Name
-                              </p>}
-                          </div>
-                        }
-                      </Template>
-                    </GridColumn>
-
-                  </GridColumns>
-                </SfGrid>            
-
-              </div>
-            </ContentTemplate>
-          </TabItem>
-        </TabItems>
-      </SfTab>
-    </div>
-  </div>
-</div>
-
-<style type="text/css" class="cssStyles">
-
-  p {
-    padding:0;
-    margin:0;
-    text-align: left;
-  }
-
-</style>
+<GridColumns>
+  <GridColumn Field=@nameof(IssueDto.Title) Width="60" TextAlign="TextAlign.Left"></GridColumn>
+  <GridColumn Field=@nameof(IssueDto.Description) Width="60" TextAlign="TextAlign.Left"></GridColumn>
+  <GridColumn Field=@nameof(IssueDto.Deadline) Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
+  <GridColumn Field=@nameof(IssueDto.Priority) Width="20" TextAlign="TextAlign.Left"></GridColumn>
+  <GridColumn Field=@nameof(IssueDto.CreatedAt) HeaderText="Created At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
+  <GridColumn Field=@nameof(IssueDto.UpdatedAt) HeaderText="Updated At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
+  <GridColumn Field="Application.Name" HeaderText="Application" Width="30" TextAlign="TextAlign.Left"></GridColumn>
+  <GridColumn HeaderText="Assignees" TextAlign="TextAlign.Left" Width="30">
+  <Template>
+    @{
+      var issuelst = (context as IssueDto);
+      <div>
+        @foreach (var ass in issuelst.Assignees)
+        {
+          <p class="p-0 m-0 text-center">
+            @ass.Initials
+          </p>
+        }
+      </div>
+    }
+  </Template>
+</GridColumn>
+<GridColumn HeaderText="Tags" TextAlign="TextAlign.Left" Width="30">
+  <Template>
+    @{
+      var issuelst = (context as IssueDto);
+      <div>
+        @foreach (var tags in issuelst.Tags)
+        {
+          <p class="p-0 m-0 text-left">
+            @tags.Text
+          </p>
+        }
+      </div>
+    }
+  </Template>
+</GridColumn>
+<GridColumn HeaderText="Customers" TextAlign="TextAlign.Left" Width="30">
+  <Template>
+    @{
+      var issuelst = (context as IssueDto);
+      <div>
+        @foreach (var cus in issuelst.Customers)
+        {
+          <p class="p-0 m-0 text-left">
+            @cus.Name
+          </p>
+        }
+      </div>
+    }
+  </Template>
+</GridColumn>
+</GridColumns>
+</SfGrid>
 
 @code {
 
   [Inject] private IssueService issueService { get; set; }
 
   private List<IssueDto> issues = new List<IssueDto>();
-  private List<IssueDto> openissues = new List<IssueDto>();
-  private List<IssueDto> closedissues = new List<IssueDto>();
+  private List<IssueDto> chosenissues = new List<IssueDto>();
 
   protected override async Task OnInitializedAsync()
   {
     issues = await issueService.GetIssues();
-    openissues = issues.Where(i => i.IsOpen == true).ToList();
-    closedissues = issues.Where(i => i.IsOpen == false).ToList();
+    chosenissues = issues.Where(i => i.IsOpen == true).ToList();
   }
+
+  public void OnOpenTabClicked()
+  {
+    chosenissues = issues.Where(i => i.IsOpen == true).ToList();
+  }
+
+  public void OnCloseTabClicked()
+  {
+    chosenissues = issues.Where(i => i.IsOpen == false).ToList();
+  }
+
 }
