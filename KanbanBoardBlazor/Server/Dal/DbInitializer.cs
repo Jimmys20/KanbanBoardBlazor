@@ -102,6 +102,8 @@ namespace KanbanBoardBlazor.Server.Dal
             {
                 ProjectId = 100,
                 Name = "KanbanBoard",
+                Description = "This is the Kanban project",
+                IsOpen = true,
                 Stages = new List<Stage>
           {
             new Stage
@@ -221,15 +223,15 @@ namespace KanbanBoardBlazor.Server.Dal
         {
           new Project
           {
-            Name = "Overview"
+            Name = "Overview", Description = "This is the overview project", IsOpen = true
           },
           new Project
           {
-            Name = "CasinoCRM"
+            Name = "CasinoCRM", Description = "This is the CasinoCRM project", IsOpen = false
           },
           new Project
           {
-            Name = "StarTouch"
+            Name = "StarTouch", Description = "I dont know what to write", IsOpen = false
           }
         };
 

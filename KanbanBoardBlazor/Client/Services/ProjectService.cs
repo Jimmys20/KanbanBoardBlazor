@@ -24,7 +24,14 @@ namespace KanbanBoardBlazor.Client.Services
             return project;
         }
 
-        public async Task save(ProjectDto project)
+    public async Task<List<ProjectDto>> getProjects()
+    {
+      var projects = await httpClient.GetFromJsonAsync<List<ProjectDto>>($"api/Project");
+
+      return projects;
+    }
+
+    public async Task save(ProjectDto project)
         {
             await httpClient.PutAsJsonAsync($"api/Project", project);
 

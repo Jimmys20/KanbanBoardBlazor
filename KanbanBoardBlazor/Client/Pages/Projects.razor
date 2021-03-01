@@ -1,0 +1,45 @@
+﻿@page "/projects"
+@using Syncfusion.Blazor.ProgressBar
+
+  <h3>Projects</h3>
+
+  <ul class="list-group list-group-flush">
+    @foreach (var project in projects)
+    {
+      int max;
+      string status;
+      string badge;
+
+      if (project.issues.Count() == 0)
+      {
+        max = 0;
+      }
+      else
+      {
+        max = project.issues.Count();
+      }
+
+      if (project.isOpen == true)
+      {
+        status = "Open";
+        badge = "badge-primary";
+      }
+      else
+      {
+        status = "Closed";
+        badge = "badge-danger";
+      }
+
+      <li class="list-group-item">
+
+        <button @onclick="() => { SelectedProject(project.projectId); }" class="btn btn-light">@project.name</button>  <span class="badge @badge text-wrap">@status</span>
+        <span class="float-right">@project.description</span>
+
+        <SfProgressBar Value="@project.issues.Count(i => i.IsOpen)" Minimum="0" Maximum="@max"
+                       TrackThickness="12" ProgressThickness="12" ShowProgressValue="true" CornerRadius="CornerType.Round" TrackColor="#F8C7D8" ProgressColor="#E3165B" Width="50%">
+        </SfProgressBar>
+
+      </li>
+    }
+  </ul>
+
