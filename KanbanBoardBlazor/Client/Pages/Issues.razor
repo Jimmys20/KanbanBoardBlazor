@@ -10,9 +10,9 @@
 <SfTab ShowCloseButton="false">
   <TabItems>
     <TabItem>
-    <HeaderTemplate>
-      <span @onclick="OnOpenTabClicked">@openCount Open</span>
-    </HeaderTemplate>
+      <HeaderTemplate>
+        <span @onclick="OnOpenTabClicked">@openCount Open</span>
+      </HeaderTemplate>
     </TabItem>
     <TabItem>
       <HeaderTemplate>
@@ -22,80 +22,95 @@
   </TabItems>
 </SfTab>
 
-<SfGrid DataSource="@chosenissues" Height="300" EnableAltRow="true" AllowPaging="true" AllowSorting="true"
-                                  AllowFiltering="true" AllowGrouping="true" AllowReordering="true"
-                                  AllowSelection="true" EnablePersistence="true">
-<GridPageSettings PageSize="10"></GridPageSettings>
+<SfGrid DataSource="@chosenissues" Height="300" EnableAltRow="true" AllowPaging="true"
+        AllowSorting="true" AllowFiltering="true" AllowGrouping="true" AllowReordering="true"
+        AllowSelection="true" EnablePersistence="true">
+  <GridPageSettings PageSize="10"></GridPageSettings>
 
-<GridColumns>
-  <GridColumn Field=@nameof(IssueDto.Title) Width="60" TextAlign="TextAlign.Left"></GridColumn>
-  <GridColumn Field=@nameof(IssueDto.Deadline) Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
-  <GridColumn Field=@nameof(IssueDto.Priority) Width="20" TextAlign="TextAlign.Left"></GridColumn>
-  <GridColumn Field=@nameof(IssueDto.CreatedAt) HeaderText="Created At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
-  <GridColumn Field=@nameof(IssueDto.UpdatedAt) HeaderText="Updated At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
-  <GridColumn Field="Application.Name" HeaderText="Application" Width="30" TextAlign="TextAlign.Left"></GridColumn>
-  <GridColumn HeaderText="Assignees" TextAlign="TextAlign.Left" Width="30">
-  <Template>
-    @{
-      var issuelst = (context as IssueDto);
-      <div>
-        @foreach (var ass in issuelst.Assignees)
-        {
-          <p class="p-0 m-0 text-center">
-            @ass.Initials
-          </p>
+  <GridColumns>
+    <GridColumn Field=@nameof(IssueDto.Title) Width="60" TextAlign="TextAlign.Left"></GridColumn>
+    <GridColumn Field=@nameof(IssueDto.Deadline) Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
+    <GridColumn HeaderText="Priority" TextAlign="TextAlign.Left" Width="20">
+      <Template>
+        @{
+          var issuelst = (context as IssueDto);
+
+          string priorityClass =
+            (issuelst.Priority == Priority.Critical) ? "bg-danger" :
+            (issuelst.Priority == Priority.High) ? "bg-warning" :
+            (issuelst.Priority == Priority.Low) ? "bg-green" : "bg-blue";
+
+          <span class="badge @priorityClass white">
+            @issuelst.Priority
+          </span>
         }
-      </div>
-    }
-  </Template>
-</GridColumn>
-<GridColumn HeaderText="Tags" TextAlign="TextAlign.Left" Width="30">
-  <Template>
-    @{
-      var issuelst = (context as IssueDto);
-      <div>
-        @foreach (var tags in issuelst.Tags)
-        {
-          <p class="p-0 m-0 text-left">
-            @tags.Text
-          </p>
+      </Template>
+    </GridColumn>
+    <GridColumn Field=@nameof(IssueDto.CreatedAt) HeaderText="Created At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
+    <GridColumn Field=@nameof(IssueDto.UpdatedAt) HeaderText="Updated At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
+    <GridColumn Field="Application.Name" HeaderText="Application" Width="30" TextAlign="TextAlign.Left"></GridColumn>
+    <GridColumn HeaderText="Assignees" TextAlign="TextAlign.Left" Width="30">
+      <Template>
+        @{
+          var issuelst = (context as IssueDto);
+          <span class="card-text text-muted">
+            @foreach (var ass in issuelst.Assignees)
+            {
+              <SfButton CssClass="e-round btn-secondary">@ass.Initials</SfButton>
+            }
+          </span>
         }
-      </div>
-    }
-  </Template>
-</GridColumn>
-<GridColumn HeaderText="Customers" TextAlign="TextAlign.Left" Width="30">
-  <Template>
-    @{
-      var issuelst = (context as IssueDto);
-      <div>
-        @foreach (var cus in issuelst.Customers)
-        {
-          <p class="p-0 m-0 text-left">
-            @cus.Name
-          </p>
+      </Template>
+    </GridColumn>
+    <GridColumn HeaderText="Tags" TextAlign="TextAlign.Left" Width="30">
+      <Template>
+        @{
+          var issuelst = (context as IssueDto);
+          <div>
+            @foreach (var tags in issuelst.Tags)
+            {
+              <span class="badge @tags.CssClass text-left">
+                @tags.Text
+              </span>
+            }
+          </div>
         }
-      </div>
-    }
-  </Template>
-</GridColumn>
-</GridColumns>
+      </Template>
+    </GridColumn>
+    <GridColumn HeaderText="Customers" TextAlign="TextAlign.Left" Width="30">
+      <Template>
+        @{
+          var issuelst = (context as IssueDto);
+          <div>
+            @foreach (var cus in issuelst.Customers)
+            {
+              <p class="p-0 m-0 text-left">
+                @cus.Name
+              </p>
+            }
+          </div>
+        }
+      </Template>
+    </GridColumn>
+  </GridColumns>
 </SfGrid>
 
 @code {
 
-  [Inject] private IssueService issueService { get; set; }
+    [Inject] private IssueService issueService { get; set; }
 
-  private List<IssueDto> issues = new List<IssueDto>();
-  private List<IssueDto> chosenissues = new List<IssueDto>();
-  private List<IssueDto> openissues = new List<IssueDto>();
-  private List<IssueDto> closedissues = new List<IssueDto>();
+private List<IssueDto> issues = new List<IssueDto>();
+private List<IssueDto> chosenissues = new List<IssueDto>();
+private List<IssueDto> openissues = new List<IssueDto>();
+private List<IssueDto> closedissues = new List<IssueDto>();
 
-  private int openCount;
-  private int closedCount;
+private Priority priority = new Priority();
 
-  protected override async Task OnInitializedAsync()
-  {
+private int openCount;
+private int closedCount;
+
+protected override async Task OnInitializedAsync()
+{
     issues = await issueService.GetIssues();
     openissues = issues.Where(i => i.IsOpen == true).ToList();
     closedissues = issues.Where(i => i.IsOpen == false).ToList();
@@ -104,16 +119,16 @@
 
     openCount = openissues.Count;
     closedCount = closedissues.Count;
-  }
+}
 
-  public void OnOpenTabClicked()
-  {
+public void OnOpenTabClicked()
+{
     chosenissues = openissues;
-  }
+}
 
-  public void OnCloseTabClicked()
-  {
+public void OnCloseTabClicked()
+{
     chosenissues = closedissues;
-  }
+}
 
 }

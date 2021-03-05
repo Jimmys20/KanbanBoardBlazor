@@ -32,6 +32,17 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
             return project;
         }
 
+    public async Task<List<Project>> getAll()
+    {
+      return await context.Projects
+                .Include(p => p.Stages)
+                .Include(p => p.Issues).ThenInclude(i => i.Application)
+                .Include(p => p.Issues).ThenInclude(i => i.Assignees).ThenInclude(a => a.User)
+                .Include(p => p.Issues).ThenInclude(i => i.IssueTags).ThenInclude(a => a.Tag)
+                .Include(p => p.Issues).ThenInclude(i => i.IssueCustomers).ThenInclude(a => a.Customer)
+                .ToListAsync();
+    }
+
         public async Task save(Project project)
         {
             //await worker.runAsync(context =>
@@ -39,5 +50,11 @@ namespace KanbanBoardBlazor.Server.Dal.Repositories
             //    context.save(project);
             //});
         }
-    }
+
+        public async Task Create(Project project)
+        {
+          context.Add(project);
+          await context.SaveChangesAsync();
+        }
+  }
 }

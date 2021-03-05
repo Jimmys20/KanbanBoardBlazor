@@ -1,0 +1,48 @@
+﻿@page "/projects"
+@using Syncfusion.Blazor.ProgressBar
+
+
+<div class="col-7">
+  <div class="row pl-2">
+    <h3>Projects</h3>
+    <button type="button" class="btn btn-add">+</button>
+  </div>
+</div>
+
+<div class="col-7 mt-3 pl-0">
+  <ul class="list-group list-group-flush">
+    @foreach (var project in projects)
+    {
+
+      bool showValue = project.issues.Count(i => i.IsOpen) == 0 ? false : true;
+      string status = project.isOpen == true ? "Open" : "Closed";
+      string badge = project.isOpen == true ? "badge-primary" : "badge-danger";
+     
+    <li class="list-group-item grow">
+
+      <button @onclick="() => { SelectedProject(project.projectId); }" class="btn btn-light btn-name">
+        @project.name
+      </button>
+      <span class="badge @badge text-wrap status">
+        @status
+      </span>
+      <span class="float-right">
+        @project.description      
+        <button type="button" class="btn btn-danger btn-delete">X</button>
+      </span>   
+      <p class="text-muted text-sm-left ml-3 mb-0">
+        Last Update : @if (project.issues.Any(r => r.UpdatedAt.HasValue)) { 
+          @project.issues.Where(r => r.UpdatedAt.HasValue).Max(r => r.UpdatedAt).Value.Date.ToString("dd/MM/yyyy");
+        }
+
+      </p>
+
+      <SfProgressBar Value="@project.issues.Count(i => i.IsOpen)" Minimum="0" Maximum="@project.issues.Count()"
+                     TrackThickness="12" ProgressThickness="12" ShowProgressValue="@showValue" 
+                     CornerRadius="CornerType.Round" TrackColor="#F8C7D8" ProgressColor="#E3165B" Width="30%">
+      </SfProgressBar>
+
+    </li>
+    }
+  </ul>
+</div>

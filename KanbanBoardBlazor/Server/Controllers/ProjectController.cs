@@ -37,7 +37,17 @@ namespace KanbanBoardBlazor.Server.Controllers
             return project;
         }
 
-        [Authorize]
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<List<ProjectDto>> GetAll()
+        {
+          var projectEntities = await projectRepository.getAll();
+          var projects = mapper.Map<List<ProjectDto>>(projectEntities);
+
+          return projects.ToList();
+        }
+
+    [Authorize]
         [HttpPut]
         public async Task<ProjectDto> Update(ProjectDto project)
         {

@@ -12,6 +12,10 @@ namespace KanbanBoardBlazor.Shared
 
         public string name { get; set; }
 
+        public string description { get; set; }
+
+        public bool isOpen { get; set; }
+
         public List<StageDto> stages { get; set; }
 
         public List<IssueDto> issues { get; set; }

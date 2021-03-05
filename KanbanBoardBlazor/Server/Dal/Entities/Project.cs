@@ -16,6 +16,12 @@ namespace KanbanBoardBlazor.Server.Dal.Entities
         [Column("NAME")]
         public string Name { get; set; }
 
+        [Column("DESCRIPTION")]
+        public string Description { get; set; }
+
+        [Column("IS_OPEN")]
+        public bool IsOpen { get; set; }
+
         public List<Stage> Stages { get; set; }
 
         public List<Issue> Issues { get; set; }

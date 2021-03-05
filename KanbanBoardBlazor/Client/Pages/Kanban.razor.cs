@@ -26,6 +26,9 @@ namespace KanbanBoardBlazor.Client.Pages
         [Inject] private CustomerService customerService { get; set; }
         [Inject] private ApplicationService applicationService { get; set; }
 
+        [Parameter]
+        public long projectId { get; set; }
+
         private ProjectDto project;
         //private List<IssueDto> issues;
         private SfKanban<IssueDto> kanbanRef;
@@ -55,7 +58,7 @@ namespace KanbanBoardBlazor.Client.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            project = await projectService.getProjectById(100);
+            project = await projectService.getProjectById(projectId);
             users = await userService.getAllUsers();
             tags = await tagService.getAllTags();
             customers = await customerService.getAllCustomers();
