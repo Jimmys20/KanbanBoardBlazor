@@ -25,7 +25,7 @@ namespace KanbanBoardBlazor.Server
                 {
                     var context = services.GetRequiredService<AppDbContext>();
                     //context.Database.EnsureCreated();
-                    DbInitializer.initialize(context);
+                    //DbInitializer.initialize(context);
                 }
                 catch (Exception ex)
                 {

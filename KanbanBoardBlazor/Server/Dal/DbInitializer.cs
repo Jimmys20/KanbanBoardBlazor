@@ -72,17 +72,20 @@ namespace KanbanBoardBlazor.Server.Dal
           new Issue
           {
             Priority = Priority.Low,
-            Title = "Issue 1"
+            Title = "Issue 1",
+            UpdatedAt = DateTime.Now.AddDays(4)
           },
           new Issue
           {
             Priority = Priority.High,
-            Title = "Issue 2"
+            Title = "Issue 2",
+            UpdatedAt = DateTime.Now.AddDays(7)
           },
           new Issue
           {
             Priority = Priority.Critical,
-            Title = "Issue 3"
+            Title = "Issue 3",
+            UpdatedAt = DateTime.Now.AddDays(6)
           }
         };
 
@@ -194,6 +197,7 @@ namespace KanbanBoardBlazor.Server.Dal
                   Deadline = DateTime.Now.AddDays(14),
                   Priority = Priority.Medium,
                   IsOpen = true,
+                  UpdatedAt = DateTime.Now.AddDays(10),
                   IssueTags = new List<IssueTag>
                   {
                       new IssueTag
@@ -209,7 +213,8 @@ namespace KanbanBoardBlazor.Server.Dal
 
                   Deadline = DateTime.Now.AddDays(6),
                   Priority = Priority.High,
-                  IsOpen = true
+                  IsOpen = true,
+                  UpdatedAt = DateTime.Now.AddDays(6)
                 }
               }
             }

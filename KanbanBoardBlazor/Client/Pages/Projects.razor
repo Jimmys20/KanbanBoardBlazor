@@ -1,45 +1,48 @@
 ﻿@page "/projects"
 @using Syncfusion.Blazor.ProgressBar
 
-  <h3>Projects</h3>
 
+<div class="col-7">
+  <div class="row pl-2">
+    <h3>Projects</h3>
+    <button type="button" class="btn btn-add">+</button>
+  </div>
+</div>
+
+<div class="col-7 mt-3 pl-0">
   <ul class="list-group list-group-flush">
     @foreach (var project in projects)
     {
-      int max;
-      string status;
-      string badge;
 
-      if (project.issues.Count() == 0)
-      {
-        max = 0;
-      }
-      else
-      {
-        max = project.issues.Count();
-      }
+      bool showValue = project.issues.Count(i => i.IsOpen) == 0 ? false : true;
+      string status = project.isOpen == true ? "Open" : "Closed";
+      string badge = project.isOpen == true ? "badge-primary" : "badge-danger";
+     
+    <li class="list-group-item grow">
 
-      if (project.isOpen == true)
-      {
-        status = "Open";
-        badge = "badge-primary";
-      }
-      else
-      {
-        status = "Closed";
-        badge = "badge-danger";
-      }
+      <button @onclick="() => { SelectedProject(project.projectId); }" class="btn btn-light btn-name">
+        @project.name
+      </button>
+      <span class="badge @badge text-wrap status">
+        @status
+      </span>
+      <span class="float-right">
+        @project.description      
+        <button type="button" class="btn btn-danger btn-delete">X</button>
+      </span>   
+      <p class="text-muted text-sm-left ml-3 mb-0">
+        Last Update : @if (project.issues.Any(r => r.UpdatedAt.HasValue)) { 
+          @project.issues.Where(r => r.UpdatedAt.HasValue).Max(r => r.UpdatedAt).Value.Date.ToString("dd/MM/yyyy");
+        }
 
-      <li class="list-group-item">
+      </p>
 
-        <button @onclick="() => { SelectedProject(project.projectId); }" class="btn btn-light">@project.name</button>  <span class="badge @badge text-wrap">@status</span>
-        <span class="float-right">@project.description</span>
+      <SfProgressBar Value="@project.issues.Count(i => i.IsOpen)" Minimum="0" Maximum="@project.issues.Count()"
+                     TrackThickness="12" ProgressThickness="12" ShowProgressValue="@showValue" 
+                     CornerRadius="CornerType.Round" TrackColor="#F8C7D8" ProgressColor="#E3165B" Width="30%">
+      </SfProgressBar>
 
-        <SfProgressBar Value="@project.issues.Count(i => i.IsOpen)" Minimum="0" Maximum="@max"
-                       TrackThickness="12" ProgressThickness="12" ShowProgressValue="true" CornerRadius="CornerType.Round" TrackColor="#F8C7D8" ProgressColor="#E3165B" Width="50%">
-        </SfProgressBar>
-
-      </li>
+    </li>
     }
   </ul>
-
+</div>

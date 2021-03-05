@@ -1,0 +1,41 @@
+﻿
+.grow {
+  transition: transform .3s;
+}
+
+  .grow:hover {
+    transform: scale(1.1);
+  }
+
+.btn-add {
+  background-color: #E3165B;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  margin-left: 10px;
+  border-radius: 50%;
+  text-align: center;
+  width: 45px;
+  height: 25px;
+  padding: 0px 0px 40px 0px;
+}
+
+.btn-delete {
+  font-size: 10px;
+  font-weight: bold;
+  border-radius: 15%;
+  text-align: center;
+  width: 18px;
+  height: 20px;
+  padding: 0px;
+  margin-left: 5px;
+}
+
+.status {
+  font-size: small;
+}
+
+.btn-name {
+  font-size: larger;
+  border: none
+}
