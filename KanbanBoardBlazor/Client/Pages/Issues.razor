@@ -1,134 +1,101 @@
 ﻿@page "/issues"
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Grids
-@using KanbanBoardBlazor.Client.Services;
-@using KanbanBoardBlazor.Shared;
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper;
 
 <h3>Issues</h3>
 
-<SfTab ShowCloseButton="false">
-  <TabItems>
-    <TabItem>
-      <HeaderTemplate>
-        <span @onclick="OnOpenTabClicked">@openCount Open</span>
-      </HeaderTemplate>
-    </TabItem>
-    <TabItem>
-      <HeaderTemplate>
-        <span @onclick="OnCloseTabClicked">@closedCount Closed</span>
-      </HeaderTemplate>
-    </TabItem>
-  </TabItems>
-</SfTab>
-
-<SfGrid DataSource="@chosenissues" Height="300" EnableAltRow="true" AllowPaging="true"
-        AllowSorting="true" AllowFiltering="true" AllowGrouping="true" AllowReordering="true"
-        AllowSelection="true" EnablePersistence="true">
-  <GridPageSettings PageSize="10"></GridPageSettings>
-
-  <GridColumns>
-    <GridColumn Field=@nameof(IssueDto.Title) Width="60" TextAlign="TextAlign.Left"></GridColumn>
-    <GridColumn Field=@nameof(IssueDto.Deadline) Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
-    <GridColumn HeaderText="Priority" TextAlign="TextAlign.Left" Width="20">
-      <Template>
-        @{
-          var issuelst = (context as IssueDto);
-
-          string priorityClass =
-            (issuelst.Priority == Priority.Critical) ? "bg-danger" :
-            (issuelst.Priority == Priority.High) ? "bg-warning" :
-            (issuelst.Priority == Priority.Low) ? "bg-green" : "bg-blue";
-
-          <span class="badge @priorityClass white">
-            @issuelst.Priority
-          </span>
-        }
-      </Template>
-    </GridColumn>
-    <GridColumn Field=@nameof(IssueDto.CreatedAt) HeaderText="Created At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
-    <GridColumn Field=@nameof(IssueDto.UpdatedAt) HeaderText="Updated At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
-    <GridColumn Field="Application.Name" HeaderText="Application" Width="30" TextAlign="TextAlign.Left"></GridColumn>
-    <GridColumn HeaderText="Assignees" TextAlign="TextAlign.Left" Width="30">
-      <Template>
-        @{
-          var issuelst = (context as IssueDto);
-          <span class="card-text text-muted">
-            @foreach (var ass in issuelst.Assignees)
-            {
-              <SfButton CssClass="e-round btn-secondary">@ass.Initials</SfButton>
-            }
-          </span>
-        }
-      </Template>
-    </GridColumn>
-    <GridColumn HeaderText="Tags" TextAlign="TextAlign.Left" Width="30">
-      <Template>
-        @{
-          var issuelst = (context as IssueDto);
-          <div>
-            @foreach (var tags in issuelst.Tags)
-            {
-              <span class="badge @tags.CssClass text-left">
-                @tags.Text
-              </span>
-            }
-          </div>
-        }
-      </Template>
-    </GridColumn>
-    <GridColumn HeaderText="Customers" TextAlign="TextAlign.Left" Width="30">
-      <Template>
-        @{
-          var issuelst = (context as IssueDto);
-          <div>
-            @foreach (var cus in issuelst.Customers)
-            {
-              <p class="p-0 m-0 text-left">
-                @cus.Name
-              </p>
-            }
-          </div>
-        }
-      </Template>
-    </GridColumn>
-  </GridColumns>
-</SfGrid>
-
-@code {
-
-    [Inject] private IssueService issueService { get; set; }
-
-private List<IssueDto> issues = new List<IssueDto>();
-private List<IssueDto> chosenissues = new List<IssueDto>();
-private List<IssueDto> openissues = new List<IssueDto>();
-private List<IssueDto> closedissues = new List<IssueDto>();
-
-private Priority priority = new Priority();
-
-private int openCount;
-private int closedCount;
-
-protected override async Task OnInitializedAsync()
+@if (issues != null)
 {
-    issues = await issueService.GetIssues();
-    openissues = issues.Where(i => i.IsOpen == true).ToList();
-    closedissues = issues.Where(i => i.IsOpen == false).ToList();
+    <SfTab ShowCloseButton="false">
+        <TabItems>
+            <TabItem>
+                <HeaderTemplate>
+                    <span @onclick="OnOpenTabClicked">@openCount Open</span>
+                </HeaderTemplate>
+            </TabItem>
+            <TabItem>
+                <HeaderTemplate>
+                    <span @onclick="OnCloseTabClicked">@closedCount Closed</span>
+                </HeaderTemplate>
+            </TabItem>
+        </TabItems>
+    </SfTab>
 
-    chosenissues = openissues;
+    <SfGrid DataSource="@chosenissues" Height="370" EnableAltRow="true" AllowPaging="true"
+            AllowSorting="true" AllowFiltering="true" AllowGrouping="true" AllowReordering="true"
+            AllowSelection="true" EnablePersistence="true">
+        <GridPageSettings PageSize="10"></GridPageSettings>
 
-    openCount = openissues.Count;
-    closedCount = closedissues.Count;
+        <GridColumns>
+            <GridColumn Field=@nameof(IssueDto.Title) Width="60" TextAlign="TextAlign.Left"></GridColumn>
+            <GridColumn Field=@nameof(IssueDto.Deadline) Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
+            <GridColumn Field=@nameof(IssueDto.Priority) HeaderText="Priority" TextAlign="TextAlign.Left" Width="20">
+                <Template>
+                    @{
+                        var issue = (context as IssueDto);
+
+                        var priorityClass =
+                            issue.Priority == Priority.Critical ? "badge-danger" :
+                            issue.Priority == Priority.High ? "badge-warning" :
+                            issue.Priority == Priority.Medium ? "badge-primary" :
+                            "badge-success";
+
+                        <span class="badge @priorityClass">
+                            @issue.Priority
+                        </span>
+                    }
+                </Template>
+            </GridColumn>
+            <GridColumn Field=@nameof(IssueDto.CreatedAt) HeaderText="Created At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
+            <GridColumn Field=@nameof(IssueDto.UpdatedAt) HeaderText="Updated At" Width="30" Format="dd/MM/yyyy" TextAlign="TextAlign.Center"></GridColumn>
+            <GridColumn Field="Application.Name" HeaderText="Application" Width="30" TextAlign="TextAlign.Left"></GridColumn>
+            <GridColumn HeaderText="Assignees" TextAlign="TextAlign.Left" Width="30">
+                <Template>
+                    @{
+                        var issue = (context as IssueDto);
+                        <span class="card-text text-muted">
+                            @foreach (var user in issue.Assignees)
+                            {
+                                <SfButton CssClass="e-round btn-secondary">@user.Initials</SfButton>
+                            }
+                        </span>
+                    }
+                </Template>
+            </GridColumn>
+            <GridColumn HeaderText="Tags" TextAlign="TextAlign.Left" Width="30">
+                <Template>
+                    @{
+                        var issue = (context as IssueDto);
+                        <div>
+                            @foreach (var tag in issue.Tags)
+                            {
+                                <span class="badge @tag.CssClass">
+                                    @tag.Text
+                                </span>
+                            }
+                        </div>
+                    }
+                </Template>
+            </GridColumn>
+            <GridColumn HeaderText="Customers" TextAlign="TextAlign.Left" Width="30">
+                <Template>
+                    @{
+                        var issue = (context as IssueDto);
+                        <div>
+                            @foreach (var customer in issue.Customers)
+                            {
+                                <p class="p-0 m-0 text-left">
+                                    @customer.Name
+                                </p>
+                            }
+                        </div>
+                    }
+                </Template>
+            </GridColumn>
+        </GridColumns>
+    </SfGrid>
 }
-
-public void OnOpenTabClicked()
+else
 {
-    chosenissues = openissues;
-}
-
-public void OnCloseTabClicked()
-{
-    chosenissues = closedissues;
-}
-
+    <p><em>Loading...</em></p>
 }

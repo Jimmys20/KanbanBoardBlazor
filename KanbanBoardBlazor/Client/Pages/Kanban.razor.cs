@@ -43,8 +43,8 @@ namespace KanbanBoardBlazor.Client.Pages
         private SfDropDownList<Priority, string> priorityRef;
         private SfDropDownList<long?, ApplicationDto> applicationRef;
         //private SfRichTextEditor descriptionRef;
-        private SfTextBox descriptionRef;
-        //private string description;
+        //private SfTextBox descriptionRef;
+        private string description;
         //private SfMultiSelect<List<long>> assigneesRef;
         private List<long> selectedAssignees = new List<long>();
         //private SfMultiSelect<List<long>> tagsRef;
@@ -68,6 +68,8 @@ namespace KanbanBoardBlazor.Client.Pages
         private void OnDialogOpen(DialogOpenEventArgs<IssueDto> args)
         {
             var issue = args.Data;
+
+            description = issue.Description;
 
             if (issue.Assignees != null && issue.Assignees.Any())
             {
@@ -106,7 +108,7 @@ namespace KanbanBoardBlazor.Client.Pages
             //}
         }
 
-        private async void onDialogClose(DialogCloseEventArgs<IssueDto> args)
+        private void onDialogClose(DialogCloseEventArgs<IssueDto> args)
         {
 
             if (args.Interaction != "Cancel" && args.Interaction != "Close")
@@ -117,7 +119,7 @@ namespace KanbanBoardBlazor.Client.Pages
 
                     issue.Title = titleRef.Value;
                     issue.Deadline = deadlineRef.Value;
-                    issue.Description = descriptionRef.Value;
+                    issue.Description = description;
                     issue.Priority = priorityRef.Value;
                     issue.ApplicationId = applicationRef.Value;
                     issue.Application = applications.FirstOrDefault(a => a.ApplicationId == applicationRef.Value);
@@ -155,7 +157,7 @@ namespace KanbanBoardBlazor.Client.Pages
 
                     issue.Title = titleRef.Value;
                     issue.Deadline = deadlineRef.Value;
-                    issue.Description = descriptionRef.Value;
+                    issue.Description = description;
                     issue.Priority = priorityRef.Value;
                     issue.ApplicationId = applicationRef.Value;
                     issue.Application = applications.FirstOrDefault(a => a.ApplicationId == applicationRef.Value);
@@ -259,7 +261,7 @@ namespace KanbanBoardBlazor.Client.Pages
             else
             {
                 var filters = new List<WhereFilter>();
-                
+
                 foreach (var value in args.Value)
                 {
                     filters.Add(new WhereFilter
@@ -382,6 +384,26 @@ namespace KanbanBoardBlazor.Client.Pages
                 query = new Query().Where(filter);
             }
         }
+
+        private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>
+        {
+            new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+            new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+            new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+            new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+            new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+            new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+            new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+            new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+            new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+            new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+            new ToolbarItemModel() { Command = ToolbarCommand.Image },
+            new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+            new ToolbarItemModel() { Command = ToolbarCommand.SourceCode },
+            new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+            new ToolbarItemModel() { Command = ToolbarCommand.Redo },
+            new ToolbarItemModel() { Command = ToolbarCommand.Print }
+        };
 
         //StageForm stageForm;
 

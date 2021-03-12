@@ -40,8 +40,13 @@
                                         <SfTextBox @ref="titleRef" Placeholder="Title" Value="@issue.Title" FloatLabelType="FloatLabelType.Always"></SfTextBox>
                                     </div>
                                     <div class="form-group flex-grow-1">
-                                        <SfTextBox @ref="descriptionRef" Value="@issue.Description" Placeholder="Description" Multiline="true" FloatLabelType="FloatLabelType.Always"
-                                                   rows="13"></SfTextBox>
+                                        @*<SfTextBox @ref="descriptionRef" Value="@issue.Description" Placeholder="Description" Multiline="true" FloatLabelType="FloatLabelType.Always"
+                                            rows="13"></SfTextBox>*@
+
+                                        <SfRichTextEditor @bind-Value="description" Placeholder="Description" Height="100%">
+                                            <RichTextEditorToolbarSettings Items="@Tools" />
+                                            <RichTextEditorImageSettings SaveFormat="SaveFormat.Base64" />
+                                        </SfRichTextEditor>
 
                                         @*<SfRichTextEditor @ref="descriptionRef" Value="@issue.Description" Placeholder="Description"
                                                               >
@@ -135,7 +140,7 @@
                 <MultiSelectEvents TValue="List<long>" ValueChange="OnCustomersQueryUpdate"></MultiSelectEvents>
             </SfMultiSelect>
 
-            <SfDropDownList TValue="long?" TItem="ApplicationDto" Placeholder="Application Filter" 
+            <SfDropDownList TValue="long?" TItem="ApplicationDto" Placeholder="Application Filter"
                             FloatLabelType="FloatLabelType.Always" DataSource="applications"
                             CssClass="mb-3" ShowClearButton="true">
                 <DropDownListFieldSettings Value="ApplicationId" Text="Name"></DropDownListFieldSettings>
