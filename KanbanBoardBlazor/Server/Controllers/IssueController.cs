@@ -25,17 +25,17 @@ namespace KanbanBoardBlazor.Server.Controllers
             _mapper = mapper;
         }
 
-    [AllowAnonymous]
-    [HttpGet]
+        [AllowAnonymous]
+        [HttpGet]
         public async Task<List<IssueDto>> GetAsync()
         {
-          var issueEntities = await _issueRepository.GetAll();
-          var issues = _mapper.Map<List<IssueDto>>(issueEntities);
+            var issueEntities = await _issueRepository.GetAll();
+            var issues = _mapper.Map<List<IssueDto>>(issueEntities);
 
-          return issues.OrderBy(i => i.Deadline).ToList();
+            return issues.OrderBy(i => i.Deadline).ToList();
         }
 
-    [HttpPost]
+        [HttpPost]
         public async Task<IssueDto> CreateAsync(IssueDto issue)
         {
             var issueEntity = _mapper.Map<Issue>(issue);
@@ -46,6 +46,7 @@ namespace KanbanBoardBlazor.Server.Controllers
             //}
 
             issueEntity.CreatedAt = DateTime.UtcNow;
+            issueEntity.IsOpen = true;
 
             issueEntity.Application = null;
 
@@ -53,7 +54,7 @@ namespace KanbanBoardBlazor.Server.Controllers
 
             issue.IssueId = issueEntity.IssueId;
             issue.CreatedAt = issueEntity.CreatedAt;
-     
+
 
             return issue;
         }

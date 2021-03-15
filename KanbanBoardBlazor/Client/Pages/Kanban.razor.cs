@@ -59,6 +59,7 @@ namespace KanbanBoardBlazor.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             project = await projectService.getProjectById(projectId);
+            project.issues = project.issues.Where(i => i.IsOpen).ToList();
             users = await userService.getAllUsers();
             tags = await tagService.getAllTags();
             customers = await customerService.getAllCustomers();
@@ -69,7 +70,14 @@ namespace KanbanBoardBlazor.Client.Pages
         {
             var issue = args.Data;
 
-            description = issue.Description;
+            if (string.IsNullOrEmpty(issue.Description))
+            {
+                description = string.Empty;
+            }
+            else
+            {
+                description = issue.Description.Replace("\n", "<br>");
+            }
 
             if (issue.Assignees != null && issue.Assignees.Any())
             {
@@ -399,7 +407,7 @@ namespace KanbanBoardBlazor.Client.Pages
             new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
             new ToolbarItemModel() { Command = ToolbarCommand.Image },
             new ToolbarItemModel() { Command = ToolbarCommand.Separator },
-            new ToolbarItemModel() { Command = ToolbarCommand.SourceCode },
+            //new ToolbarItemModel() { Command = ToolbarCommand.SourceCode },
             new ToolbarItemModel() { Command = ToolbarCommand.Undo },
             new ToolbarItemModel() { Command = ToolbarCommand.Redo },
             new ToolbarItemModel() { Command = ToolbarCommand.Print }
